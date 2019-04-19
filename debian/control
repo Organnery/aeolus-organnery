@@ -1,0 +1,42 @@
+Source: aeolus
+Section: sound
+Priority: optional
+Maintainer: Debian Multimedia Maintainers <pkg-multimedia-maintainers@lists.alioth.debian.org>
+Uploaders:
+ Free Ekanayaka <freee@debian.org>,
+ Jaromír Mikeš <mira.mikes@seznam.cz>,
+Build-Depends:
+ debhelper (>= 10~),
+ libasound2-dev,
+ libclthreads-dev,
+ libclxclient-dev (>= 3.9.0),
+ libjack-dev,
+ libreadline-dev,
+ libzita-alsa-pcmi-dev,
+Standards-Version: 4.1.1
+Vcs-Git: https://anonscm.debian.org/git/pkg-multimedia/aeolus.git
+Vcs-Browser: https://anonscm.debian.org/git/pkg-multimedia/aeolus.git
+Homepage: http://kokkinizita.linuxaudio.org/linuxaudio/aeolus/
+
+Package: aeolus
+Architecture: any
+Depends:
+ stops,
+ ${misc:Depends},
+ ${shlibs:Depends},
+Recommends:
+ jackd,
+Description: Synthesised pipe organ emulator
+ Aeolus is a synthesised (i.e. not sampled) pipe organ emulator that
+ should be good enough to make an organist enjoy playing it. It is a
+ software synthesiser optimised for this job, with possibly hundreds
+ of controls for each stop, that enable the user to "voice" his
+ instrument.
+ .
+ Main features of the default instrument: three manuals and one pedal,
+ five different temperaments, variable tuning, MIDI control of course,
+ stereo, surround or Ambisonics output, flexible audio controls
+ including a large church reverb.
+ .
+ Aeolus is not very CPU-hungry, and should run without problems on a
+ e.g. a 1GHz, 256Mb machine.

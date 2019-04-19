@@ -1,0 +1,3 @@
+debian/aeolus.conf etc
+debian/aeolus.desktop usr/share/applications
+debian/audio-x-generic.xpm usr/share/pixmaps

@@ -1,0 +1,66 @@
+.TH AEOLUS "1" "September 2010" "aeolus " "User Commands"
+.SH NAME
+aeolus \- synthesised pipe organ emulator
+.SH DESCRIPTION
+.B Aeolus
+is a synthesised (i.e. not sampled) pipe organ emulator that
+should be good enough to make an organist enjoy playing it. It is a
+software synthesiser optimised for this job, with possibly hundreds
+of controls for each stop, that enable the user to "voice" his
+instrument.
+.PP
+Main features of the default instrument: three manuals and one pedal,
+five different temperaments, variable tuning, MIDI control of course,
+stereo, surround or Ambisonics output, flexible audio controls
+including a large church reverb.
+.SH OPTIONS
+.TP
+\fB\-h\fR
+Display this text
+.TP
+\fB\-t\fR
+Text mode user interface
+.TP
+\fB\-u\fR
+Use presets file in user's home dir
+.TP
+\fB\-N\fR <name>
+Name to use as JACK and ALSA client [aeolus]
+.TP
+\fB\-S\fR <stops>
+Name of stops directory [stops]
+.TP
+\fB\-I\fR <instr>
+Name of instrument directory [Aeolus]
+.TP
+\fB\-W\fR <waves>
+Name of waves directory [waves]
+.TP
+\fB\-J\fR
+Use JACK (default), with options:
+.TP
+\fB\-s\fR
+Select JACK server
+.TP
+\fB\-B\fR
+Ambisonics B format output
+.TP
+\fB\-A\fR
+Use ALSA, with options:
+.TP
+\fB\-d\fR <device>
+Alsa device [default]
+.TP
+\fB\-r\fR <rate>
+Sample frequency [48000]
+.TP
+\fB\-p\fR <period>
+Period size [1024]
+.TP
+\fB\-n\fR <nfrags>
+Number of fragments [2]
+.SH AUTHOR
+aeolus was written by Fons Adriaensen <fons.adriaensen@skynet.be>.
+.PP
+This manual page was written by Alessio Treglia <alessio@debian.org>,
+for the Debian project (and may be used by others).

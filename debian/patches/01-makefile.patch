@@ -1,0 +1,48 @@
+Author: Alessio Treglia <quadrispro@ubuntu.com>
+Description: Add DESTDIR and adjust PREFIX envvars.
+ Plus, fix FTBFS with binutils-gold.
+ Disable -march-native to fix FTBFS.
+ Add -pthread to the linking flags.
+ Install aeolus_*.so binaries into /usr/lib/aeolus since they are provided
+ for internal use only; inform aeolus about this change by passing the
+ proper value of the path from which it'll load the private libs.
+Bug: http://bugs.debian.org/553630
+Bug: http://bugs.debian.org/578278
+---
+ source/Makefile |   11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
+
+Index: aeolus/source/Makefile
+===================================================================
+--- aeolus.orig/source/Makefile
++++ aeolus/source/Makefile
+@@ -18,14 +18,13 @@
+ # -------------------------------------------------------------------------
+ 
+ 
+-PREFIX = /usr/local
+-SUFFIX := $(shell uname -m | sed -e 's/^unknown/$//' -e 's/^i.86/$//' -e 's/^x86_64/$/64/')
++PREFIX = /usr
++#SUFFIX := $(shell uname -m | sed -e 's/^unknown/$//' -e 's/^i.86/$//' -e 's/^x86_64/$/64/')
+ LIBDIR = lib$(SUFFIX)
+ VERSION = 0.9.5
+ DISTDIR = aeolus-$(VERSION)
+-CPPFLAGS += -DVERSION=\"$(VERSION)\" -DLIBDIR=\"$(PREFIX)/$(LIBDIR)\"
++CPPFLAGS += -DVERSION=\"$(VERSION)\" -DLIBDIR=\"$(PREFIX)/$(LIBDIR)/aeolus\"
+ CXXFLAGS += -O3 -Wall -MMD -MP
+-CXXFLAGS += -march=native
+ 
+ all:	aeolus aeolus_x11.so aeolus_txt.so
+ 
+@@ -69,9 +68,8 @@ $(TIFACE_O):
+ 
+ install:	aeolus aeolus_x11.so aeolus_txt.so 
+ 	install -Dm 755 aeolus $(DESTDIR)$(PREFIX)/bin/aeolus
+-	install -Dm 755 aeolus_x11.so $(DESTDIR)$(PREFIX)/$(LIBDIR)/aeolus_x11.so
+-	install -Dm 755 aeolus_txt.so $(DESTDIR)$(PREFIX)/$(LIBDIR)/aeolus_txt.so
+-	ldconfig $(PREFIX)/$(LIBDIR)
++	install -Dm 755 aeolus_x11.so $(DESTDIR)$(PREFIX)/$(LIBDIR)/aeolus/aeolus_x11.so
++	install -Dm 755 aeolus_txt.so $(DESTDIR)$(PREFIX)/$(LIBDIR)/aeolus/aeolus_txt.so
+ 
+ 
+ clean:

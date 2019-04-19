@@ -1,0 +1,167 @@
+aeolus (0.9.5-1) unstable; urgency=medium
+
+  * Add myself as uploader.
+  * Bump Standards.
+  * Update Vcs entry.
+  * Set priority optional.
+  * Continuation comma.
+  * Set compat/dh 10.
+  * Update copyright file.
+  * New upstream version 0.9.5
+  * Drop menu file.
+  * Patch refreshed.
+  * Fix hardening.
+  * Avoid useless linking.
+  * Add Keywords to desktop file.
+  * Install README file as doc.(Closes: #712106)
+
+ -- Jaromír Mikeš <mira.mikes@seznam.cz>  Sun, 15 Oct 2017 15:27:51 +0200
+
+aeolus (0.9.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * Remove myself from the Uploaders field.
+
+ -- Alessio Treglia <alessio@debian.org>  Wed, 02 Nov 2016 22:05:59 +0000
+
+aeolus (0.9.0-1) unstable; urgency=low
+
+  * New upstream release.
+  * Refresh patches.
+  * Replace libclalsadrv-dev with libzita-alsa-pcmi.
+  * Bump debhelper compatibility.
+  * Bump libclxclient-dev dependency.
+  * Update debian/copyright.
+  * Update Vcs-* tags.
+  * Bump Standards.
+
+ -- Alessio Treglia <alessio@debian.org>  Thu, 08 Aug 2013 10:00:11 +0100
+
+aeolus (0.8.4-6) unstable; urgency=medium
+
+  * Replace libreadline5-dev with libreadline-dev (Closes: #634446)
+
+ -- Alessio Treglia <alessio@debian.org>  Tue, 06 Sep 2011 00:04:36 +0200
+
+aeolus (0.8.4-5) unstable; urgency=low
+
+  * debian/patches/01-makefile.patch:
+    - Add -pthread flag.
+    - Install aeolus_*.so into /usr/lib/aeolus, they are provided for
+      internal use only.
+  * Switch packaging to 3.0 (quilt) format.
+  * Drop unneeded 02-rename_plugin_shlibs.patch:
+  * Change my email address, remove DMUA field.
+  * Add git-buildpackage config file.
+  * Add manpage and install it.
+  * Reintroduce build-dependency on libasound2-dev to hurd and kfreebsd-*.
+  * Introduce -S,-D options to shorten debian/rules file.
+  * Recommends jackd.
+  * Update Homepage.
+  * Fix debian/watch file.
+  * Adjust dh_install,dh_installdirs control files, shorten debian/rules.
+  * Update debian/copyright file.
+  * Remove debian/docs, AUTHORS file is unnecessary since debian/copyright
+    contains all the needed information.
+  * Bump Standards.
+
+ -- Alessio Treglia <alessio@debian.org>  Wed, 13 Apr 2011 18:34:14 +0200
+
+aeolus (0.8.4-4) unstable; urgency=medium
+
+  * Plugins have been renamed, fix the search patch (Closes: #581714)
+
+ -- Alessio Treglia <quadrispro@ubuntu.com>  Sat, 15 May 2010 12:16:20 +0200
+
+aeolus (0.8.4-3) unstable; urgency=low
+
+  * debian/patches/01-makefile.patch: Drop -march=native flag, it isn't valid
+    for Debian packages as the results are unpredictable, thanks to
+    Bastian Blank for reporting this (Closes: #578278).
+
+ -- Alessio Treglia <quadrispro@ubuntu.com>  Mon, 19 Apr 2010 19:12:51 +0200
+
+aeolus (0.8.4-2) unstable; urgency=low
+
+  * Adjust 01-makefile.patch to prevent FTBFS with binutils-gold
+    (Closes: #553630).
+
+ -- Alessio Treglia <quadrispro@ubuntu.com>  Sun, 18 Apr 2010 12:03:44 +0200
+
+aeolus (0.8.4-1) unstable; urgency=low
+
+  * New upstream release.
+  * Disable libasound2-dev as build-dep for kfreebsd-*,hurd-i386
+    architectures.
+  * Switch to debhelper 7 + quilt.
+  * Rename old debian/patches/makefile.patch to 01-makefile.patch:
+    - Append a SONAME to aeolus_{txt,x11}.so libraries.
+  * Add README.source file to document the usage of quilt.
+  * Install README file as upstream's changelog.
+
+ -- Alessio Treglia <quadrispro@ubuntu.com>  Sat, 17 Apr 2010 20:51:51 +0200
+
+aeolus (0.8.2-3) unstable; urgency=low
+
+  * Create /usr/bin destination path before calling 'make install'.
+  * Bump Standards.
+
+ -- Alessio Treglia <quadrispro@ubuntu.com>  Tue, 13 Apr 2010 17:52:18 +0200
+
+aeolus (0.8.2-2) unstable; urgency=low
+
+  * debian/control:
+    - Change Maintainer to Debian Multimedia Maintainers.
+    - Add myself to Uploaders list.
+    - Set DM-Upload-Allowed to yes.
+    - Bump-up Standards.
+    - Add Vcs-* tags.
+    - Add Homepage field.
+    - Build-depend on libreadline5-dev.
+   * Fix debian/menu as per spec.
+   * Fix desktop file as per spec.
+   * debian/copyright:
+     - Update according to the DEP-5 spec.
+   * Remove unnecessary debian/dirs file.
+
+ -- Alessio Treglia <quadrispro@ubuntu.com>  Tue, 05 Jan 2010 19:41:22 +0100
+
+aeolus (0.8.2-1) unstable; urgency=low
+
+   * New upstream version
+   * Add missing build-dependency on libreadline5-dev (Closes: #564849)
+
+ -- Free Ekanayaka <freee@debian.org>  Sat, 16 Jan 2010 15:05:00 +0100
+
+aeolus (0.8.1-1) unstable; urgency=low
+
+  * New upstream release
+  * Updated watch file
+  * Updated makefile patch
+
+ -- Free Ekanayaka <freee@debian.org>  Mon, 14 Apr 2008 15:22:24 +0100
+
+aeolus (0.6.6+2-4) unstable; urgency=low
+
+  * Added icon to the .desktop file (thanks to Daniel James)
+
+ -- Free Ekanayaka <freee@debian.org>  Mon, 21 May 2007 14:36:51 +0200
+
+aeolus (0.6.6+2-3) unstable; urgency=low
+
+  * Relaxed build dep on clxclient to allow etch backports
+
+ -- Free Ekanayaka <freee@debian.org>  Thu, 17 May 2007 14:12:36 +0200
+
+aeolus (0.6.6+2-2) unstable; urgency=low
+
+  * Build depend on bug-fixed clxclient
+
+ -- Free Ekanayaka <freee@debian.org>  Mon, 14 May 2007 22:18:54 +0200
+
+aeolus (0.6.6+2-1) unstable; urgency=low
+
+  * Initial release (Closes: #420586)
+
+ -- Free Ekanayaka <freee@debian.org>  Mon, 23 Apr 2007 00:08:25 +0200
+
