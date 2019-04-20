@@ -1,0 +1,6 @@
+*.bz2
+*.d
+*.o
+*.so
+source/aeolus
+source/stops
