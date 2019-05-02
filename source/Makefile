@@ -17,15 +17,16 @@
 #
 # -------------------------------------------------------------------------
 
-SUFFIX := $(shell uname -m | sed -e 's/^unknown/$//' -e 's/^i.86/$//' -e 's/^x86_64/$/64/')
-PREFIX ?= /usr/local
+#SUFFIX := $(shell uname -m | sed -e 's/^unknown/$//' -e 's/^i.86/$//' -e 's/^x86_64/$/64/')
+PREFIX = /usr
 BINDIR ?= $(PREFIX)/bin
 LIBDIR ?= $(PREFIX)/lib$(SUFFIX)
 
 VERSION = 0.9.7
-CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\" -DLIBDIR=\"$(LIBDIR)\"
+CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\" -DLIBDIR=\"$(LIBDIR)/aeolus\"
 CXXFLAGS += -O2 -Wall
-CXXFLAGS += -march=native
+#CXXFLAGS += -march=native
+CXXFLAGS += -O3 -Wall -MMD -MP
 
 
 all:	aeolus aeolus_x11.so aeolus_txt.so
@@ -71,10 +72,10 @@ $(TIFACE_O):
 install:	aeolus aeolus_x11.so aeolus_txt.so 
 	install -d $(DESTDIR)$(BINDIR)
 	install -d $(DESTDIR)$(LIBDIR)
-	install -m 755 aeolus $(DESTDIR)$(BINDIR)
-	install -m 755 aeolus_x11.so $(DESTDIR)$(LIBDIR)
-	install -m 755 aeolus_txt.so $(DESTDIR)$(LIBDIR)
-	ldconfig $(PREFIX)/$(LIBDIR)
+	install -Dm 755 aeolus $(DESTDIR)$(BINDIR)
+	install -Dm 755 aeolus_x11.so $(DESTDIR)$(LIBDIR)/aeolus/aeolus_x11.so
+	install -Dm 755 aeolus_txt.so $(DESTDIR)$(LIBDIR)/aeolus/aeolus_txt.so
+	#ldconfig $(PREFIX)/$(LIBDIR)
 
 
 clean:
