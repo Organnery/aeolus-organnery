@@ -1,3 +1,11 @@
+aeolus (1:0.9.7) UNRELEASED; urgency=medium
+
+  * Non-maintainer upload.
+  * New upstream version 0.9.7
+  * Organnery modifications.
+
+ -- Christopher Obbard <chris@64studio.com>  Thu, 02 May 2019 20:55:38 +0100
+
 aeolus (0.9.5-1) unstable; urgency=medium
 
   * Add myself as uploader.
