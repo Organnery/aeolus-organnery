@@ -702,6 +702,7 @@ void Model::set_aupar (int s, int a, int p, float v)
 {
     Fparm  *P;
     
+    printf("set_aupar s=%d, a=%d, p=%d, v=%f\n", s, a, p, v);
     P = ((a < 0) ? _audio->_instrpar : _audio->_asectpar [a]) + p;
     if (v < P->_min) v = P->_min;
     if (v > P->_max) v = P->_max;
@@ -714,7 +715,6 @@ void Model::set_dipar (int s, int d, int p, float v)
 {
     Fparm  *P;
     union { uint32_t i; float f; } u;
-    
     P = _divis [d]._param + p;
     if (v < P->_min) v = P->_min;
     if (v > P->_max) v = P->_max;

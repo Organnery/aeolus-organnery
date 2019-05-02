@@ -188,6 +188,21 @@ void Imidi::proc_midi (void)
 	case SND_SEQ_EVENT_CONTROLLER:
 	    p = E->data.control.param;
 	    v = E->data.control.value;
+	    printf("c=0x%02x p=0x%02x v=0x%02x\n", c, p, v);
+
+	// volume test knob
+	if (c == 0x00 /*&& p == 0x0e*/) {
+		float per_val = 1.0 / 127;
+		float volume = 0.0;
+		volume = per_val * v;
+
+		// send to vol
+		send_event(TO_MODEL, new M_ifc_aupar (100, -1, 0, volume));
+
+		// send to iface
+		send_event(TO_MODEL, new M_ifc_aupar (101, -1, 0, volume));
+	}
+
 	    switch (p)
 	    {
 	    case MIDICTL_HOLD:
