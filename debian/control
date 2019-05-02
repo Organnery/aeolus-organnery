@@ -13,6 +13,7 @@ Build-Depends:
  libjack-dev,
  libreadline-dev,
  libzita-alsa-pcmi-dev,
+ pkgconf
 Standards-Version: 4.1.1
 Vcs-Git: https://anonscm.debian.org/git/pkg-multimedia/aeolus.git
 Vcs-Browser: https://anonscm.debian.org/git/pkg-multimedia/aeolus.git
