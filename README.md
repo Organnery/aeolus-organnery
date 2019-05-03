@@ -26,14 +26,14 @@ $ LIBDIR=. make
 
 ## production
 
-Install pbuilder-dist and create clean chroot:
+Install pbuilder-dist and create a clean buster chroot for the ARM hard float architecture:
 ```
 $ sudo apt-get install ubuntu-dev-tools
 $ pbuilder-dist buster armhf create
 ```
 
 
-Update chroot:
+Before the next build, update the buster base tarball to avoid 404 errors during the package download step:
 ```
 $ pbuilder-dist buster armhf update
 ```
@@ -48,6 +48,6 @@ $ dpkg-source -b .
 
 Build binary package in chroot:
 ```
-$ pbuilder-dist buster armhf --debbuildopts "--no-sign" ../aeolus_0.9.7.dsc
+$ pbuilder-dist buster armhf build --debbuildopts "--no-sign" ../aeolus_0.9.7.dsc
 $ ls ~/pbuilder/buster-armhf_result/ -lah
 ```
