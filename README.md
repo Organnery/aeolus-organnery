@@ -24,25 +24,25 @@ export APTCACHEHARDLINK=no
 
 Install pbuilder-dist and create a clean buster chroot for the ARM hard float architecture:
 ```
-$ sudo apt install ubuntu-dev-tools qemu-user-static
-$ pbuilder-dist buster armhf create
+sudo apt install ubuntu-dev-tools qemu-user-static
+pbuilder-dist buster armhf create
 ```
 
 Before the next build, update the buster base tarball to avoid 404 errors during the package download step:
 ```
-$ pbuilder-dist buster armhf update
+pbuilder-dist buster armhf update
 ```
 
 Change into the directory checked out from git and build the source package (warning - everything in the repository is included):
 ```
-$ cd aeolus
-$ dpkg-source -b .
+cd aeolus
+dpkg-source -b .
 ```
 
 Build an unsigned binary package in the buster chroot:
 ```
-$ pbuilder-dist buster armhf build --debbuildopts "--no-sign" ../aeolus_0.9.7.dsc
-$ ls ~/pbuilder/buster-armhf_result/ -lah
+pbuilder-dist buster armhf build --debbuildopts "--no-sign" ../aeolus_0.9.7.dsc
+ls ~/pbuilder/buster-armhf_result/ -lah
 ```
 
 The new aeolus .deb file should be listed in the `buster-armhf_result` directory if the package build was successful.
