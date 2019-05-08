@@ -1,53 +1,48 @@
-# build instructions
-
-
+# package build instructions
+The following instructions have been tested on Debian sid and buster build hosts. Older build hosts (e.g. Debian stretch) are not recommended, as their tools are getting old now.
 
 ## development
 
-The `libjack..` package does not currently work for Debian Sid.
-`build-essential` & `pkgconf` are also required.
-
-```
-sudo apt-get install build-essential pkgconf debhelper libasound2-dev libclthreads-dev libclxclient-dev libjack-jackd2-dev libreadline-dev libzita-alsa-pcmi-dev
-```
-
-
-Stops are required to be installed inside `source/stops`.
-build like this (the LIBDIR uses locally build libraries):
-
-```
-$ make clean
-$ LIBDIR=. make
-
-```
-
-
-
+Please note, the `libjack..` package does not currently work for Debian sid (unstable) as of 8th May 2019.
 
 ## production
 
-Install pbuilder-dist and create a clean buster chroot for the ARM hard float architecture:
+As well as the build dependencies for aeolus itself, the `build-essential`, `debhelper` & `pkgconf` packages are required to build Debian packages. (`pkgconf` is a replacement for `pkg-config`). You can install all these packages with the command:
 ```
-$ sudo apt-get install ubuntu-dev-tools
-$ pbuilder-dist buster armhf create
+sudo apt install build-essential pkgconf debhelper libasound2-dev libclthreads-dev libclxclient-dev libjack-jackd2-dev libreadline-dev libzita-alsa-pcmi-dev
 ```
 
+The `pbuilder-dist` tool needs the user to choose a dependency resolver. Create a file in your home directory `~/.pbuilderrc` containing this line:
+```
+PBUILDERSATISFYDEPENDSCMD=/usr/lib/pbuilder/pbuilder-satisfydepends-apt
+```
+
+If the build host has root and /home directories on separate partitions, disable hard linking for the Apt cache by adding the following line to the `~/.pbuilderrc` file. Otherwise, you may see the error `Invalid cross-device link` in the creation of the chroot.
+```
+export APTCACHEHARDLINK=no
+```
+
+Install pbuilder-dist and create a clean buster chroot for the ARM hard float architecture:
+```
+$ sudo apt install ubuntu-dev-tools qemu-user-static
+$ pbuilder-dist buster armhf create
+```
 
 Before the next build, update the buster base tarball to avoid 404 errors during the package download step:
 ```
 $ pbuilder-dist buster armhf update
 ```
 
-
-Build source package (warning - everything in repository is included):
+Change into the directory checked out from git and build the source package (warning - everything in the repository is included):
 ```
 $ cd aeolus
 $ dpkg-source -b .
 ```
 
-
-Build binary package in chroot:
+Build an unsigned binary package in the buster chroot:
 ```
 $ pbuilder-dist buster armhf build --debbuildopts "--no-sign" ../aeolus_0.9.7.dsc
 $ ls ~/pbuilder/buster-armhf_result/ -lah
 ```
+
+The new aeolus .deb file should be listed in the `buster-armhf_result` directory if the package build was successful.
