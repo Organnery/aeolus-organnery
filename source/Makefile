@@ -20,10 +20,10 @@
 #SUFFIX := $(shell uname -m | sed -e 's/^unknown/$//' -e 's/^i.86/$//' -e 's/^x86_64/$/64/')
 PREFIX = /usr
 BINDIR ?= $(PREFIX)/bin
-LIBDIR ?= $(PREFIX)/lib$(SUFFIX)
+LIBDIR ?= $(PREFIX)/lib$(SUFFIX)/aeolus
 
 VERSION = 0.9.7
-CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\" -DLIBDIR=\"$(LIBDIR)/aeolus\"
+CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\" -DLIBDIR=\"$(LIBDIR)\"
 CXXFLAGS += -O2 -Wall
 #CXXFLAGS += -march=native
 CXXFLAGS += -O3 -Wall -MMD -MP
