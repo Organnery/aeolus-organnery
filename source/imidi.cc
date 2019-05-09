@@ -89,7 +89,7 @@ void Imidi::open_midi (void)
     }
 
     if ((_opport = snd_seq_create_simple_port (_handle, "Out",
-         SND_SEQ_PORT_CAP_WRITE,
+         SND_SEQ_PORT_CAP_READ | SND_SEQ_PORT_CAP_SUBS_READ,
          SND_SEQ_PORT_TYPE_APPLICATION)) < 0)
     {
         fprintf(stderr, "Error creating sequencer output port.\n");
@@ -99,6 +99,8 @@ void Imidi::open_midi (void)
     M = new M_midi_info ();
     M->_client = _client;
     M->_ipport = _ipport;
+    M->_opport = _opport;
+    M->_seq = _handle;
     memcpy (M->_chbits, _midimap, 16 * sizeof (uint16_t));
     send_event (TO_MODEL, M);
 }

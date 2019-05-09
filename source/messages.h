@@ -22,11 +22,11 @@
 #define __MESSAGES_H
 
 #include <string.h>
+#include <alsa/asoundlib.h>
 #include "rankwave.h"
 #include "asection.h"
 #include "addsynth.h"
 #include "global.h"
-
 
 enum
 {
@@ -113,6 +113,8 @@ public:
 
     int       _client;
     int       _ipport;
+    int       _opport;
+    snd_seq_t *_seq;
     uint16_t  _chbits [16];
 };
 
@@ -163,6 +165,8 @@ public:
     const char         *_appid; 
     int                 _client;
     int                 _ipport;
+    int                 _opport;
+    snd_seq_t          *_seq;
     int                 _nasect;
     int                 _nkeybd;
     int                 _ndivis;

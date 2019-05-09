@@ -478,6 +478,8 @@ void Model::init_iface (void)
     M->_appid  = _appname;
     M->_client = _midi->_client;
     M->_ipport = _midi->_ipport;
+    M->_opport = _midi->_opport;
+    M->_seq    = _midi->_seq;
     M->_nasect = _nasect;
     M->_nkeybd = _nkeybd;
     M->_ndivis = _ndivis;
@@ -701,8 +703,24 @@ void Model::set_state (int bank, int pres)
 void Model::set_aupar (int s, int a, int p, float v)
 {
     Fparm  *P;
-    
+    snd_seq_event_t ev;
+    int j;
+
     printf("set_aupar s=%d, a=%d, p=%d, v=%f\n", s, a, p, v);
+
+    printf("sending midi out\n");
+
+    // convert float to decimal
+    j = 127*v;
+
+    snd_seq_ev_clear(&ev);
+    snd_seq_ev_set_source(&ev, _midi->_opport);
+    snd_seq_ev_set_subs(&ev);
+    snd_seq_ev_set_direct(&ev);
+
+    snd_seq_ev_set_controller(&ev, 0, 60, j);
+    snd_seq_event_output_direct(_midi->_seq, &ev);
+
     P = ((a < 0) ? _audio->_instrpar : _audio->_asectpar [a]) + p;
     if (v < P->_min) v = P->_min;
     if (v > P->_max) v = P->_max;
