@@ -73,8 +73,8 @@ install:	aeolus aeolus_x11.so aeolus_txt.so
 	install -d $(DESTDIR)$(BINDIR)
 	install -d $(DESTDIR)$(LIBDIR)
 	install -Dm 755 aeolus $(DESTDIR)$(BINDIR)
-	install -Dm 755 aeolus_x11.so $(DESTDIR)$(LIBDIR)/aeolus/aeolus_x11.so
-	install -Dm 755 aeolus_txt.so $(DESTDIR)$(LIBDIR)/aeolus/aeolus_txt.so
+	install -Dm 755 aeolus_x11.so $(DESTDIR)$(LIBDIR)/aeolus_x11.so
+	install -Dm 755 aeolus_txt.so $(DESTDIR)$(LIBDIR)/aeolus_txt.so
 	#ldconfig $(PREFIX)/$(LIBDIR)
 
 
