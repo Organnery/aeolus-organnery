@@ -233,22 +233,9 @@ void Imidi::proc_midi (void)
 		}
                 break;
 	    case MIDICTL_AUDIO_VOLUME:
-                // Audio parameter change, sent
-                // to model thread if on control-enabled channel.
-		if (f & 4)
-		{
-		    if (_qmidi->write_avail () >= 3)
-		    {
-			_qmidi->write (0, 0xB0 | c);
-			_qmidi->write (1, p);
-			_qmidi->write (2, v);
-			_qmidi->write_commit (3);
-		    }
-		}
-		break;
 	    case MIDICTL_BANK:	
 	    case MIDICTL_IFELM:	
-                // Program bank selection or stop control, sent
+                // Program bank selection, audio param or stop control, sent
                 // to model thread if on control-enabled channel.
 		if (f & 4)
 		{
