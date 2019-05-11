@@ -241,12 +241,12 @@ void Xiface::handle_callb (int k, X_window *W, XEvent *E)
         printf("audio_act\n");
 	if (_aupar) _aupar->_value = _audiowin->value ();
 	else _aupar = new M_ifc_aupar (SRC_GUI_DRAG, _audiowin->asect (), _audiowin->parid (), _audiowin->value ());
-        if (_audiowin->final ())
-	{        
+        //if (_audiowin->final ())
+	//{        
 	    _aupar->_srcid = SRC_GUI_DONE;
             send_event (TO_MODEL, _aupar);
             _aupar = 0;
-	}
+	//}
         break;
 
     case CB_DIVIS_ACT:
