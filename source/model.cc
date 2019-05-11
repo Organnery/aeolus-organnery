@@ -346,6 +346,7 @@ void Model::proc_mesg (ITC_mesg *M)
 	// Initialisation info from midi thread.
         _midi = (M_midi_info *) M; 
         M = 0;
+	debug("midi initialised");
         if (_audio)
 	{
             init_audio ();
@@ -357,6 +358,33 @@ void Model::proc_mesg (ITC_mesg *M)
     case MT_AUDIO_SYNC:
 	// Wavetable calculation done.
         send_event (TO_IFACE, new ITC_mesg (MT_IFC_READY));
+
+	// everything is ready.. send midi settings request
+	debug("wavetable calculation done");
+
+	snd_seq_event_t ev;
+	snd_seq_ev_clear(&ev);
+	snd_seq_ev_set_source(&ev, _midi->_opport);
+	snd_seq_ev_set_subs(&ev);
+	snd_seq_ev_set_direct(&ev);
+
+	// reminder: can't initialise arrays in a case statement
+	uint8_t buf[9];
+	buf[0] = 0xf0;
+	buf[1] = 0x00;
+	buf[2] = 0x21;
+	buf[3] = 0x7f;
+	buf[4] = 0x00;
+	buf[5] = 0x1d;
+	buf[6] = 0x00;
+	buf[7] = 0x00;
+	buf[8] = 0xf7;
+
+	//snd_seq_ev_set_controller(&ev, 0, 60, 100);
+	snd_seq_ev_set_sysex(&ev, 9, buf);
+
+	snd_seq_event_output_direct(_midi->_seq, &ev);
+
         _ready = true;
 	break;
 
@@ -396,6 +424,11 @@ void Model::proc_qmidi (void)
 	    // Controllers.
             switch (p)
 	    {
+	    case MIDICTL_AUDIO_VOLUME:
+		// Volume control
+		debug("volume set %d", v);
+		set_aupar(SRC_MIDI_PAR, -1, 0, v / 127.0f);
+		break;
 	    case MIDICTL_SWELL:
 		// Swell pedal
                 set_dipar (SRC_MIDI_PAR, d, 0, SWELL_MIN + v * (SWELL_MAX - SWELL_MIN) / 127.0f);
@@ -704,22 +737,21 @@ void Model::set_aupar (int s, int a, int p, float v)
 {
     Fparm  *P;
     snd_seq_event_t ev;
-    int j;
 
-    printf("set_aupar s=%d, a=%d, p=%d, v=%f\n", s, a, p, v);
+    debug("s=%d, a=%d, p=%d, v=%f", s, a, p, v);
 
-    printf("sending midi out\n");
+    if (s == SRC_GUI_DONE) {
+        debug("sending midi out");
 
-    // convert float to decimal
-    j = 127*v;
+        snd_seq_ev_clear(&ev);
+        snd_seq_ev_set_source(&ev, _midi->_opport);
+        snd_seq_ev_set_subs(&ev);
+        snd_seq_ev_set_direct(&ev);
 
-    snd_seq_ev_clear(&ev);
-    snd_seq_ev_set_source(&ev, _midi->_opport);
-    snd_seq_ev_set_subs(&ev);
-    snd_seq_ev_set_direct(&ev);
-
-    snd_seq_ev_set_controller(&ev, 0, 60, j);
-    snd_seq_event_output_direct(_midi->_seq, &ev);
+	// todo determine output channel
+        snd_seq_ev_set_controller(&ev, 0, MIDICTL_AUDIO_VOLUME, 127*v);
+        snd_seq_event_output_direct(_midi->_seq, &ev);
+    }
 
     P = ((a < 0) ? _audio->_instrpar : _audio->_asectpar [a]) + p;
     if (v < P->_min) v = P->_min;

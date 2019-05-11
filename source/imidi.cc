@@ -190,20 +190,7 @@ void Imidi::proc_midi (void)
 	case SND_SEQ_EVENT_CONTROLLER:
 	    p = E->data.control.param;
 	    v = E->data.control.value;
-	    printf("c=0x%02x p=0x%02x v=0x%02x\n", c, p, v);
-
-	// volume test knob
-	if (c == 0x00 /*&& p == 0x0e*/) {
-		float per_val = 1.0 / 127;
-		float volume = 0.0;
-		volume = per_val * v;
-
-		// send to vol
-		send_event(TO_MODEL, new M_ifc_aupar (100, -1, 0, volume));
-
-		// send to iface
-		send_event(TO_MODEL, new M_ifc_aupar (101, -1, 0, volume));
-	}
+	    debug("cc c=0x%02x p=0x%02x v=0x%02x", c, p, v);
 
 	    switch (p)
 	    {
@@ -245,7 +232,20 @@ void Imidi::proc_midi (void)
 	            } 
 		}
                 break;
-
+	    case MIDICTL_AUDIO_VOLUME:
+                // Audio parameter change, sent
+                // to model thread if on control-enabled channel.
+		if (f & 4)
+		{
+		    if (_qmidi->write_avail () >= 3)
+		    {
+			_qmidi->write (0, 0xB0 | c);
+			_qmidi->write (1, p);
+			_qmidi->write (2, v);
+			_qmidi->write_commit (3);
+		    }
+		}
+		break;
 	    case MIDICTL_BANK:	
 	    case MIDICTL_IFELM:	
                 // Program bank selection or stop control, sent

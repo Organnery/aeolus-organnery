@@ -21,6 +21,7 @@
 #ifndef __GLOBAL_H
 #define __GLOBAL_H
 
+#define debug(M, ...) printf("%s[%d] %s: " M "\n", __FILE__, __LINE__, __func__,  ##__VA_ARGS__)
 
 #ifdef __APPLE__
 #include <machine/endian.h>
@@ -85,6 +86,8 @@ enum // GLOBAL LIMITS
 #define MIDICTL_IFELM  98
 #define MIDICTL_ASOFF 120
 #define MIDICTL_ANOFF 123
+
+#define MIDICTL_AUDIO_VOLUME	14
 
 #define KEYS_MASK 63
 #define HOLD_MASK 64
