@@ -22,7 +22,7 @@ PREFIX = /usr
 BINDIR ?= $(PREFIX)/bin
 LIBDIR ?= $(PREFIX)/lib$(SUFFIX)/aeolus
 
-VERSION = 0.9.7
+VERSION = 0.9.8
 CPPFLAGS += -MMD -MP -DVERSION=\"$(VERSION)\" -DLIBDIR=\"$(LIBDIR)\"
 CXXFLAGS += -O2 -Wall
 #CXXFLAGS += -march=native
