@@ -66,28 +66,48 @@ enum // GLOBAL LIMITS
 };
 
 
-#define MIDICTL_SWELL 7
+#define MIDICTL_SWELL 7 //Division Swell
 #define SWELL_MIN 0.0f
 #define SWELL_MAX 1.0f
 #define SWELL_DEF 1.0f
 
-#define MIDICTL_TFREQ 12
+#define MIDICTL_TFREQ 12 //Division Trem freq
 #define TFREQ_MIN 2.0f
 #define TFREQ_MAX 8.0f
 #define TFREQ_DEF 4.0f
 
-#define MIDICTL_TMODD 13
+#define MIDICTL_TMODD 13 //Division Trem amp
 #define TMODD_MIN 0.0f
 #define TMODD_MAX 0.6f
 #define TMODD_DEF 0.3f
 
-#define MIDICTL_BANK   32
-#define MIDICTL_HOLD   64
-#define MIDICTL_IFELM  98
-#define MIDICTL_ASOFF 120
-#define MIDICTL_ANOFF 123
+#define MIDICTL_BANK   32 //Preset bank select
+#define MIDICTL_HOLD   64 //sustain
+#define MIDICTL_IFELM  98 //stops control
+#define MIDICTL_ASOFF 120 //all sound off
+#define MIDICTL_ANOFF 123 //all notes off
 
 #define MIDICTL_AUDIO_VOLUME	14
+
+#define MIDICTL_DAZIM 14 //Division Azimuth
+#define MIDICTL_DWIDT 15 //Division Width
+#define MIDICTL_DDIRE 16 //Division Direct
+#define MIDICTL_DREFL 17 //Division Reflect
+#define MIDICTL_DREVB 18 //Division Reverb
+#define MIDICTL_RDELY 20 //Reverb delay
+#define MIDICTL_RTIME 21 //Reverb time
+#define MIDICTL_RPOSI 22 //Reverb position
+#define MIDICTL_MAVOL 23 //Master volume
+#define MIDICTL_CANCL 28 //Cancel
+#define MIDICTL_TUTTI 29 //Tutti
+#define MIDICTL_TRNSP 30 //Transpose
+#define MIDICTL_CRESC 31 //Crescendo
+#define MIDICTL_PBANK 32 //Preset Bank Select
+#define MIDICTL_PRCAL 33 //Preset recall
+#define MIDICTL_PSTOR 34 //Preset store
+#define MIDICTL_PPREV 35 //Preset previous
+#define MIDICTL_PNEXT 36 //Preset next
+#define MIDICTL_DRCAL 37 //Division recall
 
 #define KEYS_MASK 63
 #define HOLD_MASK 64
