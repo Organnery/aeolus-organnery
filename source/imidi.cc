@@ -233,6 +233,9 @@ void Imidi::proc_midi (void)
 		}
                 break;
 	    case MIDICTL_AUDIO_VOLUME:
+	    case MIDICTL_PNEXT:
+	    case MIDICTL_PPREV:
+	    case MIDICTL_PSTOR:
 	    case MIDICTL_BANK:	
 	    case MIDICTL_IFELM:	
                 // Program bank selection, audio param or stop control, sent

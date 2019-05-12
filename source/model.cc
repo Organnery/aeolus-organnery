@@ -269,7 +269,6 @@ void Model::proc_mesg (ITC_mesg *M)
 	M_ifc_preset  *X = (M_ifc_preset *) M;
         uint32_t       d [NGROUP];
         get_state (d);
-        set_preset (X->_bank, X->_pres, d);         
         break;
     }
     case MT_IFC_PRINS:
@@ -448,6 +447,20 @@ void Model::proc_qmidi (void)
                 // Preset bank.
  	        if (v < NBANK) _bank = v;
                 break;
+
+	    case MIDICTL_PNEXT:
+		// Increment preset and load.
+		if (_pres < NPRES - 1) set_state (_bank, ++_pres);
+		break;
+
+	    case MIDICTL_PPREV:
+		// Decrement preset and load.
+		if (_pres > 0) set_state (_bank, --_pres);
+	        break;
+
+	    case MIDICTL_PSTOR:
+		// Store a preset
+		break;
 
 	    case MIDICTL_IFELM:
 		// Stop control.
