@@ -263,6 +263,19 @@ void Imidi::proc_midi (void)
 		    }
 		}
 		break;
+	    case MIDICTL_PRCAL:
+            // Program change sent to model thread
+            // if on control-enabled channel.
+	        if (f & 4)
+	        {
+   	            if (_qmidi->write_avail () >= 3)
+		    {
+		        _qmidi->write (0, 0xC0);
+		        _qmidi->write (1, v);
+		        _qmidi->write (2, 0);
+		        _qmidi->write_commit (3);
+		    }
+	         }
 	    }
 	    break;
 
