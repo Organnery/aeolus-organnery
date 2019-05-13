@@ -768,14 +768,74 @@ void Model::set_state (int bank, int pres)
 void Model::set_aupar (int s, int a, int p, float v)
 {
     Fparm  *P;
-
+    int midi_ch = 0, midi_cc = 0, midi_val = 0;
+    float min_val = 0.0f, max_val = 0.0f;
     debug("s=%d, a=%d, p=%d, v=%f", s, a, p, v);
 
-    if (s == SRC_GUI_DONE) {
-        debug("sending midi out");
+    if (s != SRC_MIDI_PAR) {
+	// todo determine midi channel
+	midi_ch = 0;
+	midi_cc = 0;
+	midi_val = 0;
 
-	// todo determine ch, cc, val
-        midi_tx_cc(0, MIDICTL_MAVOL, 127*v);
+	// master control
+	if (a == -1) {
+	    switch (p) {
+		case 0:
+		    midi_cc = MIDICTL_MAVOL;
+		    min_val = MAVOL_MIN;
+		    max_val = MAVOL_MAX;
+		    break;
+		case 1:
+		    midi_cc = MIDICTL_RDELY;
+		    min_val = RDELY_MIN;
+		    max_val = RDELY_MAX;
+		    break;
+		case 2:
+		    midi_cc = MIDICTL_RTIME;
+		    min_val = RTIME_MIN;
+		    max_val = RTIME_MAX;
+		    break;
+		case 3:
+		    midi_cc = MIDICTL_RPOSI;
+		    min_val = RPOSI_MIN;
+		    max_val = RPOSI_MAX;
+		    break;
+	    }
+	}
+	// divison control
+	else {
+	    switch (p) {
+		case 0:
+		    midi_cc = MIDICTL_DAZIM;
+		    min_val = DAZIM_MIN;
+		    max_val = DAZIM_MAX;
+		    break;
+		case 1:
+		    midi_cc = MIDICTL_DWIDT;
+		    min_val = DWIDT_MIN;
+		    max_val = DWIDT_MAX;
+		    break;
+		case 2:
+		    midi_cc = MIDICTL_DDIRE;
+		    min_val = DDIRE_MIN;
+		    max_val = DDIRE_MAX;
+		    break;
+		case 3:
+		    midi_cc = MIDICTL_DREFL;
+		    min_val = DREFL_MIN;
+		    max_val = DREFL_MAX;
+		    break;
+		case 4:
+		    midi_cc = MIDICTL_DREVB;
+		    min_val = DREVB_MIN;
+		    max_val = DREVB_MAX;
+		    break;
+	    }
+	}
+
+	midi_val = (127.0f * (v - min_val)) / (max_val - min_val);
+        midi_tx_cc(midi_ch, midi_cc, midi_val);
     }
 
     P = ((a < 0) ? _audio->_instrpar : _audio->_asectpar [a]) + p;
