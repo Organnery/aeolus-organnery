@@ -473,7 +473,10 @@ void Model::proc_qmidi (void)
                 break;
             case MIDICTL_BANK:
                 // Preset bank.
- 	        if (v < NBANK) _bank = v;
+ 	        if (v < NBANK) {
+		    _bank = v;
+		    set_state (_bank, _pres);
+		}
                 break;
 	    case MIDICTL_PNEXT:
 		// Increment preset and load.
