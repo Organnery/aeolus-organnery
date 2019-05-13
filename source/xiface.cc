@@ -206,7 +206,6 @@ void Xiface::handle_mesg (ITC_mesg *M)
 
 void Xiface::handle_callb (int k, X_window *W, XEvent *E)
 {
-    //printf("");
     switch (k)
     {
     case CB_SHOW_AUDW:
@@ -238,7 +237,6 @@ void Xiface::handle_callb (int k, X_window *W, XEvent *E)
 	break;
 
     case CB_AUDIO_ACT:
-        printf("audio_act\n");
 	if (_aupar) _aupar->_value = _audiowin->value ();
 	else _aupar = new M_ifc_aupar (SRC_GUI_DRAG, _audiowin->asect (), _audiowin->parid (), _audiowin->value ());
         //if (_audiowin->final ())

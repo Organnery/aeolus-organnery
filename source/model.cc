@@ -425,28 +425,36 @@ void Model::proc_qmidi (void)
 	    {
 	    case MIDICTL_MAVOL:
 		// Volume control
-		set_aupar(SRC_MIDI_PAR, -1, 0, v / 127.0f);
+		set_aupar(SRC_MIDI_PAR, -1, 0, MAVOL_MIN + v * (MAVOL_MAX - MAVOL_MIN) / 127.0f);
+		break;
+	    case MIDICTL_RDELY:
+		// Reverb delay
+		set_aupar(SRC_MIDI_PAR, -1, 1, RDELY_MIN + v * (RDELY_MAX - RDELY_MIN) / 127.0f);
+		break;
+	    case MIDICTL_RTIME:
+		// Reverb time
+		set_aupar(SRC_MIDI_PAR, -1, 2, RTIME_MIN + v * (RTIME_MAX - RTIME_MIN) / 127.0f);
+		break;
+	    case MIDICTL_RPOSI:
+		// Reverb position
+		set_aupar(SRC_MIDI_PAR, -1, 3, RPOSI_MIN + v * (RPOSI_MAX - RPOSI_MIN) / 127.0f);
 		break;
 	    case MIDICTL_SWELL:
 		// Swell pedal
                 set_dipar (SRC_MIDI_PAR, d, 0, SWELL_MIN + v * (SWELL_MAX - SWELL_MIN) / 127.0f);
                 break;
-
 	    case MIDICTL_TFREQ:
 		// Tremulant frequency
                 set_dipar (SRC_MIDI_PAR, d, 1, TFREQ_MIN + v * (TFREQ_MAX - TFREQ_MIN) / 127.0f);
                 break;
-
 	    case MIDICTL_TMODD:
 		// Tremulant amplitude
                 set_dipar (SRC_MIDI_PAR, d, 2, TMODD_MIN + v * (TMODD_MAX - TMODD_MIN) / 127.0f);
                 break;
-
             case MIDICTL_BANK:
                 // Preset bank.
  	        if (v < NBANK) _bank = v;
                 break;
-
 	    case MIDICTL_PNEXT:
 		// Increment preset and load.
 		if (_pres < NPRES - 1) set_state (_bank, ++_pres);
@@ -781,6 +789,7 @@ void Model::set_dipar (int s, int d, int p, float v)
     if (v < P->_min) v = P->_min;
     if (v > P->_max) v = P->_max;
     P->_val = v;
+    debug("s=%d, d=%d, p=%d, v=%f", s, d, p, v);
     if (_qcomm->write_avail () >= 2)
     {
 	u.f = v;

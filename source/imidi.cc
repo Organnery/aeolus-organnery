@@ -233,6 +233,9 @@ void Imidi::proc_midi (void)
 		}
                 break;
 	    case MIDICTL_MAVOL:
+	    case MIDICTL_RDELY:
+	    case MIDICTL_RTIME:
+	    case MIDICTL_RPOSI:
 	    case MIDICTL_PNEXT:
 	    case MIDICTL_PPREV:
 	    case MIDICTL_PSTOR:

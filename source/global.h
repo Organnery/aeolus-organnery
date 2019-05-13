@@ -92,10 +92,23 @@ enum // GLOBAL LIMITS
 #define MIDICTL_DDIRE 16 //Division Direct
 #define MIDICTL_DREFL 17 //Division Reflect
 #define MIDICTL_DREVB 18 //Division Reverb
+
 #define MIDICTL_RDELY 20 //Reverb delay
+#define RDELY_MIN 0.025f
+#define RDELY_MAX 0.150f
+
 #define MIDICTL_RTIME 21 //Reverb time
+#define RTIME_MIN 2.0f
+#define RTIME_MAX 7.0f
+
 #define MIDICTL_RPOSI 22 //Reverb position
+#define RPOSI_MIN -1.0f
+#define RPOSI_MAX 1.0f
+
 #define MIDICTL_MAVOL 23 //Master volume
+#define MAVOL_MIN 0.0f
+#define MAVOL_MAX 1.0f
+
 #define MIDICTL_CANCL 28 //Cancel
 #define MIDICTL_TUTTI 29 //Tutti
 #define MIDICTL_TRNSP 30 //Transpose
