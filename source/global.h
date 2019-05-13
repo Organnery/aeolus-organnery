@@ -21,6 +21,7 @@
 #ifndef __GLOBAL_H
 #define __GLOBAL_H
 
+#define debug_nlf(M, ...) printf("%s[%d] %s: " M, __FILE__, __LINE__, __func__,  ##__VA_ARGS__)
 #define debug(M, ...) printf("%s[%d] %s: " M "\n", __FILE__, __LINE__, __func__,  ##__VA_ARGS__)
 
 #ifdef __APPLE__

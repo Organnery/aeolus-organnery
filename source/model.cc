@@ -361,13 +361,6 @@ void Model::proc_mesg (ITC_mesg *M)
 	// everything is ready.. send midi settings request
 	debug("wavetable calculation done");
 
-	snd_seq_event_t ev;
-	snd_seq_ev_clear(&ev);
-	snd_seq_ev_set_source(&ev, _midi->_opport);
-	snd_seq_ev_set_subs(&ev);
-	snd_seq_ev_set_direct(&ev);
-
-	// reminder: can't initialise arrays in a case statement
 	uint8_t buf[9];
 	buf[0] = 0xf0;
 	buf[1] = 0x00;
@@ -378,12 +371,7 @@ void Model::proc_mesg (ITC_mesg *M)
 	buf[6] = 0x00;
 	buf[7] = 0x00;
 	buf[8] = 0xf7;
-
-	//snd_seq_ev_set_controller(&ev, 0, 60, 100);
-	snd_seq_ev_set_sysex(&ev, 9, buf);
-
-	snd_seq_event_output_direct(_midi->_seq, &ev);
-
+	midi_tx_sysex(9, buf);
         _ready = true;
 	break;
 
@@ -780,21 +768,14 @@ void Model::set_state (int bank, int pres)
 void Model::set_aupar (int s, int a, int p, float v)
 {
     Fparm  *P;
-    snd_seq_event_t ev;
 
     debug("s=%d, a=%d, p=%d, v=%f", s, a, p, v);
 
     if (s == SRC_GUI_DONE) {
         debug("sending midi out");
 
-        snd_seq_ev_clear(&ev);
-        snd_seq_ev_set_source(&ev, _midi->_opport);
-        snd_seq_ev_set_subs(&ev);
-        snd_seq_ev_set_direct(&ev);
-
-	// todo determine output channel
-        snd_seq_ev_set_controller(&ev, 0, MIDICTL_MAVOL, 127*v);
-        snd_seq_event_output_direct(_midi->_seq, &ev);
+	// todo determine ch, cc, val
+        midi_tx_cc(0, MIDICTL_MAVOL, 127*v);
     }
 
     P = ((a < 0) ? _audio->_instrpar : _audio->_asectpar [a]) + p;
@@ -1558,4 +1539,40 @@ int Model::write_presets (void)
 
     fclose (F);
     return 0;
+}
+
+
+void Model::midi_tx_cc(int ch, int cc, int val)
+{
+    snd_seq_event_t ev;
+
+    debug("cc ch=0x%02x cc=0x%02x val=0x%02x", ch, cc, val);
+
+    snd_seq_ev_clear(&ev);
+    snd_seq_ev_set_source(&ev, _midi->_opport);
+    snd_seq_ev_set_subs(&ev);
+    snd_seq_ev_set_direct(&ev);
+    snd_seq_ev_set_controller(&ev, ch, cc, val);
+    snd_seq_event_output_direct(_midi->_seq, &ev);
+}
+
+
+void Model::midi_tx_sysex(int data_len, uint8_t *data_ptr)
+{
+    int i;
+    snd_seq_event_t ev;
+
+    // print to console
+    debug_nlf("data_len=%d data=", data_len);
+    for (i = 0; i < data_len; i++)
+        printf("0x%02X ", data_ptr[i]);
+    printf("\n");
+
+    // send midi event
+    snd_seq_ev_clear(&ev);
+    snd_seq_ev_set_source(&ev, _midi->_opport);
+    snd_seq_ev_set_subs(&ev);
+    snd_seq_ev_set_direct(&ev);
+    snd_seq_ev_set_sysex(&ev, data_len, data_ptr);
+    snd_seq_event_output_direct(_midi->_seq, &ev);
 }

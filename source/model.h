@@ -185,6 +185,9 @@ private:
     void del_preset (int bank, int pres);
     int  read_presets (void);
     int  write_presets (void);
+    void midi_tx_cc(int ch, int cc, int val);
+    void midi_tx_sysex(int data_len, uint8_t *data_ptr);
+
 
     Lfq_u32        *_qcomm; 
     Lfq_u8         *_qmidi; 
