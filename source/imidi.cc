@@ -232,6 +232,40 @@ void Imidi::proc_midi (void)
 	            } 
 		}
                 break;
+	    case MIDICTL_DAZIM:
+	    case MIDICTL_DWIDT:
+	    case MIDICTL_DDIRE:
+	    case MIDICTL_DREFL:
+	    case MIDICTL_DREVB:
+		// Divison audio params, sent to model thread if controlling
+		// a keyboard.
+		if (m)
+		{
+		    if (_qmidi->write_avail () >= 3)
+		    {
+			// send the division channel rather than midi channel
+			//_qmidi->write (0, 0xB0 | c);
+			switch (m & 0x0F)
+			{
+			case 1: // III
+			    _qmidi->write (0, 0xB0 | 0);
+			    break;
+			case 2: // II
+			    _qmidi->write (0, 0xB0 | 1);
+			    break;
+			case 4: // I
+			    _qmidi->write (0, 0xB0 | 2);
+			    break;
+			case 8: // P
+			    _qmidi->write (0, 0xB0 | 3);
+			    break;
+			}
+			_qmidi->write (1, p);
+			_qmidi->write (2, v);
+			_qmidi->write_commit (3);
+		    }
+		}
+		break;
 	    case MIDICTL_MAVOL:
 	    case MIDICTL_RDELY:
 	    case MIDICTL_RTIME:

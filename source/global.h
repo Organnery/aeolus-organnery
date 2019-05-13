@@ -88,10 +88,24 @@ enum // GLOBAL LIMITS
 #define MIDICTL_ANOFF 123 //all notes off
 
 #define MIDICTL_DAZIM 14 //Division Azimuth
+#define DAZIM_MIN -0.5f
+#define DAZIM_MAX 0.5f
+
 #define MIDICTL_DWIDT 15 //Division Width
+#define DWIDT_MIN 0.0f
+#define DWIDT_MAX 1.0f
+
 #define MIDICTL_DDIRE 16 //Division Direct
+#define DDIRE_MIN 0.0f
+#define DDIRE_MAX 1.0f
+
 #define MIDICTL_DREFL 17 //Division Reflect
+#define DREFL_MIN 0.0f
+#define DREFL_MAX 1.0f
+
 #define MIDICTL_DREVB 18 //Division Reverb
+#define DREVB_MIN 0.0f
+#define DREVB_MAX 1.0f
 
 #define MIDICTL_RDELY 20 //Reverb delay
 #define RDELY_MIN 0.025f
@@ -123,7 +137,6 @@ enum // GLOBAL LIMITS
 #define KEYS_MASK 63
 #define HOLD_MASK 64
 #define ALL_MASK 127
-
 
 class Fparm
 {

@@ -439,6 +439,26 @@ void Model::proc_qmidi (void)
 		// Reverb position
 		set_aupar(SRC_MIDI_PAR, -1, 3, RPOSI_MIN + v * (RPOSI_MAX - RPOSI_MIN) / 127.0f);
 		break;
+	    case MIDICTL_DAZIM:
+		// Division azimuth
+		set_aupar(SRC_MIDI_PAR, c, 0, DAZIM_MIN + v * (DAZIM_MAX - DAZIM_MIN) / 127.0f);
+		break;
+	    case MIDICTL_DWIDT:
+		// Division width
+		set_aupar(SRC_MIDI_PAR, c, 1, DWIDT_MIN + v * (DWIDT_MAX - DWIDT_MIN) / 127.0f);
+		break;
+	    case MIDICTL_DDIRE:
+		// Division direct
+		set_aupar(SRC_MIDI_PAR, c, 2, DDIRE_MIN + v * (DDIRE_MAX - DDIRE_MIN) / 127.0f);
+		break;
+	    case MIDICTL_DREFL:
+		// Division reflect
+		set_aupar(SRC_MIDI_PAR, c, 3, DREFL_MIN + v * (DREFL_MAX - DREFL_MIN) / 127.0f);
+		break;
+	    case MIDICTL_DREVB:
+		// Division reverb
+		set_aupar(SRC_MIDI_PAR, c, 4, DREVB_MIN + v * (DREVB_MAX - DREVB_MIN) / 127.0f);
+		break;
 	    case MIDICTL_SWELL:
 		// Swell pedal
                 set_dipar (SRC_MIDI_PAR, d, 0, SWELL_MIN + v * (SWELL_MAX - SWELL_MIN) / 127.0f);
