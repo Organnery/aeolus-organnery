@@ -486,7 +486,8 @@ void Model::proc_qmidi (void)
 	        break;
 
 	    case MIDICTL_PSTOR:
-		// Store a preset
+		// todo: Store a preset
+		// see mainwin.cc B_MSTO
 		break;
 
 	    case MIDICTL_IFELM:
