@@ -232,7 +232,7 @@ void Imidi::proc_midi (void)
 	            } 
 		}
                 break;
-	    case MIDICTL_AUDIO_VOLUME:
+	    case MIDICTL_MAVOL:
 	    case MIDICTL_PNEXT:
 	    case MIDICTL_PPREV:
 	    case MIDICTL_PSTOR:

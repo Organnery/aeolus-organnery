@@ -87,8 +87,6 @@ enum // GLOBAL LIMITS
 #define MIDICTL_ASOFF 120 //all sound off
 #define MIDICTL_ANOFF 123 //all notes off
 
-#define MIDICTL_AUDIO_VOLUME	14
-
 #define MIDICTL_DAZIM 14 //Division Azimuth
 #define MIDICTL_DWIDT 15 //Division Width
 #define MIDICTL_DDIRE 16 //Division Direct

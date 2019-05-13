@@ -423,9 +423,8 @@ void Model::proc_qmidi (void)
 	    // Controllers.
             switch (p)
 	    {
-	    case MIDICTL_AUDIO_VOLUME:
+	    case MIDICTL_MAVOL:
 		// Volume control
-		debug("volume set %d", v);
 		set_aupar(SRC_MIDI_PAR, -1, 0, v / 127.0f);
 		break;
 	    case MIDICTL_SWELL:
@@ -762,7 +761,7 @@ void Model::set_aupar (int s, int a, int p, float v)
         snd_seq_ev_set_direct(&ev);
 
 	// todo determine output channel
-        snd_seq_ev_set_controller(&ev, 0, MIDICTL_AUDIO_VOLUME, 127*v);
+        snd_seq_ev_set_controller(&ev, 0, MIDICTL_MAVOL, 127*v);
         snd_seq_event_output_direct(_midi->_seq, &ev);
     }
 
