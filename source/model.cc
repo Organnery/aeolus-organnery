@@ -769,17 +769,26 @@ void Model::set_aupar (int s, int a, int p, float v)
 {
     Fparm  *P;
     int midi_ch = 0, midi_cc = 0, midi_val = 0;
+    int i;
     float min_val = 0.0f, max_val = 0.0f;
     debug("s=%d, a=%d, p=%d, v=%f", s, a, p, v);
 
     if (s != SRC_MIDI_PAR) {
-	// todo determine midi channel
-	midi_ch = 0;
+	midi_ch = -1;
 	midi_cc = 0;
 	midi_val = 0;
 
 	// master control
 	if (a == -1) {
+	    // determine midi channel
+	    // output on first enabled midi channel
+	    for (i = 0; i < 16; i++) {
+		if ((_midimap[i] & 0x4000) == 0x4000) {
+		    midi_ch = i;
+		    break;
+		}
+	    }
+
 	    switch (p) {
 		case 0:
 		    midi_cc = MIDICTL_MAVOL;
@@ -805,6 +814,18 @@ void Model::set_aupar (int s, int a, int p, float v)
 	}
 	// divison control
 	else {
+	    // determine midi channel
+	    // output on first enabled midi channel
+	    for (i = 0; i < 16; i++) {
+		if ((a == 0 && (_midimap[i] & 0x1001) == 0x1001) ||
+		    (a == 1 && (_midimap[i] & 0x1002) == 0x1002) ||
+		    (a == 2 && (_midimap[i] & 0x1004) == 0x1004) ||
+		    (a == 3 && (_midimap[i] & 0x1048) == 0x1048)) {
+		    midi_ch = i;
+		    break;
+		}
+	    }
+
 	    switch (p) {
 		case 0:
 		    midi_cc = MIDICTL_DAZIM;
@@ -834,8 +855,10 @@ void Model::set_aupar (int s, int a, int p, float v)
 	    }
 	}
 
-	midi_val = (127.0f * (v - min_val)) / (max_val - min_val);
-        midi_tx_cc(midi_ch, midi_cc, midi_val);
+	if (midi_ch != -1) {
+	    midi_val = (127.0f * (v - min_val)) / (max_val - min_val);
+            midi_tx_cc(midi_ch, midi_cc, midi_val);
+	}
     }
 
     P = ((a < 0) ? _audio->_instrpar : _audio->_asectpar [a]) + p;
@@ -870,14 +893,19 @@ void Model::set_mconf (int i, uint16_t *d)
 {
     int j, a, b;
     
+    debug_nlf("i=%d, d[]=", i);
+
     midi_off (127);
     for (j = 0; j < 16; j++)
     {
         a = d [j];
 	b =  (a & 0x1000) ? (_keybd [a & 7]._flags & 127) : 0;
         b |= a & 0x7700;
+	//printf("%04x ", a);
+	printf("%04x ", b);	// print the var stored in this class
         _midimap [j] = b;
     }
+    printf("\n");
     send_event (TO_IFACE, new M_ifc_chconf (MT_IFC_MCSET, i, d));         
 }
 
