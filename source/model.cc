@@ -817,10 +817,10 @@ void Model::set_aupar (int s, int a, int p, float v)
 	    // determine midi channel
 	    // output on first enabled midi channel
 	    for (i = 0; i < 16; i++) {
-		if ((a == 0 && (_midimap[i] & 0x1001) == 0x1001) ||
-		    (a == 1 && (_midimap[i] & 0x1002) == 0x1002) ||
-		    (a == 2 && (_midimap[i] & 0x1004) == 0x1004) ||
-		    (a == 3 && (_midimap[i] & 0x1048) == 0x1048)) {
+		if ((a == 0 && (_midimap[i] & 0x104F) == 0x1001) ||
+		    (a == 1 && (_midimap[i] & 0x104F) == 0x1002) ||
+		    (a == 2 && (_midimap[i] & 0x104F) == 0x1004) ||
+		    (a == 3 && (_midimap[i] & 0x104F) == 0x1048)) {
 		    midi_ch = i;
 		    break;
 		}
@@ -873,11 +873,58 @@ void Model::set_dipar (int s, int d, int p, float v)
 {
     Fparm  *P;
     union { uint32_t i; float f; } u;
+    int midi_ch = 0, midi_cc = 0, midi_val = 0;
+    int i;
+    float min_val = 0.0f, max_val = 0.0f;
+
     P = _divis [d]._param + p;
     if (v < P->_min) v = P->_min;
     if (v > P->_max) v = P->_max;
     P->_val = v;
+
     debug("s=%d, d=%d, p=%d, v=%f", s, d, p, v);
+    // midi output cc message
+    // III _midimap 0x2000
+    // II  _midimap 0x2100
+    if (s != SRC_MIDI_PAR) {
+	midi_ch = -1;
+	midi_cc = 0;
+	midi_val = 0;
+
+	// determine midi channel
+	// output on first enabled midi channel
+	for (i = 0; i < 16; i++) {
+	    if ((d == 0 && (_midimap[i] & 0x2100) == 0x2000) ||
+		(d == 1 && (_midimap[i] & 0x2100) == 0x2100)) {
+		midi_ch = i;
+		break;
+	    }
+	}
+
+	switch (p) {
+	    case 0:
+		midi_cc = MIDICTL_SWELL;
+		min_val = SWELL_MIN;
+		max_val = SWELL_MAX;
+		break;
+	    case 1:
+		midi_cc = MIDICTL_TFREQ;
+		min_val = TFREQ_MIN;
+		max_val = TFREQ_MAX;
+		break;
+	    case 2:
+		midi_cc = MIDICTL_TMODD;
+		min_val = TMODD_MIN;
+		max_val = TMODD_MAX;
+		break;
+	}
+
+	if (midi_ch != -1) {
+	    midi_val = (127.0f * (v - min_val)) / (max_val - min_val);
+            midi_tx_cc(midi_ch, midi_cc, midi_val);
+	}
+    }
+
     if (_qcomm->write_avail () >= 2)
     {
 	u.f = v;
