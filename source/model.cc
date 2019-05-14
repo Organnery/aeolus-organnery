@@ -269,6 +269,7 @@ void Model::proc_mesg (ITC_mesg *M)
 	M_ifc_preset  *X = (M_ifc_preset *) M;
         uint32_t       d [NGROUP];
         get_state (d);
+	set_preset (X->_bank, X->_pres, d);
         break;
     }
     case MT_IFC_PRINS:
@@ -477,8 +478,11 @@ void Model::proc_qmidi (void)
 	        break;
 
 	    case MIDICTL_PSTOR:
-		// todo: Store a preset
-		// see mainwin.cc B_MSTO
+		// Store a preset.
+		debug("storing current stops in bank=%d, preset=%d", _bank, _pres);
+	        uint32_t d [NGROUP];
+	        get_state (d);
+		set_preset (_bank, _pres, d);
 		break;
 
 	    case MIDICTL_IFELM:

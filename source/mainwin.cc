@@ -208,7 +208,6 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
 		break;
 
             case B_MSTO:
-		debug("B_MSTO store preset _b_mod=%d, _p_mod=%d, _ngroup=%d", _b_mod, _p_mod, _ngroup);
                 _mesg = new M_ifc_preset (MT_IFC_PRSTO, _b_mod, _p_mod, _ngroup, _st_mod);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0); 
                 sprintf (s, "%d:%d  Stored", _b_mod + 1, _p_mod + 1);
