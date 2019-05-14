@@ -77,7 +77,7 @@ private:
     enum
     {
 	B_DECB, B_INCB, B_DECM, B_INCM,
-        B_MRCL, B_PREV, B_NEXT, B_MSTO, B_MINS, B_MDEL, B_CANC,
+        B_MRCL, B_PREV, B_NEXT, B_TUTI, B_MSTO, B_MINS, B_MDEL, B_CANC,
         GROUP_BIT0 = 8, GROUP_STEP = (1 << GROUP_BIT0), GROUP_MASK = (GROUP_STEP - 1),
     }; 
            
@@ -129,6 +129,7 @@ private:
     X_button       *_b_mins;   
     X_button       *_b_mdel;   
     X_button       *_b_canc;   
+    X_button       *_b_tuti;
 
     X_button       *_b_save;
     X_button       *_b_moff;

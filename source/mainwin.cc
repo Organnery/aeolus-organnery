@@ -243,6 +243,14 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
 		}
                 _t_comm->set_text (""); 
 		break;
+
+	    case B_TUTI:
+                for (g = 0; g < _ngroup; g++)
+		{
+                    _mesg = new M_ifc_ifelm (MT_IFC_GRTUTI, g, 0);
+                    _callb->handle_callb (CB_MAIN_MSG, this, 0);
+		}
+		break;
 	    } 
 	}
 	else
@@ -355,6 +363,7 @@ void Mainwin::setup (M_ifc_init *M)
     (_b_mins = new X_tbutton (this, this, &but1, 328, y + 25, "Insert", 0, B_MINS))->x_map ();
     (_b_mdel = new X_tbutton (this, this, &but1, 412, y + 25, "Delete", 0, B_MDEL))->x_map ();
     (_b_canc = new X_tbutton (this, this, &but1, 532, y + 25, "Cancel", 0, B_CANC))->x_map ();
+    (_b_tuti = new X_tbutton (this, this, &but1, x - 264, y,      "Tutti",    0, B_TUTI))->x_map ();
     (_b_save = new X_tbutton (this, this, &but1, x - 180, y,      "Save",     0, CB_GLOB_SAVE))->x_map ();
     (_b_moff = new X_tbutton (this, this, &but1, x -  96, y,      "Midi off", 0, CB_GLOB_MOFF))->x_map ();
     (_b_insw = new X_tbutton (this, this, &but1, x - 264, y + 25, "Instrum",  0, CB_SHOW_INSW))->x_map ();

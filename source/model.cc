@@ -189,6 +189,13 @@ void Model::proc_mesg (ITC_mesg *M)
         clr_group (X->_group);
 	break;
     }
+    case MT_IFC_GRTUTI:
+    {
+	// Enable a group of stops, excluding Tremulant & Couplers.
+        M_ifc_ifelm *X = (M_ifc_ifelm *) M;
+        tutti_group (X->_group);
+	break;
+    }
     case MT_IFC_AUPAR:
     {
 	// Set audio section parameter.
@@ -719,6 +726,29 @@ void Model::clr_group (int g)
 	}
     }
     send_event (TO_IFACE, new M_ifc_ifelm (MT_IFC_GRCLR, g, 0));         
+}
+
+
+void Model::tutti_group (int g)
+{
+    // enables all stops
+    int     i;
+    Ifelm  *I;
+    Group  *G;    
+
+    G = _group + g;
+    if ((! _ready) || (g >= _ngroup)) return;
+
+    for (i = 0; i < G->_nifelm; i++)
+    {
+        I = G->_ifelms + i;
+	debug("felm g=%d, i=%d, I->_state=%d, I->_type=%d", g, i, I->_state, I->_type);
+
+	if (I->_state == 0 && I->_type == 0) {
+		set_ifelm (g, i, 1);
+	}
+    }
+    //send_event (TO_IFACE, new M_ifc_ifelm (MT_IFC_GRTUTI, g, 0));
 }
 
 

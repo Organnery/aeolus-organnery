@@ -66,6 +66,7 @@ enum
     MT_IFC_ELXOR, //
     MT_IFC_ELATT,
     MT_IFC_GRCLR,
+    MT_IFC_GRTUTI,
     MT_IFC_AUPAR,
     MT_IFC_DIPAR,
     MT_IFC_RETUNE,
