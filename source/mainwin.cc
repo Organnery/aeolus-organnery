@@ -356,20 +356,20 @@ void Mainwin::setup (M_ifc_init *M)
 
     but1.size.x = 80;
     but1.size.y = 20;
-    (_b_mrcl = new X_tbutton (this, this, &but1, 244, y,      "Recall", 0, B_MRCL))->x_map ();
-    (_b_prev = new X_tbutton (this, this, &but1, 328, y,      "Prev",   0, B_PREV))->x_map ();
-    (_b_next = new X_tbutton (this, this, &but1, 412, y,      "Next",   0, B_NEXT))->x_map ();
-    (_b_msto = new X_tbutton (this, this, &but1, 244, y + 25, "Store",  0, B_MSTO))->x_map ();
-    (_b_mins = new X_tbutton (this, this, &but1, 328, y + 25, "Insert", 0, B_MINS))->x_map ();
-    (_b_mdel = new X_tbutton (this, this, &but1, 412, y + 25, "Delete", 0, B_MDEL))->x_map ();
-    (_b_canc = new X_tbutton (this, this, &but1, 532, y + 25, "Cancel", 0, B_CANC))->x_map ();
-    (_b_tuti = new X_tbutton (this, this, &but1, x - 264, y,      "Tutti",    0, B_TUTI))->x_map ();
+    (_b_mrcl = new X_tbutton (this, this, &but1, 194, y,      "Recall", 0, B_MRCL))->x_map ();
+    (_b_prev = new X_tbutton (this, this, &but1, 278, y,      "Prev",   0, B_PREV))->x_map ();
+    (_b_next = new X_tbutton (this, this, &but1, 362, y,      "Next",   0, B_NEXT))->x_map ();
+    (_b_msto = new X_tbutton (this, this, &but1, 194, y + 25, "Store",  0, B_MSTO))->x_map ();
+    (_b_mins = new X_tbutton (this, this, &but1, 278, y + 25, "Insert", 0, B_MINS))->x_map ();
+    (_b_mdel = new X_tbutton (this, this, &but1, 362, y + 25, "Delete", 0, B_MDEL))->x_map ();
+    (_b_canc = new X_tbutton (this, this, &but1, x - 364, y + 25, "Cancel", 0, B_CANC))->x_map ();
+    (_b_tuti = new X_tbutton (this, this, &but1, x - 364, y,      "Tutti",    0, B_TUTI))->x_map ();
     (_b_save = new X_tbutton (this, this, &but1, x - 180, y,      "Save",     0, CB_GLOB_SAVE))->x_map ();
     (_b_moff = new X_tbutton (this, this, &but1, x -  96, y,      "Midi off", 0, CB_GLOB_MOFF))->x_map ();
     (_b_insw = new X_tbutton (this, this, &but1, x - 264, y + 25, "Instrum",  0, CB_SHOW_INSW))->x_map ();
     (_b_audw = new X_tbutton (this, this, &but1, x - 180, y + 25, "Audio",    0, CB_SHOW_AUDW))->x_map ();
     (_b_midw = new X_tbutton (this, this, &but1, x -  96, y + 25, "Midi",     0, CB_SHOW_MIDW))->x_map ();
-    (_t_comm = new X_textip  (this,    0, &text0, 500, y, 160, 20, 15))->x_map ();
+    (_t_comm = new X_textip  (this,    0, &text0, 450, y, 160, 20, 15))->x_map ();
 
    _ysize = y + 55;
     if (_ysize < Splashwin::YSIZE + 20) _ysize = Splashwin::YSIZE + 20;
