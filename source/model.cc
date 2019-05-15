@@ -164,6 +164,7 @@ void Model::proc_mesg (ITC_mesg *M)
 {
     // Handle commands from other threads, including
     // the user interface.
+    int i;
 
     switch (M->type ())
     {
@@ -186,14 +187,34 @@ void Model::proc_mesg (ITC_mesg *M)
     {
 	// Reset a group of stops.
         M_ifc_ifelm *X = (M_ifc_ifelm *) M;
-        clr_group (SRC_GUI_DONE, X->_group);
+        clr_group (X->_group);
+
+	if (X->_group == 0) {
+	    // output cancel midi message on first enabled Control channel
+	    for (i = 0; i < 16; i++) {
+		if ((_midimap[i] & 0x4000) == 0x4000) {
+		    midi_tx_cc(i, MIDICTL_CANCL, MIDICTL_CANCL_VAL);
+		    break;
+		}
+	    }
+	}
 	break;
     }
     case MT_IFC_GRTUTI:
     {
 	// Enable a group of stops, excluding Tremulant & Couplers.
         M_ifc_ifelm *X = (M_ifc_ifelm *) M;
-        tutti_group (SRC_GUI_DONE, X->_group);
+        tutti_group (X->_group);
+
+	if (X->_group == 0) {
+	    // output tutti midi message on first enabled Control channel
+	    for (i = 0; i < 16; i++) {
+		if ((_midimap[i] & 0x4000) == 0x4000) {
+		    midi_tx_cc(i, MIDICTL_TUTTI, MIDICTL_TUTTI_VAL);
+		    break;
+		}
+	    }
+	}
 	break;
     }
     case MT_IFC_AUPAR:
@@ -496,13 +517,13 @@ void Model::proc_qmidi (void)
 	    case MIDICTL_CANCL:
 		// Cancel.
 		for (g = 0; g < _ngroup; g++)
-		    clr_group (SRC_MIDI_PAR, g);
+		    clr_group (g);
 		break;
 
 	    case MIDICTL_TUTTI:
 		// Tutti.
 		for (g = 0; g < _ngroup; g++)
-		    tutti_group (SRC_MIDI_PAR, g);
+		    tutti_group (g);
 		break;
 
 	    case MIDICTL_IFELM:
@@ -512,7 +533,7 @@ void Model::proc_qmidi (void)
 		    // Set mode or clear group.
                     _sc_cmode = (v >> 4) & 3;
                     _sc_group = v & 7; 
-                    if (_sc_cmode == 0) clr_group (SRC_GUI_DONE, _sc_group);
+                    if (_sc_cmode == 0) clr_group (_sc_group);
 		}
                 else if (_sc_cmode)
 		{
@@ -716,28 +737,11 @@ void Model::set_ifelm (int g, int i, int m)
 }
 
 
-void Model::clr_group (int s, int g)
+void Model::clr_group (int g)
 {
-    int     i, midi_ch;
+    int     i;
     Ifelm  *I;
     Group  *G;    
-
-    // midi output message
-    if (s != SRC_MIDI_PAR) {
-	midi_ch = -1;
-
-	// output on first enabled Control midi channel
-	for (i = 0; i < 16; i++) {
-	    if ((_midimap[i] & 0x4000) == 0x4000) {
-		midi_ch = i;
-		break;
-	    }
-	}
-
-	if (midi_ch != -1) {
-            midi_tx_cc(midi_ch, MIDICTL_CANCL, MIDICTL_CANCL_VAL);
-	}
-    }
 
     G = _group + g;
     if ((! _ready) || (g >= _ngroup)) return;
@@ -759,29 +763,12 @@ void Model::clr_group (int s, int g)
 }
 
 
-void Model::tutti_group (int s, int g)
+void Model::tutti_group (int g)
 {
     // enables all stops
-    int     i, midi_ch;
+    int     i;
     Ifelm  *I;
     Group  *G;    
-
-    // midi output message
-    if (s != SRC_MIDI_PAR) {
-	midi_ch = -1;
-
-	// output on first enabled Control midi channel
-	for (i = 0; i < 16; i++) {
-	    if ((_midimap[i] & 0x4000) == 0x4000) {
-		midi_ch = i;
-		break;
-	    }
-	}
-
-	if (midi_ch != -1) {
-            midi_tx_cc(midi_ch, MIDICTL_TUTTI, MIDICTL_TUTTI_VAL);
-	}
-    }
 
     G = _group + g;
     if ((! _ready) || (g >= _ngroup)) return;
@@ -795,7 +782,7 @@ void Model::tutti_group (int s, int g)
 		set_ifelm (g, i, 1);
 	}
     }
-    //send_event (TO_IFACE, new M_ifc_ifelm (MT_IFC_GRTUTI, g, 0));
+    send_event (TO_IFACE, new M_ifc_ifelm (MT_IFC_GRTUTI, g, 0));
 }
 
 
