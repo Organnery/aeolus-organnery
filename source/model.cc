@@ -600,6 +600,8 @@ void Model::init_iface (void)
         K = _keybd + i;
 	M->_keybdd [i]._label = K->_label;
 	M->_keybdd [i]._flags = K->_flags;
+
+	if (i < _nkeybd) debug("_keybdd[%d] _label='%s' _flags=0x%x", i, K->_label, K->_flags);
     }
     for (i = 0; i < NDIVIS; i++)
     {
@@ -607,23 +609,30 @@ void Model::init_iface (void)
 	M->_divisd [i]._label = D->_label;
 	M->_divisd [i]._flags = D->_flags;
 	M->_divisd [i]._asect = D->_asect;
+
+	if (i < _ndivis) debug("_divisd[%d] _label='%s' _flags=0x%x _asect=0x%x", i, D->_label, D->_flags, D->_asect);
     }
     for (i = 0; i < NGROUP; i++)
     {
         G = _group + i;
 	M->_groupd [i]._label  = G->_label;
 	M->_groupd [i]._nifelm = G->_nifelm;
+	if (i < _ngroup) debug("_groupd[%d] _label='%s' _nifelm=%d", i, G->_label, G->_nifelm);
+
         for (j = 0; j < G->_nifelm; j++)
 	{
 	    M->_groupd [i]._ifelmd [j]._label = G->_ifelms [j]._label;
 	    M->_groupd [i]._ifelmd [j]._mnemo = G->_ifelms [j]._mnemo;
 	    M->_groupd [i]._ifelmd [j]._type  = G->_ifelms [j]._type;
+
+	    debug("\tifelmd[%d] _label='%s' _mnemo=%s _type=0x%x", j, G->_ifelms[j]._label, G->_ifelms[j]._mnemo, G->_ifelms[j]._type);
 	}
     }
     for (i = 0; i < NSCALES; i++)
     {
 	M->_temped [i]._label = scales [i]._label;
 	M->_temped [i]._mnemo = scales [i]._mnemo;
+	debug("_temped[%d] _label='%s' _mnemo='%s'", i, scales[i]._label, scales[i]._mnemo);
     }
     send_event (TO_IFACE, M);
 
