@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2013 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -52,7 +52,7 @@ void Midimatrix::init (M_ifc_init *M)
     for (i = 0; i < M->_nkeybd; i++)
     {
 	_label [i] = M->_keybdd [i]._label;
-        _flags [i] = M->_keybdd [i]._flags;    
+        _flags [i] = M->_keybdd [i]._flags;
     }
     for (i = 0; i < M->_ndivis; i++)
     {
@@ -85,14 +85,14 @@ void Midimatrix::handle_event (XEvent *E)
     case MapNotify:
         _mapped = true;
         break;
- 
+
     case UnmapNotify:
         _mapped = false;
         break;
- 
+
     case Expose:
         expose ((XExposeEvent *) E);
-        break;  
+        break;
 
     case ButtonPress:
         bpress ((XButtonEvent *) E);
@@ -144,7 +144,7 @@ void Midimatrix::redraw (void)
         D.move (x, y + d);
         D.drawstring (s, 0);
         x += DX;
-    } 
+    }
     D.setcolor (Colors.midi_gr2);
     D.move (XL, YT);
     D.rdraw (0, _ys - 2 * YT);
@@ -160,14 +160,14 @@ void Midimatrix::redraw (void)
     D.rdraw (_xs - 2 * XR, 0);
     D.setcolor (XftColors.midi_fg);
     D.move (10, y + d);
-    D.drawstring ("Divisions", -1);
+    D.drawstring ("Division controls", -1);
     y += _ndivis * DY;
     D.setcolor (Colors.midi_gr2);
     D.move (XR, y);
     D.rdraw (_xs - 2 * XR, 0);
     D.setcolor (XftColors.midi_fg);
     D.move (10, y + d);
-    D.drawstring ("Control", -1);
+    D.drawstring ("Global controls", -1);
     y += DY;
     D.setcolor (Colors.midi_gr2);
     D.move (XR, y);
@@ -183,14 +183,14 @@ void Midimatrix::redraw (void)
 void Midimatrix::plot_allconn (void)
 {
     int i, m;
-       
+
     for (i = 0; i < 16; i++)
     {
 	m = _chconf [i];
         if (m & 0x1000) plot_conn (i, m & 7);
         if (m & 0x2000) plot_conn (i, _nkeybd + ((m >> 8) & 7));
         if (m & 0x4000) plot_conn (i, _nkeybd + _ndivis);
-    }       
+    }
 }
 
 
@@ -205,7 +205,7 @@ void Midimatrix::plot_conn (int x, int y)
     x = XL + x * DX + 5;
     y = YT + y * DY + 5;
     D.fillrect (x, y, x + DX - 9, y + DY - 9);
-}    
+}
 
 
 void Midimatrix::bpress (XButtonEvent *E)
@@ -217,12 +217,12 @@ void Midimatrix::bpress (XButtonEvent *E)
     x = E->x - XL - 4 - i * DX;
     y = E->y - YT - 4 - j * DY;
     if ((i > 15) || ((int) j > _nkeybd + _ndivis) || (x > DX - 2) || (y > DY - 2)) return;
-    _chan = i; 
+    _chan = i;
 
     if ((int) j < _nkeybd)
     {
         k = (_chconf [i] & 0x1000) ? (_chconf [i] & 7) : 8;
-        _chconf [i] &= 0x6700; 
+        _chconf [i] &= 0x6700;
         if (k != j)
 	{
             _chconf [i] |= 0x1000 | j;
@@ -234,7 +234,7 @@ void Midimatrix::bpress (XButtonEvent *E)
     {
         j -= _nkeybd;
         k = (_chconf [i] & 0x2000) ? ((_chconf [i] >> 8) & 7) : 8;
-        _chconf [i] &= 0x5007; 
+        _chconf [i] &= 0x5007;
         if (k != j)
 	{
             _chconf [i] |= 0x2000 | (j << 8);
