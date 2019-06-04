@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -42,7 +42,7 @@ void Pipewave::initstatic (float fsamp)
     _arg = new float [k];
     k = (int)(0.5f * fsamp);
     _att = new float [k];
-}   
+}
 
 
 void Pipewave::play (void)
@@ -56,7 +56,7 @@ void Pipewave::play (void)
 
     if (_sdel & 1)
     {
-	if (! p) 
+	if (! p)
 	{
 	    p = _p0;
             _y_p = 0.0f;
@@ -71,19 +71,19 @@ void Pipewave::play (void)
             p = 0;
             _g_r = 1.0f;
             _y_r = _y_p;
-            _i_r = _k_r;     
+            _i_r = _k_r;
 	}
     }
 
     if (r)
     {
         k1 = PERIOD;
-        q = _out; 
+        q = _out;
 	g = _g_r;
         i = _i_r - 1;
-        dg = g / PERIOD;  
+        dg = g / PERIOD;
         if (i) dg *= _m_r ;
- 
+
         if (r < _p1)
         {
             while (k1--)
@@ -92,24 +92,24 @@ void Pipewave::play (void)
                 g -= dg;
             }
         }
-        else 
+        else
 	{
-            y = _y_r;  
+            y = _y_r;
             dy = _d_r;
             while (k1)
-	    {            
+	    {
                 t = y + k1 * dy;
                 d = 0;
-                k2 = k1;  
+                k2 = k1;
                 if (t > 1.0f)
                 {
-		    d = 1; 
-                    k2 = (int)((1.0f - y) / dy); 
+		    d = 1;
+                    k2 = (int)((1.0f - y) / dy);
                 }
-                else if (t < 0.0f) 
+                else if (t < 0.0f)
 	        {
-		    d = -1; 
-                    k2 = (int)(-y / dy); 
+		    d = -1;
+                    k2 = (int)(-y / dy);
 	        }
                 k1 -= k2;
                 while (k2--)
@@ -123,20 +123,20 @@ void Pipewave::play (void)
                 r += d;
 	    }
             _y_r = y;
-	}           
+	}
 
-        if (i) 
+        if (i)
 	{
 	    _g_r = g;
             _i_r = i;
             if (r >= _p2) r -= _l1;
 	}
         else r = 0;
-    }	
+    }
 
-    if (p) 
-    { 
-        k1 = PERIOD;             
+    if (p)
+    {
+        k1 = PERIOD;
         q = _out;
         if (p < _p1)
         {
@@ -145,25 +145,25 @@ void Pipewave::play (void)
 		*q++ += *p++;
 	    }
         }
-        else 
+        else
 	{
-            y = _y_p;  
+            y = _y_p;
             _z_p += _d_p * 0.0005f * (0.05f * _d_p * (_rgen.urandf () - 0.5f) - _z_p);
             dy = _z_p * _k_s;
             while (k1)
-	    {            
+	    {
                 t = y + k1 * dy;
                 d = 0;
-                k2 = k1;  
+                k2 = k1;
                 if (t > 1.0f)
 	        {
-		    d = 1; 
-                    k2 = (int)((1.0f - y) / dy); 
+		    d = 1;
+                    k2 = (int)((1.0f - y) / dy);
                 }
-                else if (t < 0.0f) 
+                else if (t < 0.0f)
 	        {
-		    d = -1; 
-                    k2 = (int)(-y / dy); 
+		    d = -1;
+                    k2 = (int)(-y / dy);
 	        }
                 k1 -= k2;
                 while (k2--)
@@ -182,12 +182,12 @@ void Pipewave::play (void)
 
     _p_p = p;
     _p_r = r;
-}               
+}
 
 
 void Pipewave::genwave (Addsynth *D, int n, float fsamp, float fpipe)
 {
-    int    h, i, k, nc; 
+    int    h, i, k, nc;
     float  f0, f1, f, m, t, v, v0;
 
     m = D->_n_att.vi (n);
@@ -210,7 +210,7 @@ void Pipewave::genwave (Addsynth *D, int n, float fsamp, float fpipe)
     if      (f > 0.250f) _k_s = 3;
     else if (f > 0.125f) _k_s = 2;
     else                 _k_s = 1;
-    
+
     looplen (f1 * fsamp, _k_s * fsamp, (int)(fsamp / 6.0f), &_l1, &nc);
     if (_l1 < _k_s * PERIOD)
     {
@@ -219,16 +219,16 @@ void Pipewave::genwave (Addsynth *D, int n, float fsamp, float fpipe)
         nc *= k;
     }
 
-    k = _l0 + _l1 + _k_s * (PERIOD + 4);       
+    k = _l0 + _l1 + _k_s * (PERIOD + 4);
 
     delete[] _p0;
     _p0 = new float [k];
     _p1 = _p0 + _l0;
     _p2 = _p1 + _l1;
-    memset (_p0, 0, k * sizeof (float)); 
+    memset (_p0, 0, k * sizeof (float));
 
-    _k_r = (int)(ceilf (D->_n_dct.vi (n) * fsamp / PERIOD) + 1);          
-    _m_r = 1.0f - powf (0.1, 1.0 / _k_r); 
+    _k_r = (int)(ceilf (D->_n_dct.vi (n) * fsamp / PERIOD) + 1);
+    _m_r = 1.0f - powf (0.1, 1.0 / _k_r);
     _d_r = _k_s * (exp2ap (D->_n_dcd.vi (n) / 1200.0f) - 1.0f);
     _d_p = D->_n_ins.vi (n);
 
@@ -238,28 +238,28 @@ void Pipewave::genwave (Addsynth *D, int n, float fsamp, float fpipe)
     {
         _arg [i] = t - floorf (t + 0.5);
 	t += (i < k) ? (((k - i) * f0 + i * f1) / k) : f1;
-    }         
-     
+    }
+
     for (i = 1; i < _l1; i++)
     {
 	t = _arg [_l0]+ (float) i * nc / _l1;
         _arg [i + _l0] = t - floorf (t + 0.5);
-    }         
+    }
 
     v0 = exp2ap (0.1661 * D->_n_vol.vi (n));
     for (h = 0; h < N_HARM; h++)
     {
         if ((h + 1) * f1 > 0.45) break;
-        v = D->_h_lev.vi (h, n);          
+        v = D->_h_lev.vi (h, n);
         if (v < -80.0) continue;
 
-        v = v0 * exp2ap (0.1661 * (v + D->_h_ran.vi (h, n) * (2 * _rgen.urand () - 1)));            
-        k = (int)(fsamp * D->_h_att.vi (h, n) + 0.5); 
-        attgain (k, D->_h_atp.vi (h, n));            
+        v = v0 * exp2ap (0.1661 * (v + D->_h_ran.vi (h, n) * (2 * _rgen.urand () - 1)));
+        k = (int)(fsamp * D->_h_att.vi (h, n) + 0.5);
+        attgain (k, D->_h_atp.vi (h, n));
 
-        for (i = 0; i < _l0 + _l1; i++) 
+        for (i = 0; i < _l0 + _l1; i++)
         {
-	    t = _arg [i] * (h + 1);   
+	    t = _arg [i] * (h + 1);
             t -= floorf (t);
             m = v * sinf (2 * M_PI * t);
             if (i < k) m *= _att [i];
@@ -275,7 +275,7 @@ void Pipewave::looplen (float f, float fsamp, int lmax, int *aa, int *bb)
     int     i, j, a, b, t;
     int     z [8];
     double  g, d;
-    
+
     g = fsamp / f;
     for (i = 0; i < 8; i++)
     {
@@ -296,16 +296,16 @@ void Pipewave::looplen (float f, float fsamp, int lmax, int *aa, int *bb)
 	}
         if (a <= lmax)
 	{
-	    d = fsamp * b / a - f; 
+	    d = fsamp * b / a - f;
 	    if ((fabs (d) < 0.1) && (fabs (d) < 3e-4 * f)) break;
 	    g = (fabs (g) < 1e-6) ? 1e6 : 1.0 / g;
 	}
-        else 
+        else
 	{
 	    b = (int)(lmax * f / fsamp);
             a = (int)(b * fsamp / f + 0.5);
-            d = fsamp * b / a - f; 
-            break; 
+            d = fsamp * b / a - f;
+            break;
 	}
     }
     *aa = a;
@@ -361,7 +361,7 @@ void Pipewave::save (FILE *F)
     d.i32 [7] = 0;
     fwrite (&d, 1, 32, F);
     k = _l0 +_l1 + _k_s * (PERIOD + 4);
-    fwrite (_p0, k, sizeof (float), F);   
+    fwrite (_p0, k, sizeof (float), F);
 }
 
 
@@ -386,7 +386,7 @@ void Pipewave::load (FILE *F)
     _p0 = new float [k];
     _p1 = _p0 + _l0;
     _p2 = _p1 + _l1;
-    fread (_p0, k, sizeof (float), F);   
+    fread (_p0, k, sizeof (float), F);
 }
 
 
@@ -394,7 +394,7 @@ void Pipewave::load (FILE *F)
 
 Rankwave::Rankwave (int n0, int n1) : _n0 (n0), _n1 (n1), _list (0), _modif (false)
 {
-    _pipes = new Pipewave [n1 - n0 + 1]; 
+    _pipes = new Pipewave [n1 - n0 + 1];
 }
 
 
@@ -462,16 +462,16 @@ int Rankwave::save (const char *path, Addsynth *D, float fsamp, float fbase, flo
     char      *p;
 
     sprintf (name, "%s/%s", path, D->_filename);
-    if ((p = strrchr (name, '.'))) strcpy (p, ".ae1"); 
+    if ((p = strrchr (name, '.'))) strcpy (p, ".ae1");
     else strcat (name, ".ae1");
 
     F = fopen (name, "wb");
-    if (F == NULL) 
+    if (F == NULL)
     {
 	fprintf (stderr, "Can't open waveform file '%s' for writing\n", name);
         return 1;
     }
-   
+
     memset (data, 0, 16);
     strcpy (data, "ae1");
     data [4] = 1;
@@ -488,7 +488,7 @@ int Rankwave::save (const char *path, Addsynth *D, float fsamp, float fbase, flo
     data [7] = 0;
     *((float *)(data +  8)) = fsamp;
     *((float *)(data + 12)) = fbase;
-    memcpy (data + 16, scale, 12 * sizeof (float));    
+    memcpy (data + 16, scale, 12 * sizeof (float));
     fwrite (data, 1, 64, F);
 
     for (i = _n0, P = _pipes; i <= _n1; i++, P++) P->save (F);
@@ -511,11 +511,11 @@ int Rankwave::load (const char *path, Addsynth *D, float fsamp, float fbase, flo
     float      f;
 
     sprintf (name, "%s/%s", path, D->_filename);
-    if ((p = strrchr (name, '.'))) strcpy (p, ".ae1"); 
+    if ((p = strrchr (name, '.'))) strcpy (p, ".ae1");
     else strcat (name, ".ae1");
 
     F = fopen (name, "rb");
-    if (F == NULL) 
+    if (F == NULL)
     {
 #ifdef DEBUG
 	fprintf (stderr, "Can't open waveform file '%s' for reading\n", name);

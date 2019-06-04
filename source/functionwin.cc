@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -61,19 +61,19 @@ void Functionwin::handle_event (XEvent *E)
     {
     case Expose:
         expose ((XExposeEvent *) E);
-        break;  
+        break;
 
     case ButtonPress:
         bpress ((XButtonEvent *) E);
-        break;  
+        break;
 
     case MotionNotify:
         motion ((XPointerMovedEvent *) E);
-        break;  
+        break;
 
     case ButtonRelease:
         brelse ((XButtonEvent *) E);
-        break;  
+        break;
 
    default:
 	printf ("Multilsider::event %d\n", E->type);
@@ -111,7 +111,7 @@ void Functionwin::set_yparam (int k, X_scale_style *scale, unsigned long color)
 void Functionwin::show (void)
 {
     x_resize (_xs, _ys);
-    x_map ();   
+    x_map ();
 }
 
 
@@ -120,7 +120,7 @@ void Functionwin::reset (int k)
     for (int i = 0; i < _n; i++)
     {
 	_yc [k][i] = _ymax;
-        _st [k][i] = 0;  
+        _st [k][i] = 0;
     }
 }
 
@@ -165,7 +165,7 @@ void Functionwin::set_mark (int i)
        plot_mark ();
        _im = i;
        plot_mark ();
-    }        
+    }
 }
 
 
@@ -194,7 +194,7 @@ void Functionwin::bpress (XButtonEvent *E)
     y = E->y;
     i = (x + _dx / 2) / _dx;
     if ((i < 0) || (i >= _n)) return;
-    if (abs (x - i * _dx) > 8) return;   
+    if (abs (x - i * _dx) > 8) return;
 
     yc = _yc [_fc];
     st = _st [_fc];
@@ -216,7 +216,7 @@ void Functionwin::bpress (XButtonEvent *E)
                     _callb->handle_callb (CB_FW_SEL, this, 0);
                     _callb->handle_callb (CB_FW_UND, this, 0);
                     _ic = -1;
-		}                
+		}
 	    }
 	}
         else
@@ -243,9 +243,9 @@ void Functionwin::bpress (XButtonEvent *E)
 	    if (_sc [j] && _st [j][i] && (abs (_yc [j][i] - y) <= 8))
             {
 		_fc = j;
-                _ic = i;     
+                _ic = i;
                 if (_callb) _callb->handle_callb (CB_FW_SEL, this, 0);
-                break;                
+                break;
 	    }
 	}
     }
@@ -286,7 +286,7 @@ void Functionwin::plot_grid (void)
     for (i = 0; i <= 10; i++)
     {
         D.move (x, 0);
-        D.rdraw (0, _ys); 
+        D.rdraw (0, _ys);
         x += _dx;
     }
 
@@ -313,7 +313,7 @@ void Functionwin::plot_mark (void)
 
 void Functionwin::plot_line (int k)
 {
-    int    i0, i1, x0, x1; 
+    int    i0, i1, x0, x1;
     int   *yc;
     char  *st;
     X_draw D (dpy (), win (), dgc (), 0);
@@ -337,7 +337,7 @@ void Functionwin::plot_line (int k)
             D.drawrect (x1 - 4, yc [i1] - 4, x1 + 4, yc [i1] + 4);
             x0 = x1;
             i0 = i1;
-	}    
+	}
     }
     if (x1 != x0)
     {
@@ -368,7 +368,7 @@ void Functionwin::move_curve (int y)
     int  *yc = _yc [_fc];
     char *st = _st [_fc];
 
-    plot_line (_fc); 
+    plot_line (_fc);
     if (y > _ymax) y = _ymax;
     if (y < _ymin) y = _ymin;
     dy = y - yc [_ic];
@@ -382,7 +382,7 @@ void Functionwin::move_curve (int y)
             yc [j] = y;
 	}
     }
-    plot_line (_fc); 
+    plot_line (_fc);
     if (_callb)
     {
         i = _ic;

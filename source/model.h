@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -49,7 +49,7 @@ public:
     Rankwave   *_wave;
 };
 
-    
+
 class Divis
 {
 public:
@@ -69,7 +69,7 @@ public:
     Rank        _ranks [NRANK];
 };
 
-    
+
 class Keybd
 {
 public:
@@ -82,7 +82,7 @@ public:
     int     _flags;
 };
 
-    
+
 class Ifelm
 {
 public:
@@ -100,7 +100,7 @@ public:
     uint32_t  _action1;
 };
 
-    
+
 class Group
 {
 public:
@@ -111,7 +111,7 @@ public:
 
     char     _label [16];
     int      _nifelm;
-    Ifelm    _ifelms [NIFELM]; 
+    Ifelm    _ifelms [NIFELM];
 };
 
 
@@ -134,7 +134,7 @@ public:
     uint32_t  _bits [NGROUP];
 };
 
-    
+
 
 class Model : public A_thread
 {
@@ -150,7 +150,7 @@ public:
            bool          uhome);
 
     virtual ~Model (void);
-   
+
     void terminate (void) {  put_event (EV_EXIT, 1); }
 
 private:
@@ -190,8 +190,8 @@ private:
     void midi_tx_sysex(int data_len, uint8_t *data_ptr);
 
 
-    Lfq_u32        *_qcomm; 
-    Lfq_u8         *_qmidi; 
+    Lfq_u32        *_qcomm;
+    Lfq_u8         *_qmidi;
     uint16_t       *_midimap;
     const char     *_appname;
     const char     *_stops;

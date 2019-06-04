@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -77,7 +77,7 @@ enum
     MT_IFC_PRDEC,
     MT_IFC_PRINC,
     MT_IFC_PRSTO,
-    MT_IFC_PRINS,    
+    MT_IFC_PRINS,
     MT_IFC_PRDEL,
     MT_IFC_PRGET,
     MT_IFC_EDIT,
@@ -163,7 +163,7 @@ public:
     const char         *_stops;
     const char         *_waves;
     const char         *_instr;
-    const char         *_appid; 
+    const char         *_appid;
     int                 _client;
     int                 _ipport;
     int                 _opport;
@@ -173,18 +173,18 @@ public:
     int                 _ndivis;
     int                 _ngroup;
     int                 _ntempe;
-    struct 
+    struct
     {
 	const char     *_label;
-        int             _flags;               
-    }                   _keybdd [NKEYBD];     
-    struct 
+        int             _flags;
+    }                   _keybdd [NKEYBD];
+    struct
     {
         const char     *_label;
         int             _asect;
         int             _flags;
-    }                   _divisd [NDIVIS];     
-    struct 
+    }                   _divisd [NDIVIS];
+    struct
     {
         const char     *_label;
 	int             _nifelm;
@@ -194,12 +194,12 @@ public:
             const char *_mnemo;
             int         _type;
 	}               _ifelmd [32];
-    }                   _groupd [8];     
-    struct 
+    }                   _groupd [8];
+    struct
     {
         const char     *_label;
         const char     *_mnemo;
-    }                   _temped [16];     
+    }                   _temped [16];
 };
 
 
@@ -260,7 +260,7 @@ class M_ifc_retune : public ITC_mesg
 {
 public:
 
-    M_ifc_retune (float f, int t) : 
+    M_ifc_retune (float f, int t) :
         ITC_mesg (MT_IFC_RETUNE),
         _freq (f),
         _temp (t)
@@ -281,7 +281,7 @@ public:
     {
     }
 
-    int  _bits;    
+    int  _bits;
 };
 
 
@@ -294,10 +294,10 @@ public:
         _index (index)
     {
 	if (bits) memcpy (_bits, bits, 16 * sizeof (uint16_t));
-        else      memset (_bits, 0, 16 * sizeof (uint16_t)); 
+        else      memset (_bits, 0, 16 * sizeof (uint16_t));
     }
 
-    int       _index;    
+    int       _index;
     uint16_t  _bits [16];
 };
 
@@ -319,7 +319,7 @@ public:
     int       _bank;
     int       _pres;
     int       _stat;
-    uint32_t  _bits [NGROUP];  
+    uint32_t  _bits [NGROUP];
 };
 
 
@@ -354,4 +354,4 @@ public:
 
 
 #endif
- 
+

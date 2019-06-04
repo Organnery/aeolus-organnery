@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -104,7 +104,7 @@ void Tiface::thr_main (void)
 	{
         case FM_MODEL:
         case FM_TXTIP:
-            handle_mesg (get_message ()); 
+            handle_mesg (get_message ());
 	    break;
 
         case EV_EXIT:
@@ -204,9 +204,9 @@ void Tiface::handle_ifc_mcset (M_ifc_chconf *M)
 void Tiface::handle_ifc_retune (M_ifc_retune *M)
 {
     printf ("Retuning Aeolus, A = %3.1lf Hz, %s (%s)\n",
-	    M->_freq,  
-	    _initdata->_temped [M->_temp]._label, 
-	    _initdata->_temped [M->_temp]._mnemo); 
+	    M->_freq,
+	    _initdata->_temped [M->_temp]._label,
+	    _initdata->_temped [M->_temp]._mnemo);
 }
 
 
@@ -354,7 +354,7 @@ void Tiface::print_stops_short (int group)
     for (i = 0; i < n; i++)
     {
 	printf ("  %c %-8s", (m & 1) ? '+' : '-',
-                 _initdata->_groupd [group]._ifelmd [i]._mnemo); 
+                 _initdata->_groupd [group]._ifelmd [i]._mnemo);
 	if ((i % 5) == 4) printf ("\n");
 	m >>= 1;
     }
@@ -374,11 +374,11 @@ void Tiface::print_stops_long (int group)
     for (i = 0; i < n; i++)
     {
         rewrite_label (_initdata->_groupd [group]._ifelmd [i]._label);
-	printf ("  %c %-7s %-1s\n", (m & 1) ? '+' : '-', 
+	printf ("  %c %-7s %-1s\n", (m & 1) ? '+' : '-',
                 _initdata->_groupd [group]._ifelmd [i]._mnemo, _tempstr);
 	m >>= 1;
     }
-}              
+}
 
 
 void Tiface::rewrite_label (const char *p)
@@ -404,7 +404,7 @@ void Tiface::parse_command (const char *p)
     c1 = *p++;
     if (c1 == 0) return;
     c2 = *p++;
-    if (c2 && !isspace (c2)) 
+    if (c2 && !isspace (c2))
     {
         printf ("Bad command\n");
 	return;
@@ -427,7 +427,7 @@ void Tiface::parse_command (const char *p)
 	break;
 
     default:
-	printf ("Unknown command '%c'\n", c1); 
+	printf ("Unknown command '%c'\n", c1);
     }
 }
 

@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -32,7 +32,7 @@ public:
 
     Midimatrix (X_window *parent, X_callback *callb, int xp, int yp);
     ~Midimatrix (void);
- 
+
     virtual void handle_event (XEvent *xe);
 
     void init (M_ifc_init *M);

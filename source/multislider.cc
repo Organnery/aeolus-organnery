@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -31,7 +31,7 @@ Multislider::Multislider (X_window *parent, X_callback *callb, int xp, int yp,
     X_window (parent, xp, yp, 100, 100, Colors.func_bg),
     _callb (callb),
     _bgnd (Colors.func_bg),
-    _grid (grid), _mark (mark), _yc (0), _st (0), 
+    _grid (grid), _mark (mark), _yc (0), _st (0),
     _move (-1), _draw (-1)
 {
     x_add_events (ExposureMask | ButtonMotionMask | ButtonPressMask | ButtonReleaseMask);
@@ -53,19 +53,19 @@ void Multislider::handle_event (XEvent *E)
     {
     case Expose:
         expose ((XExposeEvent *) E);
-        break;  
+        break;
 
     case ButtonPress:
         bpress ((XButtonEvent *) E);
-        break;  
+        break;
 
     case MotionNotify:
         motion ((XPointerMovedEvent *) E);
-        break;  
+        break;
 
     case ButtonRelease:
         brelse ((XButtonEvent *) E);
-        break;  
+        break;
 
     default:
 	printf ("Multilsider::event %d\n", E->type);
@@ -98,14 +98,14 @@ void Multislider::set_yparam (X_scale_style *scale, int iref)
     {
         _yc [i] = _yr;
         _st [i] = 255;
-    } 
+    }
 }
 
 
 void Multislider::show (void)
 {
     x_resize (_xs, _ys);
-    x_map ();   
+    x_map ();
 }
 
 
@@ -152,7 +152,7 @@ void Multislider::plot_grid (void)
     for (i = 0; i < _n; i++)
     {
         D.move (x, 0);
-        D.rdraw (0, _ys); 
+        D.rdraw (0, _ys);
         x += _dx;
     }
 
@@ -225,7 +225,7 @@ void Multislider::update_val (int i, int y)
     if (_callb)
     {
         _ind = i;
-        _val = _scale->calcval (_ys - y - 1);    
+        _val = _scale->calcval (_ys - y - 1);
         _callb->handle_callb (CB_MS_UPD, this, 0);
     }
 }
@@ -263,7 +263,7 @@ void Multislider::update_bar (int i, int y)
 	{
 	    ya0 = _yr + 1;
             ye1 = _yr;
-	}    
+	}
     }
     else
     {
@@ -275,7 +275,7 @@ void Multislider::update_bar (int i, int y)
 	{
 	    ya1 = _yr;
             ye0 = _yr + 1;
-	}    
+	}
     }
 
     if (ya0 != ya1)
@@ -289,11 +289,11 @@ void Multislider::update_bar (int i, int y)
         D.fillrect (x, ye0, x + _wx, ye1);
         D.setcolor ((i == _im) ? _mark : _grid);
         D.move (x + _wx / 2, ye0);
-        D.rdraw (0, ye1 - ye0);        
+        D.rdraw (0, ye1 - ye0);
         D.setcolor (_grid);
         for (i = 0; i <= _scale->nseg; i++)
 	{
-	    y = _ys - _scale->pix [i] - 1; 
+	    y = _ys - _scale->pix [i] - 1;
             if (y >=  ye1) continue;
             if (y <   ye0) break;
             D.move (x, y);
@@ -313,7 +313,7 @@ void Multislider::bpress (XButtonEvent *E)
     x -= i * _dx + _dx / 2;
     if (E->button == Button3)
     {
-        _draw = i;   
+        _draw = i;
         if (E->state & ControlMask) undefine_val (i);
         else                        update_val (i, E->y);
     }
@@ -342,7 +342,7 @@ void Multislider::motion (XPointerMovedEvent *E)
         if ((i < 0) || (i >= _n)) return;
         x -= i * _dx + _dx / 2;
         if (2 * abs (x) > _wx) return;
-        
+
         if (E->state & ControlMask)
 	{
             undefine_val (i);
@@ -352,7 +352,7 @@ void Multislider::motion (XPointerMovedEvent *E)
 	    y = (E->state & ShiftMask) ? _yc [_draw] : E->y;
 	    update_val (i, y);
 	}
-    } 
+    }
 }
 
 
@@ -383,7 +383,7 @@ void Multislider::set_val (int i, int c, float v)
 	update_bar (i, _yr);
         _st [i] = c;
         _yc [i] = y;
-        plot_1bar (i);         
+        plot_1bar (i);
     }
 }
 

@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -63,17 +63,17 @@ void Instrwin::handle_callb (int k, X_window *W, XEvent *E)
 
     switch (k)
     {
-        case SLIDER | X_slider::MOVE: 
-        case SLIDER | X_slider::STOP: 
+        case SLIDER | X_slider::MOVE:
+        case SLIDER | X_slider::STOP:
         {
             X_slider *X = (X_slider *) W;
             c = X->cbid ();
             _divis = (c >> DIVIS_BIT0) - 1;
             _parid = c & DIVIS_MASK;
-            _value = X->get_val (); 
+            _value = X->get_val ();
             _final = k == (SLIDER | X_slider::STOP);
             _callb->handle_callb (CB_DIVIS_ACT, this, E);
-            break; 
+            break;
 	}
 
         case BUTTON | X_button::PRESS:
@@ -85,12 +85,12 @@ void Instrwin::handle_callb (int k, X_window *W, XEvent *E)
             case TEMP_DEC:
             case TEMP_INC:
                 incdec_temp (k == TEMP_DEC ? -1 : 1);
-                break; 
+                break;
 
             case FREQ_DEC:
             case FREQ_INC:
                 incdec_freq (k == FREQ_DEC ? -1 : 1);
-                break; 
+                break;
 
 	    case TUNE_EXE:
                 _callb->handle_callb (CB_RETUNE, this, E);
@@ -101,7 +101,7 @@ void Instrwin::handle_callb (int k, X_window *W, XEvent *E)
                 _temp = _temp1;
                 show_tuning (0);
 		break;
-	    }         
+	    }
 	}
     }
 }
@@ -111,7 +111,7 @@ void Instrwin::setup (M_ifc_init *M)
 {
     int      i, k, n1, n2, x1, x2, y;
     char     s [256];
-    Divis    *D; 
+    Divis    *D;
     X_hints  H;
 
 
@@ -119,11 +119,11 @@ void Instrwin::setup (M_ifc_init *M)
     but2.size.x = 17;
     but2.size.y = 17;
     _temp_txt = new X_textip  (this, 0,   &text0,  15, 41, 150, 20, 31);
-    _temp_txt->set_align (1);     
-    _temp_txt->x_map ();     
+    _temp_txt->set_align (1);
+    _temp_txt->x_map ();
     _freq_txt = new X_textip  (this, 0,   &text0, 105, 65,  60, 20, 7);
-    _freq_txt->set_align (1);     
-    _freq_txt->x_map ();     
+    _freq_txt->set_align (1);
+    _freq_txt->x_map ();
     (_dec_temp = new X_ibutton (this, this, &but2, 170, 41, disp ()->image1515 (X_display::IMG_LT), TEMP_DEC))->x_map ();
     (_inc_temp = new X_ibutton (this, this, &but2, 187, 41, disp ()->image1515 (X_display::IMG_RT), TEMP_INC))->x_map ();
     (_dec_freq = new X_ibutton (this, this, &but2, 170, 65, disp ()->image1515 (X_display::IMG_LT), FREQ_DEC))->x_map ();
@@ -161,7 +161,7 @@ void Instrwin::setup (M_ifc_init *M)
         else D->_slid [1] = D->_slid [2] = 0;
         if (D->_slid [0] || D->_slid [1])
 	{
-            add_text (x1 - 90, y, 80, 20,  M->_divisd [i]._label, &text0, 1);            
+            add_text (x1 - 90, y, 80, 20,  M->_divisd [i]._label, &text0, 1);
             y += 40;
 	}
         D++;
@@ -188,7 +188,7 @@ void Instrwin::setup (M_ifc_init *M)
     H.maxsize (XSIZE, y);
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());
-    x_apply (&H); 
+    x_apply (&H);
     x_resize (XSIZE, y);
 }
 
@@ -230,7 +230,7 @@ void Instrwin::show_tuning (int b)
 void Instrwin::incdec_temp (int d)
 {
     _temp += d + _ntempe;
-    _temp %= _ntempe;    
+    _temp %= _ntempe;
     show_tuning (1);
 }
 

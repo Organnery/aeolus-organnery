@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -22,7 +22,7 @@
 #include "slave.h"
 
 
-void Slave::thr_main (void) 
+void Slave::thr_main (void)
 {
     ITC_mesg *M;
 
@@ -36,9 +36,9 @@ void Slave::thr_main (void)
             case MT_CALC_RANK:
             {
                 M_def_rank *X = (M_def_rank *) M;
-                send_event (TO_MODEL, new M_ifc_ifelm (MT_IFC_ELATT, X->_group, X->_ifelm)); 
+                send_event (TO_MODEL, new M_ifc_ifelm (MT_IFC_ELATT, X->_group, X->_ifelm));
                 X->_wave = new Rankwave (X->_sdef->_n0, X->_sdef->_n1);
-                X->_wave->gen_waves (X->_sdef, X->_fsamp, X->_fbase, X->_scale); 
+                X->_wave->gen_waves (X->_sdef, X->_fsamp, X->_fbase, X->_scale);
                 send_event (TO_AUDIO, M);
                 break;
 	    }
@@ -46,12 +46,12 @@ void Slave::thr_main (void)
             case MT_LOAD_RANK:
             {
                 M_def_rank *X = (M_def_rank *) M;
-                send_event (TO_MODEL, new M_ifc_ifelm (MT_IFC_ELATT, X->_group, X->_ifelm)); 
+                send_event (TO_MODEL, new M_ifc_ifelm (MT_IFC_ELATT, X->_group, X->_ifelm));
                 X->_wave = new Rankwave (X->_sdef->_n0, X->_sdef->_n1);
-                if (X->_wave->load (X->_path, X->_sdef, X->_fsamp, X->_fbase, X->_scale)) 
+                if (X->_wave->load (X->_path, X->_sdef, X->_fsamp, X->_fbase, X->_scale))
                 {
-                    X->_wave->gen_waves (X->_sdef, X->_fsamp, X->_fbase, X->_scale); 
-		} 
+                    X->_wave->gen_waves (X->_sdef, X->_fsamp, X->_fbase, X->_scale);
+		}
                 send_event (TO_AUDIO, M);
                 break;
 	    }
@@ -59,7 +59,7 @@ void Slave::thr_main (void)
             case MT_SAVE_RANK:
             {
                 M_def_rank *X = (M_def_rank *) M;
-                X->_wave->save (X->_path, X->_sdef, X->_fsamp, X->_fbase, X->_scale); 
+                X->_wave->save (X->_path, X->_sdef, X->_fsamp, X->_fbase, X->_scale);
                 M->recover ();
                 break;
 	    }
@@ -67,10 +67,10 @@ void Slave::thr_main (void)
    	    case MT_AUDIO_SYNC:
 		send_event (TO_AUDIO, M);
 		break;
- 
+
 	    default:
 	        M->recover ();
-	} 
+	}
     }
     send_event (EV_EXIT, 1);
 }

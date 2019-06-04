@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -42,7 +42,7 @@ void Imidi::terminate (void)
     snd_seq_event_t E;
 
     if (_handle)
-    {   
+    {
 	snd_seq_ev_clear (&E);
 	snd_seq_ev_set_direct (&E);
 	E.type = SND_SEQ_EVENT_USR0;
@@ -112,27 +112,27 @@ void Imidi::close_midi (void)
 }
 
 
-void Imidi::proc_midi (void) 
+void Imidi::proc_midi (void)
 {
     snd_seq_event_t  *E;
     int              c, f, m, n, p, t, v;
 
     // Read and process MIDI commands from the ALSA port.
-    // Events related to keyboard state are sent to the 
+    // Events related to keyboard state are sent to the
     // audio thread via the qnote queue. All the rest is
     // sent as raw MIDI to the model thread via qmidi.
 
     while (true)
     {
 	snd_seq_event_input(_handle, &E);
-        c = E->data.note.channel;               
+        c = E->data.note.channel;
         m = _midimap [c] & 127;        // Keyboard and hold bits
 //        d = (_midimap [c] >>  8) & 7;  // Division number if (f & 2)
         f = (_midimap [c] >> 12) & 7;  // Control enabled if (f & 4)
 
         t = E->type;
 	switch (t)
-	{ 
+	{
 	case SND_SEQ_EVENT_NOTEON:
 	case SND_SEQ_EVENT_NOTEOFF:
 	    n = E->data.note.note;
@@ -163,7 +163,7 @@ void Imidi::proc_midi (void)
 	                {
 	                    _qnote->write (0, (1 << 24) | ((n - 36) << 8) | m);
                             _qnote->write_commit (1);
-	                } 
+	                }
 		    }
 		}
             }
@@ -181,7 +181,7 @@ void Imidi::proc_midi (void)
 	                {
 	                    _qnote->write (0, ((n - 36) << 8) | m);
                             _qnote->write_commit (1);
-	                } 
+	                }
 		    }
 		}
 	    }
@@ -203,7 +203,7 @@ void Imidi::proc_midi (void)
 	            {
 	                _qnote->write (0, (v << 24) | (m << 16));
                         _qnote->write_commit (1);
-	            } 
+	            }
 		}
 		break;
 
@@ -216,20 +216,20 @@ void Imidi::proc_midi (void)
 	            {
 	                _qnote->write (0, (2 << 24) | ( ALL_MASK << 16) | ALL_MASK);
                         _qnote->write_commit (1);
-	            } 
+	            }
 		}
 		break;
 
             case MIDICTL_ANOFF:
 		// All notes off, accepted on channels controlling
-		// a keyboard. Does not clear held notes. 
+		// a keyboard. Does not clear held notes.
 		if (m)
 		{
 	            if (_qnote->write_avail () > 0)
 	            {
 	                _qnote->write (0, (2 << 24) | (m << 16) | m);
                         _qnote->write_commit (1);
-	            } 
+	            }
 		}
                 break;
 	    case MIDICTL_DAZIM:
@@ -275,8 +275,8 @@ void Imidi::proc_midi (void)
 	    case MIDICTL_PSTOR:
 	    case MIDICTL_CANCL:
 	    case MIDICTL_TUTTI:
-	    case MIDICTL_BANK:	
-	    case MIDICTL_IFELM:	
+	    case MIDICTL_BANK:
+	    case MIDICTL_IFELM:
                 // Program bank selection, audio param or stop control, sent
                 // to model thread if on control-enabled channel.
 		if (f & 4)

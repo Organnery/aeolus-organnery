@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -36,7 +36,7 @@ Division::Division (Asection *asect, float fsam) :
     _s (0.0f),
     _m (0.0f)
 {
-    for (int i = 0; i < NRANKS; i++) _ranks [i] = 0;    
+    for (int i = 0; i < NRANKS; i++) _ranks [i] = 0;
 }
 
 
@@ -45,11 +45,11 @@ Division::~Division (void)
 }
 
 
-void Division::process (void) 
+void Division::process (void)
 {
     int    i;
     float  d, g, t;
-    float  *p, *q; 
+    float  *p, *q;
 
     memset (_buff, 0, NCHANN * PERIOD * sizeof (float));
     for (i = 0; i < _nrank; i++) _ranks [i]->play (1);
@@ -76,7 +76,7 @@ void Division::process (void)
     t = 0.95f * _gain;
     if (g < t) g = t;
 
-    d = (g - _gain) / PERIOD;    
+    d = (g - _gain) / PERIOD;
     g = _gain;
     p = _buff;
     q = _asect->get_wptr ();
@@ -120,7 +120,7 @@ void Division::update (int note, int mask)
     {
 	W = _ranks [r];
         if (W->_cmask & 127)
-	{     
+	{
 	    if (mask & W->_cmask) W->note_on (note + 36);
 	    else                  W->note_off (note + 36);
 	}
@@ -138,10 +138,10 @@ void Division::update (unsigned char *keys)
     {
 	W = _ranks [r];
         if ((W->_cmask ^ W->_nmask) & 127)
-	{     
-            m = W->_nmask & 127;               
+	{
+            m = W->_nmask & 127;
             if (m)
-	    {            
+	    {
 		n0 = W->n0 ();
 		n1 = W->n1 ();
                 k = keys;
@@ -171,7 +171,7 @@ void Division::set_div_mask (int bits)
     {
 	W = _ranks [r];
         if (W->_nmask & 128) W->_nmask |= bits;
-    } 
+    }
 }
 
 
@@ -186,7 +186,7 @@ void Division::clr_div_mask (int bits)
     {
 	W = _ranks [r];
         if (W->_nmask & 128) W->_nmask &= ~bits;
-    } 
+    }
 }
 
 

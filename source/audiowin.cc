@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -64,17 +64,17 @@ void Audiowin::handle_callb (int k, X_window *W, XEvent *E)
 
     switch (k)
     {
-        case SLIDER | X_slider::MOVE: 
-        case SLIDER | X_slider::STOP: 
+        case SLIDER | X_slider::MOVE:
+        case SLIDER | X_slider::STOP:
         {
             X_slider *X = (X_slider *) W;
             c = X->cbid ();
             _asect = (c >> ASECT_BIT0) - 1;
             _parid = c & ASECT_MASK;
-            _value = X->get_val (); 
+            _value = X->get_val ();
             _final = k == (X_callback::SLIDER | X_slider::STOP);
             _callb->handle_callb (CB_AUDIO_ACT, this, E);
-            break; 
+            break;
 	}
     }
 }
@@ -84,9 +84,9 @@ void Audiowin::setup (M_ifc_init *M)
 {
     int      i, j, k, x;
     char     s [256];
-    Asect    *S; 
+    Asect    *S;
     X_hints  H;
-    
+
     but1.size.x = 20;
     but1.size.y = 20;
     _nasect = M->_nasect;
@@ -113,7 +113,7 @@ void Audiowin::setup (M_ifc_init *M)
 		if (S->_label [0]) strcat (S->_label, " + ");
                 strcat (S->_label, M->_divisd [j]._label);
                 add_text (x, 5, 200, 20, S->_label, &text0);
-	    } 
+	    }
 	}
     }
     add_text ( 10,  40, 60, 20, "Azimuth", &text0);
@@ -144,7 +144,7 @@ void Audiowin::setup (M_ifc_init *M)
     H.maxsize (XOFFS + _nasect * XSTEP, YSIZE);
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());
-    x_apply (&H); 
+    x_apply (&H);
     x_resize (XOFFS + _nasect * XSTEP, YSIZE);
 }
 

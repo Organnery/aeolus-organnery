@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -89,7 +89,7 @@ void Xiface::thr_main (void)
  	    break;
 
         case FM_MODEL:
-            handle_mesg (get_message ()); 
+            handle_mesg (get_message ());
             XFlush (_disp->dpy ());
 	    break;
 
@@ -114,12 +114,12 @@ void Xiface::handle_time (void)
         _editwin->handle_time ();
     }
     if (_aupar)
-    {        
+    {
         send_event (TO_MODEL, _aupar);
         _aupar = 0;
     }
     if (_dipar)
-    {        
+    {
         send_event (TO_MODEL, _dipar);
         _dipar = 0;
     }
@@ -133,10 +133,10 @@ void Xiface::handle_mesg (ITC_mesg *M)
     case MT_IFC_INIT:
     {
         M_ifc_init *X = (M_ifc_init *) M;
-        _mainwin  = new Mainwin (_root, this, 100, 100, &_xresm);           
-        _midiwin  = new Midiwin (_root, this, 120, 120, &_xresm);           
-        _audiowin = new Audiowin (_root, this, 140, 140, &_xresm);           
-        _instrwin = new Instrwin (_root, this, 160, 160, &_xresm);           
+        _mainwin  = new Mainwin (_root, this, 100, 100, &_xresm);
+        _midiwin  = new Midiwin (_root, this, 120, 120, &_xresm);
+        _audiowin = new Audiowin (_root, this, 140, 140, &_xresm);
+        _instrwin = new Instrwin (_root, this, 160, 160, &_xresm);
         _editwin  = new Editwin (_root, this, 180, 180, &_xresm);
         _mainwin->setup (X);
         _midiwin->setup (X);
@@ -144,7 +144,7 @@ void Xiface::handle_mesg (ITC_mesg *M)
         _instrwin->setup (X);
         _editwin->sdir (X->_stops);
         _editwin->wdir (X->_waves);
-        _ready = true;         
+        _ready = true;
         break;
     }
     case MT_IFC_READY:
@@ -190,7 +190,7 @@ void Xiface::handle_mesg (ITC_mesg *M)
             _editwin->init (_editp->_synth);
             _editwin->x_mapraised ();
             M = 0;
-	}  
+	}
         break;
 
     case MT_IFC_MCSET:
@@ -240,7 +240,7 @@ void Xiface::handle_callb (int k, X_window *W, XEvent *E)
 	if (_aupar) _aupar->_value = _audiowin->value ();
 	else _aupar = new M_ifc_aupar (SRC_GUI_DRAG, _audiowin->asect (), _audiowin->parid (), _audiowin->value ());
         //if (_audiowin->final ())
-	//{        
+	//{
 	    _aupar->_srcid = SRC_GUI_DONE;
             send_event (TO_MODEL, _aupar);
             _aupar = 0;
@@ -251,7 +251,7 @@ void Xiface::handle_callb (int k, X_window *W, XEvent *E)
 	if (_dipar) _dipar->_value = _instrwin->value ();
 	else _dipar = new M_ifc_dipar (SRC_GUI_DRAG, _instrwin->divis (), _instrwin->parid (), _instrwin->value ());
         if (_instrwin->final ())
-	{        
+	{
 	    _dipar->_srcid = SRC_GUI_DONE;
             send_event (TO_MODEL, _dipar);
             _dipar = 0;

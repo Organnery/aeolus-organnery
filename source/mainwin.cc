@@ -1,7 +1,7 @@
 // ----------------------------------------------------------------------------
 //
 //  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
-//    
+//
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
 //  the Free Software Foundation; either version 3 of the License, or
@@ -27,7 +27,7 @@
 Splashwin::Splashwin (X_window *parent, int xp, int yp) :
     X_window (parent, xp, yp, XSIZE, YSIZE, Colors.spla_bg, Colors.black, 2)
 {
-    x_add_events (ExposureMask); 
+    x_add_events (ExposureMask);
 }
 
 
@@ -42,7 +42,7 @@ void Splashwin::handle_event (XEvent *E)
     {
     case Expose:
         expose ((XExposeEvent *) E);
-        break;  
+        break;
     }
 }
 
@@ -62,14 +62,14 @@ void Splashwin::expose (XExposeEvent *E)
     D.setfont (XftFonts.spla1);
     D.setcolor (XftColors.spla_fg);
     D.move (x, y - 50);
-    D.drawstring (s, 0); 
+    D.drawstring (s, 0);
     D.setfont (XftFonts.spla2);
     D.move (x, y);
     D.drawstring ("(C) 2003-2019 Fons Adriaensen", 0);
     D.move (x, y + 50);
-    D.drawstring ("This is free software, and you are welcome to distribute it", 0); 
+    D.drawstring ("This is free software, and you are welcome to distribute it", 0);
     D.move (x, y + 70);
-    D.drawstring ("under certain conditions. See the file COPYING for details.", 0); 
+    D.drawstring ("under certain conditions. See the file COPYING for details.", 0);
 }
 
 
@@ -87,7 +87,7 @@ Mainwin::Mainwin (X_window *parent, X_callback *callb, int xp, int yp, X_resman 
     _atom = XInternAtom (dpy (), "WM_DELETE_WINDOW", True);
     XSetWMProtocols (dpy (), win (), &_atom, 1);
     _atom = XInternAtom (dpy (), "WM_PROTOCOLS", True);
-    x_add_events (ExposureMask); 
+    x_add_events (ExposureMask);
     x_set_bit_gravity (NorthWestGravity);
 
     for (i = 0; i < NGROUP; i++)
@@ -109,7 +109,7 @@ void Mainwin::handle_event (XEvent *E)
     {
     case Expose:
         expose ((XExposeEvent *) E);
-        break;  
+        break;
 
     case ClientMessage:
         xcmesg ((XClientMessageEvent *) E);
@@ -127,19 +127,19 @@ void Mainwin::expose (XExposeEvent *E)
     if (E->count) return;
 
     D.setfont (XftFonts.large);
-    D.setfunc (GXcopy);  
+    D.setfunc (GXcopy);
     for (g = 0; g < _ngroup; g++)
     {
-        G = _groups + g; 
+        G = _groups + g;
         D.move (10, G->_ylabel );
         D.setcolor (XftColors.main_fg);
         D.drawstring (G->_label, -1);
         D.setcolor (Colors.main_ls);
         D.move (15, G->_ydivid);
-        D.rdraw (_xsize - 30, 0);     
+        D.rdraw (_xsize - 30, 0);
         D.setcolor (Colors.main_ds);
         D.rmove (0, -1);
-        D.rdraw (30 - _xsize, 0);     
+        D.rdraw (30 - _xsize, 0);
     }
 }
 
@@ -170,61 +170,61 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
 	    {
             case B_DECB:
                 if (_local) { if (_b_loc > 0) _b_loc--; }
-                else   	    { if (_b_mod > 0) _b_mod--; }                
+                else   	    { if (_b_mod > 0) _b_mod--; }
                 upd_pres ();
 		break;
- 
+
             case B_INCB:
                 if (_local) { if (_b_loc < NBANK - 1) _b_loc++; }
-                else  	    { if (_b_mod < NBANK - 1) _b_mod++;	}                
+                else  	    { if (_b_mod < NBANK - 1) _b_mod++;	}
                 upd_pres ();
 		break;
- 
+
             case B_DECM:
                 if (_local) { if (_p_loc > 0) _p_loc--; }
-                else   	    { if (_p_mod > 0) _p_mod--; }                
+                else   	    { if (_p_mod > 0) _p_mod--; }
                 upd_pres ();
 		break;
- 
+
             case B_INCM:
                 if (_local) { if (_p_loc < NPRES - 1) _p_loc++; }
-                else  	    { if (_p_mod < NPRES - 1) _p_mod++;	}                
+                else  	    { if (_p_mod < NPRES - 1) _p_mod++;	}
                 upd_pres ();
 		break;
- 
+
             case B_MRCL:
                 _mesg = new M_ifc_preset (MT_IFC_PRRCL, _b_mod, _p_mod, 0, 0);
-                _callb->handle_callb (CB_MAIN_MSG, this, 0); 
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
 		break;
 
             case B_PREV:
                 _mesg = new ITC_mesg (MT_IFC_PRDEC);
-                _callb->handle_callb (CB_MAIN_MSG, this, 0); 
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
 		break;
 
             case B_NEXT:
                 _mesg = new ITC_mesg (MT_IFC_PRINC);
-                _callb->handle_callb (CB_MAIN_MSG, this, 0); 
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
 		break;
 
             case B_MSTO:
                 _mesg = new M_ifc_preset (MT_IFC_PRSTO, _b_mod, _p_mod, _ngroup, _st_mod);
-                _callb->handle_callb (CB_MAIN_MSG, this, 0); 
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
                 sprintf (s, "%d:%d  Stored", _b_mod + 1, _p_mod + 1);
-                _t_comm->set_text (s); 
+                _t_comm->set_text (s);
 		break;
 
             case B_MINS:
                 _mesg = new M_ifc_preset (MT_IFC_PRINS, _b_mod, _p_mod, _ngroup, _st_mod);
-                _callb->handle_callb (CB_MAIN_MSG, this, 0); 
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
                 sprintf (s, "%d:%d  Stored", _b_mod + 1, _p_mod + 1);
-                _t_comm->set_text (s); 
+                _t_comm->set_text (s);
 		break;
 
             case B_MDEL:
                 _mesg = new M_ifc_preset (MT_IFC_PRDEL, _b_mod, _p_mod, 0, 0);
-                _callb->handle_callb (CB_MAIN_MSG, this, 0); 
-                _t_comm->set_text (""); 
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
+                _t_comm->set_text ("");
 		break;
 
             case B_CANC:
@@ -239,9 +239,9 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
 		    {
                         _mesg = new M_ifc_ifelm (MT_IFC_GRCLR, g, 0);
                         _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		    } 
+		    }
 		}
-                _t_comm->set_text (""); 
+                _t_comm->set_text ("");
 		break;
 
 	    case B_TUTI:
@@ -251,7 +251,7 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
                     _callb->handle_callb (CB_MAIN_MSG, this, 0);
 		}
 		break;
-	    } 
+	    }
 	}
 	else
 	{
@@ -321,7 +321,7 @@ void Mainwin::setup (M_ifc_init *M)
         x = 95;
         S = &ife0;
         for (i = 0; i < G->_nifelm; i++)
-	{        
+	{
             switch (M->_groupd [g]._ifelmd [i]._type)
 	    {
 	    case 0: S = &ife0; break;
@@ -329,16 +329,16 @@ void Mainwin::setup (M_ifc_init *M)
 	    case 2: S = &ife2; break;
 	    case 3: S = &ife3; break;
 	    }
-            if (i == 10) { x = 35; y += S->size.y + 4; }                
-            if (i == 20) { x = 65; y += S->size.y + 4; }                
+            if (i == 10) { x = 35; y += S->size.y + 4; }
+            if (i == 20) { x = 65; y += S->size.y + 4; }
             G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
             set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
-            G->_butt [i]->x_map ();              
-            x += S->size.x + 4;             
+            G->_butt [i]->x_map ();
+            x += S->size.x + 4;
 	}
         y += S->size.y + 15;
         G->_ydivid = y;
-        y += 15;    
+        y += 15;
     }
 
     x = _xsize = 990;
@@ -380,12 +380,12 @@ void Mainwin::setup (M_ifc_init *M)
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());
     if (_xresm->getb (".iconic", 0)) H.state (IconicState);
-    x_apply (&H); 
+    x_apply (&H);
 
     sprintf (s, "%s   Aeolus-%s  [%d:%d]", M->_appid, VERSION, M->_client, M->_ipport);
     x_set_title (s);
     x_resize (_xsize, _ysize);
-    _splash = new Splashwin (this, (_xsize - Splashwin::XSIZE) / 2, (_ysize - Splashwin::YSIZE) / 2); 
+    _splash = new Splashwin (this, (_xsize - Splashwin::XSIZE) / 2, (_ysize - Splashwin::YSIZE) / 2);
 
     _b_loc = _b_mod = 0;
     _p_loc = _p_mod = 0;
@@ -422,7 +422,7 @@ void Mainwin::set_ifelm (M_ifc_ifelm *M)
 
     case MT_IFC_ELATT:
         if (!_local && _flashb) _flashb->set_stat ((_st_mod [_flashg] >> _flashi) & 1);
-        _flashb = G->_butt [M->_ifelm]; 
+        _flashb = G->_butt [M->_ifelm];
         _flashg = M->_group;
         _flashi = M->_ifelm;
 	break;
@@ -433,7 +433,7 @@ void Mainwin::set_ifelm (M_ifc_ifelm *M)
 void Mainwin::set_state (M_ifc_preset *M)
 {
     char s [256];
-  
+
     if (M->_stat)
     {
         memcpy (_st_mod, M->_bits, NGROUP * sizeof (uint32_t));
@@ -444,10 +444,10 @@ void Mainwin::set_state (M_ifc_preset *M)
     {
         sprintf (s, "%d:%d  Empty", M->_bank + 1, M->_pres + 1);
         _t_comm->set_text (s);
-    }      
+    }
     _t_comm->set_text (s);
-    _b_mod = M->_bank; 
-    _p_mod = M->_pres; 
+    _b_mod = M->_bank;
+    _p_mod = M->_pres;
     if (!_local) upd_pres ();
 }
 
@@ -502,7 +502,7 @@ void Mainwin::set_label (int group, int ifelm, const char *label)
 
     strcpy (p, label);
     q = strchr (p, '$');
-    if (q) *q++ = 0; 
+    if (q) *q++ = 0;
     _groups [group]._butt [ifelm]->set_text (p, q);
 }
 
