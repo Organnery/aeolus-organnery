@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 //
-//  Copyright (C) 2003-2013 Fons Adriaensen <fons@linuxaudio.org>
+//  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
 //    
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -65,7 +65,7 @@ void Splashwin::expose (XExposeEvent *E)
     D.drawstring (s, 0); 
     D.setfont (XftFonts.spla2);
     D.move (x, y);
-    D.drawstring ("(C) 2003-2013 Fons Adriaensen", 0); 
+    D.drawstring ("(C) 2003-2019 Fons Adriaensen", 0);
     D.move (x, y + 50);
     D.drawstring ("This is free software, and you are welcome to distribute it", 0); 
     D.move (x, y + 70);

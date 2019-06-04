@@ -1,6 +1,6 @@
 // ----------------------------------------------------------------------------
 //
-//  Copyright (C) 2003-2013 Fons Adriaensen <fons@linuxaudio.org>
+//  Copyright (C) 2003-2019 Fons Adriaensen <fons@linuxaudio.org>
 //    
 //  This program is free software; you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ static Iface   *iface;
 static void help (void)
 {
     fprintf (stderr, "\nAeolus %s\n\n",VERSION);
-    fprintf (stderr, "  (C) 2003-2013 Fons Adriaensen  <fons@linuxaudio.org>\n");
+    fprintf (stderr, "  (C) 2003-2019 Fons Adriaensen  <fons@linuxaudio.org>\n");
     fprintf (stderr, "Options:\n");
     fprintf (stderr, "  -h                 Display this text\n");
     fprintf (stderr, "  -t                 Text mode user interface\n");
