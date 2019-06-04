@@ -169,10 +169,10 @@ void Instrwin::setup (M_ifc_init *M)
 
     if (n1)
     {
-        add_text (x1,       5, 80, 20, "Trem freq", &text0, -1);
-        add_text (x1 + 160, 5, 80, 20, "Trem amp",  &text0, -1);
+        add_text (x1 + 5,   5, 140, 20, "Tremulant frequency", &text0, -1);
+        add_text (x1 + 165, 5, 140, 20, "Tremulant amplitude", &text0, -1);
     }
-    if (n2) add_text (x2, 5, 80, 20, "Swell", &text0, -1);
+    if (n2) add_text (x2 +50, 5, 80, 20, "Swell", &text0, -1);
 
     y += 5;
     if (y < YSIZE) y = YSIZE;
