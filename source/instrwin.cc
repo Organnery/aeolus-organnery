@@ -131,7 +131,7 @@ void Instrwin::setup (M_ifc_init *M)
     but1.size.x = 60;
     but1.size.y = 20;
     (_tune_exe = new X_tbutton (this, this, &but1,  70, 100, "Retune", 0, TUNE_EXE))->x_map ();
-    (_tune_can = new X_tbutton (this, this, &but1, 135, 100, "Cancel", 0, TUNE_CAN))->x_map ();
+    (_tune_can = new X_tbutton (this, this, &but1, 135, 100, "Reset", 0, TUNE_CAN))->x_map ();
 
     for (i = n1 = n2 = 0; i < M->_ndivis; i++)
     {
