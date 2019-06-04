@@ -85,6 +85,7 @@ Model::Model (Lfq_u32      *qcomm,
     _stops (stops),
     _uhome (uhome),
     _ready (false),
+    _tutti (false),
     _nasect (0),
     _ndivis (0),
     _nkeybd (0),
@@ -101,6 +102,7 @@ Model::Model (Lfq_u32      *qcomm,
     sprintf (_waves, "%s/%s", stops, waves);
     memset (_midimap, 0, 16 * sizeof (uint16_t));
     memset (_preset, 0, NBANK * NPRES * sizeof (Preset *));
+    memset (_tutti_prev, 0, sizeof (_tutti_prev));
 }
 
 
@@ -186,33 +188,47 @@ void Model::proc_mesg (ITC_mesg *M)
     case MT_IFC_GRCLR:
     {
 	// Reset a group of stops.
+	bool clr_tutti = false;
         M_ifc_ifelm *X = (M_ifc_ifelm *) M;
         clr_group (X->_group);
 
 	if (X->_group == 0) {
+	    // cancel Tutti state
+	    if (_tutti) {
+		// update gui with new tutti state
+		_tutti = false;
+		clr_tutti = true;
+		send_event (TO_IFACE, new M_ifc_tutti (_tutti));
+	    }
+
 	    // output cancel midi message on first enabled Control channel
 	    for (i = 0; i < 16; i++) {
 		if ((_midimap[i] & 0x4000) == 0x4000) {
 		    midi_tx_cc(i, MIDICTL_CANCL, MIDICTL_CANCL_VAL);
+		    // output clear tutti message
+		    if (clr_tutti)
+			midi_tx_cc(i, MIDICTL_TUTTI, MIDICTL_TUTTI_OFF_VAL);
 		    break;
 		}
 	    }
 	}
 	break;
     }
-    case MT_IFC_GRTUTI:
+    case MT_IFC_TUTI:
     {
-	// Enable a group of stops, excluding Tremulant & Couplers.
-        M_ifc_ifelm *X = (M_ifc_ifelm *) M;
-        tutti_group (X->_group);
+	// Enable|Restore a group of stops, excluding Tremulant & Couplers.
+        M_ifc_tutti *X = (M_ifc_tutti *) M;
+	_tutti = X->_state;
+	tutti ();
 
-	if (X->_group == 0) {
-	    // output tutti midi message on first enabled Control channel
-	    for (i = 0; i < 16; i++) {
-		if ((_midimap[i] & 0x4000) == 0x4000) {
-		    midi_tx_cc(i, MIDICTL_TUTTI, MIDICTL_TUTTI_VAL);
-		    break;
-		}
+	// output tutti midi message on first enabled Control channel
+	for (i = 0; i < 16; i++) {
+	    if ((_midimap[i] & 0x4000) == 0x4000) {
+		if (_tutti)
+		    midi_tx_cc(i, MIDICTL_TUTTI, MIDICTL_TUTTI_ON_VAL);
+		else
+		    midi_tx_cc(i, MIDICTL_TUTTI, MIDICTL_TUTTI_OFF_VAL);
+		break;
 	    }
 	}
 	break;
@@ -522,8 +538,16 @@ void Model::proc_qmidi (void)
 
 	    case MIDICTL_TUTTI:
 		// Tutti.
-		for (g = 0; g < _ngroup; g++)
-		    tutti_group (g);
+		switch (v) {
+		    case MIDICTL_TUTTI_OFF_VAL:
+			_tutti = false;
+			tutti ();
+			break;
+		    case MIDICTL_TUTTI_ON_VAL:
+			_tutti = true;
+			tutti ();
+			break;
+		}
 		break;
 
 	    case MIDICTL_IFELM:
@@ -772,26 +796,42 @@ void Model::clr_group (int g)
 }
 
 
-void Model::tutti_group (int g)
+void Model::tutti ()
 {
-    // enables all stops
-    int     i;
+    // enables all stops on all groups
+    int     g, i;
     Ifelm  *I;
     Group  *G;
 
-    G = _group + g;
-    if ((! _ready) || (g >= _ngroup)) return;
+    if (!_ready) return;
 
-    for (i = 0; i < G->_nifelm; i++)
+    for (g = 0; g < _ngroup; g++)
     {
-        I = G->_ifelms + i;
-	debug("felm g=%d, i=%d, I->_state=%d, I->_type=%d", g, i, I->_state, I->_type);
+	G = _group + g;
 
-	if (I->_state == 0 && I->_type == 0) {
-		set_ifelm (g, i, 1);
+	for (i = 0; i < G->_nifelm; i++)
+	{
+	    I = G->_ifelms + i;
+	    debug("felm g=%d, i=%d, I->_state=%d, prev_state=%d, I->_type=%d", g, i, I->_state, _tutti_prev[g][i], I->_type);
+
+	    if (_tutti) {
+		// store current stop state
+		_tutti_prev[g][i] = I->_state;
+
+		// enable stop
+		if (I->_state == 0 && I->_type == 0)
+		    set_ifelm (g, i, 1);
+	    } else {
+		// todo restore stop state
+		if (I->_type == 0) {
+		    set_ifelm (g, i, _tutti_prev[g][i]);
+		}
+	    }
 	}
     }
-    send_event (TO_IFACE, new M_ifc_ifelm (MT_IFC_GRTUTI, g, 0));
+
+    // update gui with new tutti state
+    send_event (TO_IFACE, new M_ifc_tutti (_tutti));
 }
 
 

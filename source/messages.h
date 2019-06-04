@@ -66,7 +66,7 @@ enum
     MT_IFC_ELXOR, //
     MT_IFC_ELATT,
     MT_IFC_GRCLR,
-    MT_IFC_GRTUTI,
+    MT_IFC_TUTI,
     MT_IFC_AUPAR,
     MT_IFC_DIPAR,
     MT_IFC_RETUNE,
@@ -215,6 +215,19 @@ public:
 
     int      _group;
     int      _ifelm;
+};
+
+
+class M_ifc_tutti : public ITC_mesg
+{
+public:
+
+    M_ifc_tutti (bool s) :
+        ITC_mesg (MT_IFC_TUTI),
+        _state (s)
+    {}
+
+    bool     _state;
 };
 
 

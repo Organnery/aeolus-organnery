@@ -80,7 +80,8 @@ Mainwin::Mainwin (X_window *parent, X_callback *callb, int xp, int yp, X_resman 
     _xresm (xresm),
     _count (0),
     _flashb (0),
-    _local (false)
+    _local (false),
+    _tutti (false)
 {
     int i;
 
@@ -245,11 +246,9 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
 		break;
 
 	    case B_TUTI:
-                for (g = 0; g < _ngroup; g++)
-		{
-                    _mesg = new M_ifc_ifelm (MT_IFC_GRTUTI, g, 0);
-                    _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		}
+		// enable/disable tuti mode
+                _mesg = new M_ifc_tutti (!_tutti);
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
 		break;
 	    }
 	}
@@ -504,6 +503,16 @@ void Mainwin::set_label (int group, int ifelm, const char *label)
     q = strchr (p, '$');
     if (q) *q++ = 0;
     _groups [group]._butt [ifelm]->set_text (p, q);
+}
+
+
+void Mainwin::set_tutti (bool tutti)
+{
+    _tutti = tutti;
+    if (tutti)
+	_b_tuti->set_stat(1);
+    else
+	_b_tuti->set_stat(0);
 }
 
 

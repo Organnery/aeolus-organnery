@@ -127,7 +127,8 @@ enum // GLOBAL LIMITS
 #define MIDICTL_CANCL 28 //Cancel
 #define MIDICTL_CANCL_VAL 127
 #define MIDICTL_TUTTI 29 //Tutti
-#define MIDICTL_TUTTI_VAL 127
+#define MIDICTL_TUTTI_OFF_VAL 0
+#define MIDICTL_TUTTI_ON_VAL 127
 #define MIDICTL_TRNSP 30 //Transpose
 #define MIDICTL_CRESC 31 //Crescendo
 #define MIDICTL_PBANK 32 //Preset Bank Select

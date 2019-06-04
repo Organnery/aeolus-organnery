@@ -70,6 +70,7 @@ public:
     void set_state (M_ifc_preset *M);
     void set_ready (void);
     void set_label (int group, int ifelm, const char *label);
+    void set_tutti (bool tutti);
     ITC_mesg *mesg (void) const { return _mesg; }
 
 private:
@@ -109,6 +110,7 @@ private:
     int             _flashg;
     int             _flashi;
     bool            _local;
+    bool            _tutti;
     int             _b_mod;
     int             _p_mod;
     int             _b_loc;
