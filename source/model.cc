@@ -822,7 +822,7 @@ void Model::tutti ()
 		if (I->_state == 0 && I->_type == 0)
 		    set_ifelm (g, i, 1);
 	    } else {
-		// todo restore stop state
+		// restore stop state
 		if (I->_type == 0) {
 		    set_ifelm (g, i, _tutti_prev[g][i]);
 		}
@@ -866,6 +866,21 @@ void Model::set_state (int bank, int pres)
     _pres = pres;
     if (get_preset (bank, pres, d))
     {
+	// clear tutti if enabled
+	if (_tutti)
+	{
+	    _tutti = false;
+	    tutti ();
+
+            // output clear tutti midi message on first enabled Control channel
+            for (i = 0; i < 16; i++) {
+                if ((_midimap[i] & 0x4000) == 0x4000) {
+                    midi_tx_cc(i, MIDICTL_TUTTI, MIDICTL_TUTTI_OFF_VAL);
+                    break;
+                }
+            }
+        }
+
         for (g = 0; g < _ngroup; g++)
         {
             s = d [g];
