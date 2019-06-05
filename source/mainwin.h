@@ -138,6 +138,10 @@ private:
     X_button       *_b_insw;
     X_button       *_b_audw;
     X_button       *_b_midw;
+
+    X_textip       *_t_tran;
+    X_button       *_b_dect;
+    X_button       *_b_inct;
 };
 
 

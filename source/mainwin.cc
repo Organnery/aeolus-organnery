@@ -370,6 +370,13 @@ void Mainwin::setup (M_ifc_init *M)
     (_b_midw = new X_tbutton (this, this, &but1, x -  96, y + 25, "Midi",     0, CB_SHOW_MIDW))->x_map ();
     (_t_comm = new X_textip  (this,    0, &text0, 450, y, 160, 20, 15))->x_map ();
 
+    // transposition input
+    but2.size.y = 20;
+    (_t_tran = new X_textip  (this,    0, &text0,x - 232, y,  20, 20,  7))->x_map ();
+    _t_tran->set_text("0");
+    (_b_dect = new X_ibutton (this, this, &but2, x - 254, y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
+    (_b_inct = new X_ibutton (this, this, &but2, x - 211, y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
+
    _ysize = y + 55;
     if (_ysize < Splashwin::YSIZE + 20) _ysize = Splashwin::YSIZE + 20;
 
