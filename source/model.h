@@ -187,6 +187,7 @@ private:
     int  read_presets (void);
     int  write_presets (void);
     void midi_tx_cc(int ch, int cc, int val);
+    void midi_tx_note(int ch, int key, int vel, bool state);
     void midi_tx_sysex(int data_len, uint8_t *data_ptr);
 
 

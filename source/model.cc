@@ -749,7 +749,7 @@ void Model::proc_rank (int g, int i, int comm)
 
 void Model::set_ifelm (int g, int i, int m)
 {
-    int    s;
+    int    s, j;
     Ifelm  *I;
     Group  *G;
 
@@ -760,6 +760,19 @@ void Model::set_ifelm (int g, int i, int m)
     if (I->_state != s)
     {
 	I->_state = s;
+
+	// output midi note message on ifelm change
+	debug("g=%d, i=%d, m=%d, s=%d", g, i, m, s);
+	for (j = 0; j < 16; j++) {
+	    if ((g == 0 && (_midimap[j] & 0x104F) == 0x1001) ||
+		    (g == 1 && (_midimap[j] & 0x104F) == 0x1002) ||
+		    (g == 2 && (_midimap[j] & 0x104F) == 0x1004) ||
+		    (g == 3 && (_midimap[j] & 0x104F) == 0x1048)) {
+		midi_tx_note(j, i, 127, s==1);
+		break;
+	    }
+	}
+
         if (_qcomm->write_avail ())
 	{
 	    _qcomm->write (0, s ? I->_action1 : I->_action0);
@@ -1806,6 +1819,24 @@ int Model::write_presets (void)
 
     fclose (F);
     return 0;
+}
+
+
+void Model::midi_tx_note(int ch, int key, int vel, bool state)
+{
+    snd_seq_event_t ev;
+
+    debug("ch=0x%02x key=0x%02x vel=0x%02x s=%s", ch, key, vel, state==true ? "on" : "off");
+
+    snd_seq_ev_clear(&ev);
+    snd_seq_ev_set_source(&ev, _midi->_opport);
+    snd_seq_ev_set_subs(&ev);
+    snd_seq_ev_set_direct(&ev);
+    if (state)
+	snd_seq_ev_set_noteon(&ev, ch, key, vel);
+    else
+	snd_seq_ev_set_noteoff(&ev, ch, key, vel);
+    snd_seq_event_output_direct(_midi->_seq, &ev);
 }
 
 
