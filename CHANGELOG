@@ -1,0 +1,54 @@
+AEOLUS 0.9.8   RELEASE NOTES   xx/06/2019
+============================
+
+* Added MIDI out feature.
+* Added audio controls via MIDI.
+* Added preset store via MIDI.
+* Added tutti/cancel buttons for activating/deactivating all stops.
+* GUI label adjustments for Instrument window.
+* Refactored documentation and converted it to Markdown.
+
+
+AEOLUS 0.9.7   RELEASE NOTES   25/08/2018
+============================
+
+Maintenance release.
+
+
+AEOLUS 0.9.5   RELEASE NOTES   05/05/2017
+============================
+
+Maintenance release.
+
+* Various bug fixes.
+
+
+AEOLUS 0.9.0   RELEASE NOTES   30/06/2013
+============================
+
+Maintenance release.
+
+* Replaced libalsadrv by libzita-alsa-pcmi.
+* Changed license to GPL3.
+
+
+AEOLUS 0.8.4   RELEASE NOTES   14/03/2010
+============================
+
+* Five new temperaments provided by Hanno Hoffstadt and Adam Sampson.
+* Added -s option to select Jack server.
+* Now using libclalsdrv-2.0.0.
+* Compiles without warnings with gcc-4.4.3.
+
+
+AEOLUS 0.8.0   RELEASE NOTES   29/01/2008
+============================
+
+**** Experimental release. ****
+
+* Requires JACK >= 0.109
+* Receives MIDI over JACK and via ALSA sequencer.
+* -C option has been removed, use AmbDec instead.
+* -B option via ALSA removed.
+
+EOF
