@@ -115,7 +115,7 @@ void Midiwin::setup (M_ifc_init *M)
     x_apply (&H);
     x_resize (_xs, _ys);
 
-    sprintf (s, "%s   Aeolus-%s   Midi settings", M->_appid, VERSION);
+    sprintf (s, "%s %s MIDI settings", M->_appid, VERSION);
     x_set_title (s);
 }
 

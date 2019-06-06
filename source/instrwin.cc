@@ -176,7 +176,7 @@ void Instrwin::setup (M_ifc_init *M)
 
     y += 5;
     if (y < YSIZE) y = YSIZE;
-    sprintf (s, "%s   Aeolus-%s   Instrument settings", M->_appid, VERSION);
+    sprintf (s, "%s %s Instrument settings", M->_appid, VERSION);
     x_set_title (s);
 
     _ntempe = M->_ntempe;

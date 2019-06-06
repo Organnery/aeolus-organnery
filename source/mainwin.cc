@@ -211,14 +211,14 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
             case B_MSTO:
                 _mesg = new M_ifc_preset (MT_IFC_PRSTO, _b_mod, _p_mod, _ngroup, _st_mod);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
-                sprintf (s, "%d:%d  Stored", _b_mod + 1, _p_mod + 1);
+                sprintf (s, "%d:%d Stored", _b_mod + 1, _p_mod + 1);
                 _t_comm->set_text (s);
 		break;
 
             case B_MINS:
                 _mesg = new M_ifc_preset (MT_IFC_PRINS, _b_mod, _p_mod, _ngroup, _st_mod);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
-                sprintf (s, "%d:%d  Stored", _b_mod + 1, _p_mod + 1);
+                sprintf (s, "%d:%d Stored", _b_mod + 1, _p_mod + 1);
                 _t_comm->set_text (s);
 		break;
 
@@ -342,40 +342,44 @@ void Mainwin::setup (M_ifc_init *M)
 
     x = _xsize = 990;
 
-    but2.size.x = 17;
-    but2.size.y = 17;
-    add_text (15, y + 2,  60, 20, "Preset",   &text0);
-    add_text (15, y + 24, 60, 20, "Bank",     &text0);
-    (_t_pres = new X_textip  (this,    0, &text0, 80, y + 2,  40, 20,  7))->x_map ();
-    (_t_bank = new X_textip  (this,    0, &text0, 80, y + 24, 40, 20,  7))->x_map ();
-    (_b_decm = new X_ibutton (this, this, &but2, 125, y + 2,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
-    (_b_incm = new X_ibutton (this, this, &but2, 143, y + 2,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
-    (_b_decb = new X_ibutton (this, this, &but2, 125, y + 24, disp ()->image1515 (X_display::IMG_LT), B_DECB))->x_map ();
-    (_b_incb = new X_ibutton (this, this, &but2, 143, y + 24, disp ()->image1515 (X_display::IMG_RT), B_INCB))->x_map ();
+    but2.size.x = 50;
+    but2.size.y = 20;
+    add_text (12, y, 45, 20, "Preset",   &text0);
+    add_text (12, y + 24, 45, 20, "Bank",     &text0);
+    (_t_pres = new X_textip  (this,    0, &text0, 56, y,  20, 20,  7))->x_map ();
+    (_t_bank = new X_textip  (this,    0, &text0, 56, y + 24, 20, 20,  7))->x_map ();
+    (_b_decm = new X_ibutton (this, this, &but2, 80, y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
+    (_b_incm = new X_ibutton (this, this, &but2, 131, y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
+    (_b_decb = new X_ibutton (this, this, &but2, 80, y + 26, disp ()->image1515 (X_display::IMG_LT), B_DECB))->x_map ();
+    (_b_incb = new X_ibutton (this, this, &but2, 131, y + 26, disp ()->image1515 (X_display::IMG_RT), B_INCB))->x_map ();
 
     but1.size.x = 80;
     but1.size.y = 20;
-    (_b_mrcl = new X_tbutton (this, this, &but1, 194, y,      "Recall", 0, B_MRCL))->x_map ();
-    (_b_prev = new X_tbutton (this, this, &but1, 278, y,      "Prev",   0, B_PREV))->x_map ();
-    (_b_next = new X_tbutton (this, this, &but1, 362, y,      "Next",   0, B_NEXT))->x_map ();
-    (_b_msto = new X_tbutton (this, this, &but1, 194, y + 25, "Store",  0, B_MSTO))->x_map ();
-    (_b_mins = new X_tbutton (this, this, &but1, 278, y + 25, "Insert", 0, B_MINS))->x_map ();
-    (_b_mdel = new X_tbutton (this, this, &but1, 362, y + 25, "Delete", 0, B_MDEL))->x_map ();
-    (_b_canc = new X_tbutton (this, this, &but1, x - 364, y + 25, "Cancel", 0, B_CANC))->x_map ();
-    (_b_tuti = new X_tbutton (this, this, &but1, x - 364, y,      "Tutti",    0, B_TUTI))->x_map ();
+    (_b_mrcl = new X_tbutton (this, this, &but1, 190, y,      "Recall", 0, B_MRCL))->x_map ();
+    (_b_prev = new X_tbutton (this, this, &but1, 274, y,      "Previous",   0, B_PREV))->x_map ();
+    (_b_next = new X_tbutton (this, this, &but1, 358, y,      "Next",   0, B_NEXT))->x_map ();
+    (_b_msto = new X_tbutton (this, this, &but1, 190, y + 25, "Store",  0, B_MSTO))->x_map ();
+    (_b_mins = new X_tbutton (this, this, &but1, 274, y + 25, "Insert", 0, B_MINS))->x_map ();
+    (_b_mdel = new X_tbutton (this, this, &but1, 358, y + 25, "Delete", 0, B_MDEL))->x_map ();
+
+    (_b_canc = new X_tbutton (this, this, &but1, x - 348, y + 25, "Clear all", 0, B_CANC))->x_map ();
+    (_b_tuti = new X_tbutton (this, this, &but1, x - 348, y,      "Tutti",    0, B_TUTI))->x_map ();
+
+    add_text (x - 251, y, 70, 20, "Settings",   &text0);
     (_b_save = new X_tbutton (this, this, &but1, x - 180, y,      "Save",     0, CB_GLOB_SAVE))->x_map ();
-    (_b_moff = new X_tbutton (this, this, &but1, x -  96, y,      "Midi off", 0, CB_GLOB_MOFF))->x_map ();
-    (_b_insw = new X_tbutton (this, this, &but1, x - 264, y + 25, "Instrum",  0, CB_SHOW_INSW))->x_map ();
+    (_b_moff = new X_tbutton (this, this, &but1, x -  96, y,      "MIDI off", 0, CB_GLOB_MOFF))->x_map ();
+    (_b_insw = new X_tbutton (this, this, &but1, x - 264, y + 25, "Instrument",  0, CB_SHOW_INSW))->x_map ();
     (_b_audw = new X_tbutton (this, this, &but1, x - 180, y + 25, "Audio",    0, CB_SHOW_AUDW))->x_map ();
-    (_b_midw = new X_tbutton (this, this, &but1, x -  96, y + 25, "Midi",     0, CB_SHOW_MIDW))->x_map ();
+    (_b_midw = new X_tbutton (this, this, &but1, x -  96, y + 25, "MIDI",     0, CB_SHOW_MIDW))->x_map ();
     (_t_comm = new X_textip  (this,    0, &text0, 450, y, 160, 20, 15))->x_map ();
 
     // transposition input
     but2.size.y = 20;
-    (_t_tran = new X_textip  (this,    0, &text0,x - 232, y,  20, 20,  7))->x_map ();
+    add_text (542, y, 65, 20, "Transpose",   &text0);
+    (_t_tran = new X_textip  (this,    0, &text0, 567, y + 25,  20, 20,  7))->x_map ();
     _t_tran->set_text("0");
-    (_b_dect = new X_ibutton (this, this, &but2, x - 254, y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
-    (_b_inct = new X_ibutton (this, this, &but2, x - 211, y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
+    (_b_dect = new X_ibutton (this, this, &but2, 513, y + 25,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
+    (_b_inct = new X_ibutton (this, this, &but2, 588, y + 25,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
 
    _ysize = y + 55;
     if (_ysize < Splashwin::YSIZE + 20) _ysize = Splashwin::YSIZE + 20;
@@ -388,7 +392,7 @@ void Mainwin::setup (M_ifc_init *M)
     if (_xresm->getb (".iconic", 0)) H.state (IconicState);
     x_apply (&H);
 
-    sprintf (s, "%s   Aeolus-%s  [%d:%d]", M->_appid, VERSION, M->_client, M->_ipport);
+    sprintf (s, "%s %s [Input port %d:%d]", M->_appid, VERSION, M->_client, M->_ipport);
     x_set_title (s);
     x_resize (_xsize, _ysize);
     _splash = new Splashwin (this, (_xsize - Splashwin::XSIZE) / 2, (_ysize - Splashwin::YSIZE) / 2);
@@ -443,12 +447,12 @@ void Mainwin::set_state (M_ifc_preset *M)
     if (M->_stat)
     {
         memcpy (_st_mod, M->_bits, NGROUP * sizeof (uint32_t));
-        sprintf (s, "%d:%d  Loaded", M->_bank + 1, M->_pres + 1);
+        sprintf (s, "%d:%d Loaded", M->_bank + 1, M->_pres + 1);
         if (!_local) set_butt ();
     }
     else
     {
-        sprintf (s, "%d:%d  Empty", M->_bank + 1, M->_pres + 1);
+        sprintf (s, "%d:%d Empty", M->_bank + 1, M->_pres + 1);
         _t_comm->set_text (s);
     }
     _t_comm->set_text (s);
