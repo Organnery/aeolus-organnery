@@ -71,13 +71,14 @@ public:
     void set_ready (void);
     void set_label (int group, int ifelm, const char *label);
     void set_tutti (bool tutti);
+    void set_transpose (int transpose);
     ITC_mesg *mesg (void) const { return _mesg; }
 
 private:
 
     enum
     {
-	B_DECB, B_INCB, B_DECM, B_INCM,
+	B_DECB, B_INCB, B_DECM, B_INCM, B_DECT, B_INCT,
         B_MRCL, B_PREV, B_NEXT, B_TUTI, B_MSTO, B_MINS, B_MDEL, B_CANC,
         GROUP_BIT0 = 8, GROUP_STEP = (1 << GROUP_BIT0), GROUP_MASK = (GROUP_STEP - 1),
     };

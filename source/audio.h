@@ -74,12 +74,18 @@ private:
 
     void key_off (int n, int b)
     {
+        debug("n=%d b=%d _transpose=%d", n, b, _transpose);
+        if (n + _transpose > 0)
+	    n += _transpose;
         _keymap [n] &= ~b;
         _keymap [n] |= 128;
     }
 
     void key_on (int n, int b)
     {
+        debug("n=%d b=%d _transpose=%d", n, b, _transpose);
+        if (n + _transpose > 0)
+	    n += _transpose;
         _keymap [n] |= b | 128;
     }
 
@@ -88,6 +94,7 @@ private:
 	int            i;
 	unsigned char  *p;
 
+        debug("m=%d b=%d", m, b);
 	for (i = 0, p = _keymap; i < NNOTES; i++, p++)
 	{
             if (*p & m)
@@ -103,6 +110,7 @@ private:
 	int            i;
 	unsigned char  *p;
 
+        debug("m=%d b=%d", m, b);
 	for (i = 0, p = _keymap; i < NNOTES; i++, p++)
 	{
             if (*p & m)
@@ -146,6 +154,7 @@ private:
     float          *_outbuf [8];
     unsigned char   _keymap [NNOTES];
     Fparm           _audiopar [4];
+    int             _transpose;
     float           _revsize;
     float           _revtime;
 

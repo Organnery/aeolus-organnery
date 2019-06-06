@@ -167,6 +167,12 @@ void Xiface::handle_mesg (ITC_mesg *M)
 	_mainwin->set_tutti(X->_state);
 	break;
     }
+    case MT_IFC_TRNSP:
+    {
+	M_ifc_transpose *X = (M_ifc_transpose *) M;
+	_mainwin->set_transpose(X->_transpose);
+	break;
+    }
     case MT_IFC_PRRCL:
     {
 	M_ifc_preset *X = (M_ifc_preset *) M;

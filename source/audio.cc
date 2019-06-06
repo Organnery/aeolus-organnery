@@ -85,6 +85,8 @@ void Audio::init_audio (void)
     _reverb.set_t60lo (_revtime * 1.50f, 250.0f);
     _reverb.set_t60hi (_revtime * 0.50f, 3e3f);
 
+    _transpose = 0;
+
     _nasect = NASECT;
     for (i = 0; i < NASECT; i++)
     {
@@ -545,6 +547,46 @@ void Audio::proc_queue (Lfq_u32 *Q)
             case 2: _divisp [j]->set_tmodd (u.f); break;
             break;
 	    }
+	case AU_PARAM:
+	    // Audio parameter value.
+	    int v = (i << 8) | b;
+	    switch (j)
+	    {
+		case AU_PARAM_TRANSPOSE:
+		    // before enabling transpose turn all notes off
+		    //cond_key_off (ALL_MASK, ALL_MASK);
+
+		    // see Model::set_transpose
+		    _transpose = v - 64;
+
+/*
+		    // todo modify all current pressed keys to new transpose value
+		    int d;
+		//    unsigned char *p;
+		//    for (d = 0, p = _keymap; d < NNOTES; d++, p++) {
+		//	debug("d=%d p=%u", d, *p);
+		//    }
+
+		//    unsigned char _keymap_cpy [NNOTES];
+		//    memcpy(_keymap_cpy, _keymap, NNOTES);
+		    unsigned char *p;
+		    for (d = 0; d < NNOTES; d++) {
+			//_keymap[d + _transpose] = _keymap_cpy[d];
+			p = _keymap;
+			p += d;
+			*p = 0;
+			debug("d=%d p=%u", d, _keymap[d]);
+		    }
+*/
+
+		    break;
+		default:
+		    debug("invalid AU_PARAM: j=0x%02x i=0x%02x b=0x%02x", j, i, b);
+		    break;
+	    }
+
+	    Q->read_commit (1);
+	    break;
 	}
         n = Q->read_avail ();
     }

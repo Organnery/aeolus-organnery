@@ -86,6 +86,7 @@ Model::Model (Lfq_u32      *qcomm,
     _uhome (uhome),
     _ready (false),
     _tutti (false),
+    _transpose (64),
     _nasect (0),
     _ndivis (0),
     _nkeybd (0),
@@ -233,6 +234,16 @@ void Model::proc_mesg (ITC_mesg *M)
 	}
 	break;
     }
+    case MT_IFC_TRNSPDEC:
+	// Decrement transpose.
+	if (_transpose > 52)
+	    set_transpose(SRC_GUI_DONE, _transpose - 1);
+	break;
+    case MT_IFC_TRNSPINC:
+	// Increment transpose.
+	if (_transpose < 76)
+	    set_transpose(SRC_GUI_DONE, _transpose + 1);
+	break;
     case MT_IFC_AUPAR:
     {
 	// Set audio section parameter.
@@ -403,6 +414,9 @@ void Model::proc_mesg (ITC_mesg *M)
 	// Wavetable calculation done.
         send_event (TO_IFACE, new ITC_mesg (MT_IFC_READY));
 
+	// Set initial transpose value.
+	set_transpose(SRC_GUI_DONE, 64);
+
 	// everything is ready.. send midi settings request
 	debug("wavetable calculation done");
 
@@ -548,6 +562,11 @@ void Model::proc_qmidi (void)
 		    _tutti = true;
 		    tutti ();
 		}
+		break;
+
+	    case MIDICTL_TRNSP:
+		// Transpose.
+		set_transpose (SRC_MIDI_PAR, v);
 		break;
 
 	    case MIDICTL_IFELM:
@@ -1077,6 +1096,43 @@ void Model::set_dipar (int s, int d, int p, float v)
 	_qcomm->write (1, u.i);
         _qcomm->write_commit (2);
         send_event (TO_IFACE, new M_ifc_dipar (s, d, p, v));
+    }
+}
+
+
+void Model::set_transpose (int s, int t)
+{
+    int i;
+
+    // transpose is centered about 64
+    // i.e
+    // <52 = no change
+    //  62 = -2
+    //  63 = -1
+    //  64 = 0
+    //  65 = 1
+    //  66 = 2
+    // >76 = no change
+    if (t < 52 || t > 76)
+	return;
+
+    debug("s=%d, t=%d", s, t);
+    _transpose = t;
+
+    if (_qcomm->write_avail () >= 1)
+    {
+	_qcomm->write (0, AU_PARAM << 24 | AU_PARAM_TRANSPOSE << 16 | (t & 0xffff));
+        _qcomm->write_commit (1);
+
+	// update transpose value in gui
+        send_event (TO_IFACE, new M_ifc_transpose (t - 64));
+
+	// output cancel midi message on first enabled Control channel
+	if (s != SRC_MIDI_PAR) {
+	    for (i = 0; i < 16; i++)
+		if ((_midimap[i] & 0x4000) == 0x4000)
+		    midi_tx_cc(i, MIDICTL_TRNSP, t);
+	}
     }
 }
 

@@ -170,6 +170,7 @@ private:
     void tutti (void);
     void set_aupar (int s, int a, int p, float v);
     void set_dipar (int s, int d, int p, float v);
+    void set_transpose (int s, int t);
     void set_mconf (int i, uint16_t *d);
     void get_state (uint32_t *bits);
     void set_state (int bank, int pres);
@@ -202,6 +203,7 @@ private:
     bool            _ready;
     bool            _tutti;
     int             _tutti_prev [NGROUP][Group::NIFELM];
+    int             _transpose;
 
     Asect           _asect [NASECT];
     Keybd           _keybd [NKEYBD];

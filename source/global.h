@@ -138,6 +138,10 @@ enum // GLOBAL LIMITS
 #define MIDICTL_PNEXT 36 //Preset next
 #define MIDICTL_DRCAL 37 //Division recall
 
+// audio thread
+#define AU_PARAM 18
+#define AU_PARAM_TRANSPOSE 1
+
 #define KEYS_MASK 63
 #define HOLD_MASK 64
 #define ALL_MASK 127

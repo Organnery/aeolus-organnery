@@ -67,6 +67,7 @@ enum
     MT_IFC_ELATT,
     MT_IFC_GRCLR,
     MT_IFC_TUTI,
+    MT_IFC_TRNSP,
     MT_IFC_AUPAR,
     MT_IFC_DIPAR,
     MT_IFC_RETUNE,
@@ -80,6 +81,8 @@ enum
     MT_IFC_PRINS,
     MT_IFC_PRDEL,
     MT_IFC_PRGET,
+    MT_IFC_TRNSPDEC,
+    MT_IFC_TRNSPINC,
     MT_IFC_EDIT,
     MT_IFC_APPLY,
     MT_IFC_SAVE,
@@ -228,6 +231,19 @@ public:
     {}
 
     bool     _state;
+};
+
+
+class M_ifc_transpose : public ITC_mesg
+{
+public:
+
+    M_ifc_transpose (int v) :
+        ITC_mesg (MT_IFC_TRNSP),
+        _transpose (v)
+    {}
+
+    int      _transpose;
 };
 
 

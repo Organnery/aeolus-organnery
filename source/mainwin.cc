@@ -193,6 +193,16 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
                 upd_pres ();
 		break;
 
+            case B_DECT:
+                _mesg = new ITC_mesg (MT_IFC_TRNSPDEC);
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
+		break;
+
+            case B_INCT:
+                _mesg = new ITC_mesg (MT_IFC_TRNSPINC);
+                _callb->handle_callb (CB_MAIN_MSG, this, 0);
+		break;
+
             case B_MRCL:
                 _mesg = new M_ifc_preset (MT_IFC_PRRCL, _b_mod, _p_mod, 0, 0);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
@@ -376,10 +386,10 @@ void Mainwin::setup (M_ifc_init *M)
     // transposition input
     but2.size.y = 20;
     add_text (542, y, 65, 20, "Transpose",   &text0);
-    (_t_tran = new X_textip  (this,    0, &text0, 567, y + 25,  20, 20,  7))->x_map ();
+    (_t_tran = new X_textip  (this,    0, &text0, 562, y + 25,  25, 20,  7))->x_map ();
     _t_tran->set_text("0");
-    (_b_dect = new X_ibutton (this, this, &but2, 513, y + 25,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
-    (_b_inct = new X_ibutton (this, this, &but2, 588, y + 25,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
+    (_b_dect = new X_ibutton (this, this, &but2, 513, y + 25,  disp ()->image1515 (X_display::IMG_LT), B_DECT))->x_map ();
+    (_b_inct = new X_ibutton (this, this, &but2, 588, y + 25,  disp ()->image1515 (X_display::IMG_RT), B_INCT))->x_map ();
 
    _ysize = y + 55;
     if (_ysize < Splashwin::YSIZE + 20) _ysize = Splashwin::YSIZE + 20;
@@ -524,6 +534,14 @@ void Mainwin::set_tutti (bool tutti)
 	_b_tuti->set_stat(1);
     else
 	_b_tuti->set_stat(0);
+}
+
+
+void Mainwin::set_transpose (int transpose)
+{
+    char s [12];
+    sprintf (s, "%d", transpose);
+    _t_tran->set_text(s);
 }
 
 
