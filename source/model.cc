@@ -1127,7 +1127,7 @@ void Model::set_transpose (int s, int t)
 	// update transpose value in gui
         send_event (TO_IFACE, new M_ifc_transpose (t - 64));
 
-	// output cancel midi message on first enabled Control channel
+	// output transpose midi message on first enabled Control channel
 	if (s != SRC_MIDI_PAR) {
 	    for (i = 0; i < 16; i++)
 		if ((_midimap[i] & 0x4000) == 0x4000)
