@@ -354,23 +354,23 @@ void Mainwin::setup (M_ifc_init *M)
 
     but2.size.x = 50;
     but2.size.y = 20;
-    add_text (12, y, 45, 20, "Preset",   &text0);
-    add_text (12, y + 24, 45, 20, "Bank",     &text0);
-    (_t_pres = new X_textip  (this,    0, &text0, 56, y,  20, 20,  7))->x_map ();
-    (_t_bank = new X_textip  (this,    0, &text0, 56, y + 24, 20, 20,  7))->x_map ();
-    (_b_decm = new X_ibutton (this, this, &but2, 80, y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
-    (_b_incm = new X_ibutton (this, this, &but2, 131, y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
-    (_b_decb = new X_ibutton (this, this, &but2, 80, y + 26, disp ()->image1515 (X_display::IMG_LT), B_DECB))->x_map ();
-    (_b_incb = new X_ibutton (this, this, &but2, 131, y + 26, disp ()->image1515 (X_display::IMG_RT), B_INCB))->x_map ();
+    add_text (10, y, 40, 20, "Preset",   &text0);
+    add_text (10, y + 26, 40, 20, "Bank",     &text0);
+    (_t_pres = new X_textip  (this,    0, &text0, 50, y,  20, 20,  7))->x_map ();
+    (_t_bank = new X_textip  (this,    0, &text0, 50, y + 26, 20, 20,  7))->x_map ();
+    (_b_decm = new X_ibutton (this, this, &but2, 75, y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
+    (_b_incm = new X_ibutton (this, this, &but2, 126, y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
+    (_b_decb = new X_ibutton (this, this, &but2, 75, y + 26, disp ()->image1515 (X_display::IMG_LT), B_DECB))->x_map ();
+    (_b_incb = new X_ibutton (this, this, &but2, 126, y + 26, disp ()->image1515 (X_display::IMG_RT), B_INCB))->x_map ();
 
     but1.size.x = 80;
     but1.size.y = 20;
-    (_b_mrcl = new X_tbutton (this, this, &but1, 190, y,      "Recall", 0, B_MRCL))->x_map ();
-    (_b_prev = new X_tbutton (this, this, &but1, 274, y,      "Previous",   0, B_PREV))->x_map ();
-    (_b_next = new X_tbutton (this, this, &but1, 358, y,      "Next",   0, B_NEXT))->x_map ();
-    (_b_msto = new X_tbutton (this, this, &but1, 190, y + 25, "Store",  0, B_MSTO))->x_map ();
-    (_b_mins = new X_tbutton (this, this, &but1, 274, y + 25, "Insert", 0, B_MINS))->x_map ();
-    (_b_mdel = new X_tbutton (this, this, &but1, 358, y + 25, "Delete", 0, B_MDEL))->x_map ();
+    (_b_mrcl = new X_tbutton (this, this, &but1, 180, y,      "Recall", 0, B_MRCL))->x_map ();
+    (_b_prev = new X_tbutton (this, this, &but1, 264, y,      "Previous",   0, B_PREV))->x_map ();
+    (_b_next = new X_tbutton (this, this, &but1, 348, y,      "Next",   0, B_NEXT))->x_map ();
+    (_b_msto = new X_tbutton (this, this, &but1, 180, y + 25, "Store",  0, B_MSTO))->x_map ();
+    (_b_mins = new X_tbutton (this, this, &but1, 264, y + 25, "Insert", 0, B_MINS))->x_map ();
+    (_b_mdel = new X_tbutton (this, this, &but1, 348, y + 25, "Delete", 0, B_MDEL))->x_map ();
 
     (_b_canc = new X_tbutton (this, this, &but1, x - 348, y + 25, "Clear all", 0, B_CANC))->x_map ();
     (_b_tuti = new X_tbutton (this, this, &but1, x - 348, y,      "Tutti",    0, B_TUTI))->x_map ();
@@ -381,14 +381,14 @@ void Mainwin::setup (M_ifc_init *M)
     (_b_insw = new X_tbutton (this, this, &but1, x - 264, y + 25, "Instrument",  0, CB_SHOW_INSW))->x_map ();
     (_b_audw = new X_tbutton (this, this, &but1, x - 180, y + 25, "Audio",    0, CB_SHOW_AUDW))->x_map ();
     (_b_midw = new X_tbutton (this, this, &but1, x -  96, y + 25, "MIDI",     0, CB_SHOW_MIDW))->x_map ();
-    (_t_comm = new X_textip  (this,    0, &text0, 450, y, 160, 20, 15))->x_map ();
+    (_t_comm = new X_textip  (this,    0, &text0, 430, y +25, 160, 20, 15))->x_map ();
 
     // transposition input
     but2.size.y = 20;
     add_text (542, y, 65, 20, "Transpose",   &text0);
-    (_t_tran = new X_textip  (this,    0, &text0, 562, y + 25,  25, 20,  7))->x_map ();
+    (_t_tran = new X_textip  (this,    0, &text0, 607, y,  25, 20,  7))->x_map ();
     _t_tran->set_text("0");
-    (_b_dect = new X_ibutton (this, this, &but2, 513, y + 25,  disp ()->image1515 (X_display::IMG_LT), B_DECT))->x_map ();
+    (_b_dect = new X_ibutton (this, this, &but2, 537, y + 25,  disp ()->image1515 (X_display::IMG_LT), B_DECT))->x_map ();
     (_b_inct = new X_ibutton (this, this, &but2, 588, y + 25,  disp ()->image1515 (X_display::IMG_RT), B_INCT))->x_map ();
 
    _ysize = y + 55;
