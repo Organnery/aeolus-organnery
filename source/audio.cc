@@ -553,32 +553,21 @@ void Audio::proc_queue (Lfq_u32 *Q)
 	    switch (j)
 	    {
 		case AU_PARAM_TRANSPOSE:
-		    // before enabling transpose turn all notes off
-		    //cond_key_off (ALL_MASK, ALL_MASK);
+		    // apply transposition to already pressed keys
+                    int d;
+                    unsigned char *p;
+
+		    // clear _keymap
+		    cond_key_off (ALL_MASK, ALL_MASK);
 
 		    // see Model::set_transpose
 		    _transpose = v - 64;
 
-/*
-		    // todo modify all current pressed keys to new transpose value
-		    int d;
-		//    unsigned char *p;
-		//    for (d = 0, p = _keymap; d < NNOTES; d++, p++) {
-		//	debug("d=%d p=%u", d, *p);
-		//    }
-
-		//    unsigned char _keymap_cpy [NNOTES];
-		//    memcpy(_keymap_cpy, _keymap, NNOTES);
-		    unsigned char *p;
-		    for (d = 0; d < NNOTES; d++) {
-			//_keymap[d + _transpose] = _keymap_cpy[d];
-			p = _keymap;
-			p += d;
-			*p = 0;
-			debug("d=%d p=%u", d, _keymap[d]);
+		    // add new transpose position to originally pressed keys
+		    for (d = 0, p = _keymap_orig; d < NNOTES; d++, p++) {
+			if (*p > 0)
+			    key_on(d, *p);
 		    }
-*/
-
 		    break;
 		default:
 		    debug("invalid AU_PARAM: j=0x%02x i=0x%02x b=0x%02x", j, i, b);
