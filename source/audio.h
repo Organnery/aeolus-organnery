@@ -78,8 +78,10 @@ private:
         _keymap_orig [n] &= ~b;
         _keymap_orig [n] |= 128;
 
-        if (n + _transpose > 0)
-	    n += _transpose;
+	// keys out of range should not be played
+	n += _transpose;
+        if (n < 0 || n > NNOTES - 1)
+	    return;
         _keymap [n] &= ~b;
         _keymap [n] |= 128;
     }
@@ -89,8 +91,10 @@ private:
         debug("n=%d b=%d _transpose=%d", n, b, _transpose);
         _keymap_orig [n] |= b | 128;
 
-        if (n + _transpose > 0)
-	    n += _transpose;
+	// keys out of range should not be played
+	n += _transpose;
+        if (n < 0 || n > NNOTES - 1)
+	    return;
         _keymap [n] |= b | 128;
     }
 

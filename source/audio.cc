@@ -566,7 +566,7 @@ void Audio::proc_queue (Lfq_u32 *Q)
 		    // add new transpose position to originally pressed keys
 		    for (d = 0, p = _keymap_orig; d < NNOTES; d++, p++) {
 			if (*p > 0)
-			    key_on(d, *p);
+			    key_on(d, *p & ALL_MASK);
 		    }
 		    break;
 		default:
