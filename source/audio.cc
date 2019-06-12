@@ -547,6 +547,8 @@ void Audio::proc_queue (Lfq_u32 *Q)
             case 2: _divisp [j]->set_tmodd (u.f); break;
             break;
 	    }
+	    break;
+
 	case AU_PARAM:
 	    // Audio parameter value.
 	    int v = (i << 8) | b;
