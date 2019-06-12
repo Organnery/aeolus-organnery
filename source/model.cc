@@ -189,30 +189,8 @@ void Model::proc_mesg (ITC_mesg *M)
     case MT_IFC_GRCLR:
     {
 	// Reset a group of stops.
-	bool clr_tutti = false;
         M_ifc_ifelm *X = (M_ifc_ifelm *) M;
         clr_group (X->_group);
-
-	if (X->_group == 0) {
-	    // cancel Tutti state
-	    if (_tutti) {
-		// update gui with new tutti state
-		_tutti = false;
-		clr_tutti = true;
-		send_event (TO_IFACE, new M_ifc_tutti (_tutti));
-	    }
-
-	    // output cancel midi message on first enabled Control channel
-	    for (i = 0; i < 16; i++) {
-		if ((_midimap[i] & 0x4000) == 0x4000) {
-		    midi_tx_cc(i, MIDICTL_CANCL, MIDICTL_CANCL_VAL);
-		    // output clear tutti message
-		    if (clr_tutti)
-			midi_tx_cc(i, MIDICTL_TUTTI, MIDICTL_TUTTI_OFF_VAL);
-		    break;
-		}
-	    }
-	}
 	break;
     }
     case MT_IFC_TUTI:
@@ -547,7 +525,7 @@ void Model::proc_qmidi (void)
 	    case MIDICTL_CANCL:
 		// Cancel.
 		for (g = 0; g < _ngroup; g++)
-		    clr_group (g);
+		    clr_group (SRC_MIDI_PAR, g);
 		break;
 
 	    case MIDICTL_TUTTI:
@@ -802,14 +780,39 @@ void Model::set_ifelm (int g, int i, int m)
 }
 
 
-void Model::clr_group (int g)
+void Model::clr_group (int s, int g)
 {
     int     i;
     Ifelm  *I;
     Group  *G;
+    bool    clr_tutti = false;
 
     G = _group + g;
     if ((! _ready) || (g >= _ngroup)) return;
+
+    if (g == 0) {
+	// cancel Tutti state
+	if (_tutti) {
+	    // update gui with new tutti state
+	    _tutti = false;
+	    clr_tutti = true;
+	    send_event (TO_IFACE, new M_ifc_tutti (_tutti));
+	}
+
+	// output cancel midi message on first enabled Control channel
+	for (i = 0; i < 16; i++) {
+	    if ((_midimap[i] & 0x4000) == 0x4000) {
+		if (s != SRC_MIDI_PAR)
+		    midi_tx_cc(i, MIDICTL_CANCL, MIDICTL_CANCL_VAL);
+
+		// output clear tutti message
+		if (clr_tutti)
+		    midi_tx_cc(i, MIDICTL_TUTTI, MIDICTL_TUTTI_OFF_VAL);
+		break;
+	    }
+	}
+    }
+
 
     for (i = 0; i < G->_nifelm; i++)
     {
@@ -825,6 +828,12 @@ void Model::clr_group (int g)
 	}
     }
     send_event (TO_IFACE, new M_ifc_ifelm (MT_IFC_GRCLR, g, 0));
+}
+
+
+void Model::clr_group (int g)
+{
+    clr_group(SRC_GUI_DONE, g);
 }
 
 

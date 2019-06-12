@@ -166,6 +166,7 @@ private:
     void init_ranks (int comm);
     void proc_rank (int g, int i, int comm);
     void set_ifelm (int g, int i, int m);
+    void clr_group (int s, int g);
     void clr_group (int g);
     void tutti (void);
     void set_aupar (int s, int a, int p, float v);
