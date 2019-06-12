@@ -552,12 +552,12 @@ void Model::proc_qmidi (void)
 
 	    case MIDICTL_TUTTI:
 		// Tutti.
-		if (v == MIDICTL_TUTTI_OFF_VAL && _tutti)
+		if (/*v == MIDICTL_TUTTI_OFF_VAL && */_tutti)
 		{
 		    _tutti = false;
 		    tutti ();
 		}
-		else if (v == MIDICTL_TUTTI_ON_VAL && !_tutti)
+		else if (/*v == MIDICTL_TUTTI_ON_VAL && */!_tutti)
 		{
 		    _tutti = true;
 		    tutti ();
