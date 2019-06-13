@@ -72,8 +72,8 @@ tuning or temperament is changed.
 
 These wavetables can be saved (so Aeolus will be
 ready for use much faster next time), but only if the stops
-directory is writeable for the user. This will not be the
-case for a binary installation as the stops dir will be
+directory is writeable for the user. This might not be the
+case for a binary installation, if the stops directory is
 system-wide (e.g. /usr/share/aeolus/stops).
 
 In order to be able to save wavetables or edited stops
@@ -83,8 +83,8 @@ it can be modified by the user, (e.g. ~/stops-0.3.0).
 ## MIDI control of stop buttons
 
 The protocol uses one controller number. The default is #98, but you
-can change this in global.h. The message is accepted only on channels
-enabled for control in the MIDI matrix.
+can change this in `global.h`. The message is accepted only on channels
+enabled for control in the MIDI settings matrix.
 
 The value is interpreted as follows:
 ```
@@ -121,14 +121,21 @@ The value is interpreted as follows:
 
 ## Virtual divisions
 
-Aeolus can support 'virtual divisions' which do not relate
-to a specific keyboard or row in the GUI, but can be defined
-as part of one or more other divisions and be mapped to
-keyboards there. A virtual division can have a separate MIDI
-channel for swell, tremulant speed and depth.
+Divisions are collections of stops, corresponding to sets
+of pipes on a real organ. These divisions can have any names
+that the organist configures, and do not necessarily
+correspond to keyboard names, although each division is
+normally played with one keyboard or set of pedals.
+
+Aeolus can also support 'virtual divisions' which do not
+relate to a specific keyboard or row in the GUI, but can be
+defined as part of one or more other divisions and be
+mapped to keyboards there. A virtual division can have a
+separate MIDI channel for control, including swell,
+tremulant speed and depth.
  
 For example, Division IV is defined in the definition file
-for the instrument Aeolus1:
+for the instrument Aeolus1 in the default stops package:
 ```
 # Divisions
 #
@@ -194,6 +201,7 @@ They are also part of Division I in the same way:
 /group/end
 ```
 
-These stops are triggered by sending MIDI notes to the
-channel numbers of the divisions they are configured to be
-part of, not to the number of their control channel.
+This group of three stops is triggered by sending MIDI notes
+to the channel numbers of the divisions they are configured
+to be part of, not to the number of the virtual division's
+control channel.
