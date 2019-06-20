@@ -1158,11 +1158,13 @@ void Model::set_mconf (int i, uint16_t *d)
         a = d [j];
 	b =  (a & 0x1000) ? (_keybd [a & 7]._flags & 127) : 0;
         b |= a & 0x7700;
-	//printf("%04x ", a);
-	printf("%04x ", b);	// print the var stored in this class
+	if (x_opt) {
+	    //printf("%04x ", a);
+	    printf("%04x ", b);	// print the var stored in this class
+	}
         _midimap [j] = b;
     }
-    printf("\n");
+    if (x_opt) printf("\n");
     send_event (TO_IFACE, new M_ifc_chconf (MT_IFC_MCSET, i, d));
 }
 
@@ -1926,10 +1928,12 @@ void Model::midi_tx_sysex(int data_len, uint8_t *data_ptr)
     snd_seq_event_t ev;
 
     // print to console
+if (x_opt) {
     debug_nlf("data_len=%d data=", data_len);
     for (i = 0; i < data_len; i++)
         printf("0x%02X ", data_ptr[i]);
     printf("\n");
+}
 
     // send midi event
     snd_seq_ev_clear(&ev);

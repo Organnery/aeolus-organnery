@@ -35,11 +35,12 @@
 
 
 #ifdef __linux__
-static const char *options = "htuAJBM:N:S:I:W:d:r:p:n:s:";
+static const char *options = "hxtuAJBM:N:S:I:W:d:r:p:n:s:";
 #else
-static const char *options = "htuJBM:N:S:I:W:s:";
+static const char *options = "hxtuJBM:N:S:I:W:s:";
 #endif
 static char  optline [1024];
+bool 	     x_opt = false;
 static bool  t_opt = false;
 static bool  u_opt = false;
 static bool  A_opt = false;
@@ -65,6 +66,7 @@ static void help (void)
     fprintf (stderr, "  (C) 2003-2019 Fons Adriaensen  <fons@linuxaudio.org>\n");
     fprintf (stderr, "Options:\n");
     fprintf (stderr, "  -h                 Display this text\n");
+    fprintf (stderr, "  -x                 Enable debug messages\n");
     fprintf (stderr, "  -t                 Text mode user interface\n");
     fprintf (stderr, "  -u                 Use presets file in user's home dir\n");
 #ifdef __linux__
@@ -107,6 +109,7 @@ static void procoptions (int ac, char *av [], const char *where)
 	switch (k)
 	{
         case 'h' : help (); exit (0);
+        case 'x' : x_opt = true;  break;
  	case 't' : t_opt = true;  break;
  	case 'u' : u_opt = true;  break;
  	case 'A' : A_opt = true;  break;
