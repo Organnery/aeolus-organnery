@@ -111,4 +111,5 @@ ls ~/pbuilder/buster-armhf_result/ -lah
 
 The new aeolus .deb file should be listed in the
 `buster-armhf_result` directory if the package build was
-successful.
+successful. If so, copy it into your project and commit
+the new package.
