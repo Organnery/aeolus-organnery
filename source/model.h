@@ -180,6 +180,8 @@ private:
     void recalc (int g, int i);
     void save (void);
     Rank *find_rank (int g, int i);
+    int read_aparams (void);
+    int write_aparams (void);
     int  read_instr (void);
     int  write_instr (void);
     int  get_preset (int bank, int pres, uint32_t *bits);

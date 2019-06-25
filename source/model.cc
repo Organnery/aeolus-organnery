@@ -152,6 +152,8 @@ void Model::thr_main (void)
 
 void Model::init (void)
 {
+    // cannot call here, file must be read once interface has complete
+    //read_aparams ();
     read_instr ();
     read_presets ();
 }
@@ -398,6 +400,9 @@ void Model::proc_mesg (ITC_mesg *M)
 	// everything is ready.. send midi settings request
 	debug("wavetable calculation done");
 
+        // read audio parameters from saved file
+        read_aparams ();
+
 	uint8_t buf[9];
 	buf[0] = 0xf0;
 	buf[1] = 0x00;
@@ -409,6 +414,7 @@ void Model::proc_mesg (ITC_mesg *M)
 	buf[7] = 0x00;
 	buf[8] = 0xf7;
 	midi_tx_sysex(9, buf);
+
         _ready = true;
 	break;
 
@@ -1206,6 +1212,7 @@ void Model::save (void)
     int     g, i;
     Group   *G;
 
+    write_aparams ();
     write_instr ();
     write_presets ();
     _ready = false;
@@ -1230,6 +1237,124 @@ Rank *Model::find_rank (int g, int i)
         r = (I->_action0 >>  8) & 255;
         return _divis [d]._ranks + r;
     }
+    return 0;
+}
+
+
+int Model::read_aparams (void)
+{
+    int i, j;
+    double val;
+    char           temp [1200];
+    unsigned char  *p;
+    FILE           *F;
+
+    // open file for reading
+    if (_uhome)
+    {
+        p = (unsigned char *)(getenv ("HOME"));
+        if (p) sprintf (temp, "%s/.aeolus-aparams", p);
+        else strcpy (temp, ".aeolus-aparams");
+    }
+    else
+    {
+        sprintf (temp, "%s/aparams", _instr);
+    }
+    if (! (F = fopen (temp, "r")))
+    {
+        fprintf (stderr, "Can't open '%s' for reading\n", temp);
+        return 1;
+    }
+    printf ("Reading '%s'\n", temp);
+
+    // read file line-by-line
+    while (fgets (temp, 1024, F))
+    {
+	if (sscanf(temp, "_instrpar[%d]=%lf", &i, &val)) {
+	    debug("read _instrpar[%d]=%f", i, val);
+	    set_aupar(SRC_MIDI_PAR, -1, i, val);
+	}
+
+	if (sscanf(temp, "_asectpar[%d][%d]=%lf", &i, &j, &val)) {
+	    debug("read _asectpar[%d][%d]=%f", i, j, val);
+	    set_aupar(SRC_MIDI_PAR, i, j, val);
+	}
+
+	if (sscanf(temp, "_divis[%d]._param[%d]=%lf", &i, &j, &val)) {
+	    debug("read _divis[%d]._param[%d]=%f", i, j, val);
+	    set_dipar(SRC_MIDI_PAR, i, j, val);
+	}
+    }
+
+    return 0;
+}
+
+
+int Model::write_aparams (void)
+{
+    int i, j;
+    double val;
+    char           name [1200];
+    unsigned char  *p, data [256];
+    FILE           *F;
+
+    // open file for writing
+    if (_uhome)
+    {
+        p = (unsigned char *)(getenv ("HOME"));
+        if (p) sprintf (name, "%s/.aeolus-aparams", p);
+        else strcpy (name, ".aeolus-aparams");
+    }
+    else
+    {
+	sprintf (name, "%s/aparams", _instr);
+    }
+    if (! (F = fopen (name, "w")))
+    {
+	fprintf (stderr, "Can't open '%s' for writing\n", name);
+        return 1;
+    }
+    printf ("Writing '%s'\n", name);
+
+
+    // global audio parameters
+    for (i = 0; i < 4; i++)
+    {
+	val = _audio->_instrpar[i]._val;
+	debug("_instrpar[%d]=%f", i, val);
+
+	sprintf((char *) data, "_instrpar[%d]=%f\n", i, val);
+	fwrite (data, strlen((char *) data), 1, F);
+    }
+
+    // section audio parameters
+    for (i = 0; i < _nasect; i++)
+    {
+        for (j = 0; j < 5; j++)
+        {
+	    val = _audio->_asectpar[i][j]._val;
+	    debug("_asectpar[%d][%d]=%f", i, j, val);
+
+	    sprintf((char *) data, "_asectpar[%d][%d]=%f\n", i, j, val);
+	    fwrite (data, strlen((char *) data), 1, F);
+        }
+    }
+
+    // division audio parameters
+    for (i = 0; i < _ndivis; i++)
+    {
+        for (j = 0; j < 3; j++)
+        {
+	    val = _divis[i]._param[j]._val;
+	    debug("_divis[%d]._param[%d]=%f", i, j, val);
+
+	    sprintf((char *) data, "_divis[%d]._param[%d]=%f\n", i, j, val);
+	    fwrite (data, strlen((char *) data), 1, F);
+        }
+    }
+
+    fclose (F);
+
     return 0;
 }
 
