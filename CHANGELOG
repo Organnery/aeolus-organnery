@@ -6,6 +6,7 @@ AEOLUS 0.9.8   RELEASE NOTES   24/06/2019
 * Added audio controls via MIDI.
 * Added preset store via MIDI.
 * Added Tutti/Clear all buttons for activating/deactivating all stops.
+* Added save/restore audio and instrument window parameters
 * Added debug mode using -x command-line argument.
 * GUI adjustments for Main and Instrument windows.
 * Refactored documentation and converted it to Markdown.
