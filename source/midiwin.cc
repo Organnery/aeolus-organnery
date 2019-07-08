@@ -91,20 +91,20 @@ void Midiwin::setup (M_ifc_init *M)
     _matrix->init (M);
 
     x = 10;
-    y = _matrix->ysize () + 20;
-    but1.size.x = 30;
-    but1.size.y = 20;
+    y = _matrix->ysize () + 15;
+    but1.size.x = 50;
+    but1.size.y = 40;
 
     for (i = 0; i < 8; i++)
     {
         sprintf (s, "%d", i + 1);
 	_bpres [i] = new X_tbutton (this, this, &but1, x, y, s, 0, i);
 	_bpres [i]->x_map ();
-        x += 32;
+        x += 54;
     }
 
     x += 10;
-    add_text (x, y, 200, 20, "Shift-click to store preset", &text0, -1);
+    add_text (x, y + 10, 80, 20, "Presets", &text0, -1);
     _xs = _matrix->xsize () + 20;
     _ys = _matrix->ysize () + 60;
     H.position (_xp, _yp);

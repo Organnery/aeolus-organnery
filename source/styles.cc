@@ -125,6 +125,7 @@ void init_styles (X_display *disp, X_resman *xrm)
     textc.color.shadow.lite = Colors.main_bg;
     textc.color.shadow.dark = Colors.main_bg;
 
+    // first division
     ife0.type = X_button_style::RAISED;
     ife0.font = XftFonts.stops;
     ife0.color.bg [0] = Colors.ife0_bg0;
@@ -134,9 +135,11 @@ void init_styles (X_display *disp, X_resman *xrm)
     ife0.color.shadow.bgnd = Colors.main_bg;
     ife0.color.shadow.lite = Colors.main_ls;
     ife0.color.shadow.dark = Colors.main_ds;
-    ife0.size.x = 84;
-    ife0.size.y = 42;
+    // size of stops, in pixels
+    ife0.size.x = 88;
+    ife0.size.y = 54;
 
+    // second division
     ife1.type = X_button_style::RAISED;
     ife1.font = XftFonts.stops;
     ife1.color.bg [0] = Colors.ife1_bg0;
@@ -146,9 +149,11 @@ void init_styles (X_display *disp, X_resman *xrm)
     ife1.color.shadow.bgnd = Colors.main_bg;
     ife1.color.shadow.lite = Colors.main_ls;
     ife1.color.shadow.dark = Colors.main_ds;
-    ife1.size.x = 84;
-    ife1.size.y = 42;
+    // size of stops, in pixels
+    ife1.size.x = 88;
+    ife1.size.y = 54;
 
+    // third division
     ife2.type = X_button_style::RAISED;
     ife2.font = XftFonts.stops;
     ife2.color.bg [0] = Colors.ife2_bg0;
@@ -158,9 +163,11 @@ void init_styles (X_display *disp, X_resman *xrm)
     ife2.color.shadow.bgnd = Colors.main_bg;
     ife2.color.shadow.lite = Colors.main_ls;
     ife2.color.shadow.dark = Colors.main_ds;
-    ife2.size.x = 84;
-    ife2.size.y = 42;
+    // size of stops, in pixels
+    ife2.size.x = 88;
+    ife2.size.y = 54;
 
+    // fourth division
     ife3.type = X_button_style::RAISED;
     ife3.font = XftFonts.stops;
     ife3.color.bg [0] = Colors.ife3_bg0;
@@ -170,8 +177,9 @@ void init_styles (X_display *disp, X_resman *xrm)
     ife3.color.shadow.bgnd = Colors.main_bg;
     ife3.color.shadow.lite = Colors.main_ls;
     ife3.color.shadow.dark = Colors.main_ds;
-    ife3.size.x = 84;
-    ife3.size.y = 42;
+    // size of stops, in pixels
+    ife3.size.x = 88;
+    ife3.size.y = 54;
 
     but1.type = X_button_style::RAISED;
     but1.font = XftFonts.button;

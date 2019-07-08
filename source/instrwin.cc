@@ -115,30 +115,30 @@ void Instrwin::setup (M_ifc_init *M)
     X_hints  H;
 
 
-    add_text (100, 5, 60, 20, "Tuning", &text0, -1);
-    but2.size.x = 17;
-    but2.size.y = 17;
-    _temp_txt = new X_textip  (this, 0,   &text0,  15, 41, 150, 20, 31);
+    add_text (85, 5, 60, 20, "Tuning", &text0, -1);
+    but2.size.x = 50;
+    but2.size.y = 40;
+    _temp_txt = new X_textip  (this, 0,   &text0,  0, 51, 150, 20, 31);
     _temp_txt->set_align (1);
     _temp_txt->x_map ();
-    _freq_txt = new X_textip  (this, 0,   &text0, 105, 65,  60, 20, 7);
+    _freq_txt = new X_textip  (this, 0,   &text0, 90, 97,  60, 20, 7);
     _freq_txt->set_align (1);
     _freq_txt->x_map ();
-    (_dec_temp = new X_ibutton (this, this, &but2, 170, 41, disp ()->image1515 (X_display::IMG_LT), TEMP_DEC))->x_map ();
-    (_inc_temp = new X_ibutton (this, this, &but2, 187, 41, disp ()->image1515 (X_display::IMG_RT), TEMP_INC))->x_map ();
-    (_dec_freq = new X_ibutton (this, this, &but2, 170, 65, disp ()->image1515 (X_display::IMG_LT), FREQ_DEC))->x_map ();
-    (_inc_freq = new X_ibutton (this, this, &but2, 187, 65, disp ()->image1515 (X_display::IMG_RT), FREQ_INC))->x_map ();
-    but1.size.x = 60;
-    but1.size.y = 20;
-    (_tune_exe = new X_tbutton (this, this, &but1,  70, 100, "Retune", 0, TUNE_EXE))->x_map ();
-    (_tune_can = new X_tbutton (this, this, &but1, 135, 100, "Reset", 0, TUNE_CAN))->x_map ();
+    (_dec_temp = new X_ibutton (this, this, &but2, 155, 41, disp ()->image1515 (X_display::IMG_LT), TEMP_DEC))->x_map ();
+    (_inc_temp = new X_ibutton (this, this, &but2, 206, 41, disp ()->image1515 (X_display::IMG_RT), TEMP_INC))->x_map ();
+    (_dec_freq = new X_ibutton (this, this, &but2, 155, 87, disp ()->image1515 (X_display::IMG_LT), FREQ_DEC))->x_map ();
+    (_inc_freq = new X_ibutton (this, this, &but2, 206, 87, disp ()->image1515 (X_display::IMG_RT), FREQ_INC))->x_map ();
+    but1.size.x = 80;
+    but1.size.y = 40;
+    (_tune_exe = new X_tbutton (this, this, &but1,  30, 140, "Retune", 0, TUNE_EXE))->x_map ();
+    (_tune_can = new X_tbutton (this, this, &but1, 115, 140, "Reset", 0, TUNE_CAN))->x_map ();
 
     for (i = n1 = n2 = 0; i < M->_ndivis; i++)
     {
         if (M->_divisd [i]._flags & 1) n1++;
         if (M->_divisd [i]._flags & 2) n2++;
     }
-    x1 = 310;
+    x1 = 330;
     x2 = n1 ? 640 : x1;
     y = 40;
     D = _divisd;
@@ -161,7 +161,7 @@ void Instrwin::setup (M_ifc_init *M)
         else D->_slid [1] = D->_slid [2] = 0;
         if (D->_slid [0] || D->_slid [1])
 	{
-            add_text (x1 - 90, y, 80, 20,  M->_divisd [i]._label, &text0, 1);
+            add_text (x1 - 70, y, 60, 20,  M->_divisd [i]._label, &text0, 1);
             y += 40;
 	}
         D++;
@@ -184,7 +184,7 @@ void Instrwin::setup (M_ifc_init *M)
     for (i = 0; i < _ntempe; i++) _temped [i] = M->_temped [i]._label;
 
     H.position (_xp, _yp);
-    H.minsize (200, 100);
+    H.minsize (840, 190);
     H.maxsize (XSIZE, y);
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());
