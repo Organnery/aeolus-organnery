@@ -348,33 +348,33 @@ void Mainwin::setup (M_ifc_init *M)
             x += S->size.x + 4;
 	}
         // vertical spacing at the bottom of a division, in pixels
-        y += S->size.y + 18;
+        y += S->size.y + 16;
         G->_ydivid = y;
         // vertical spacing at the top of a division, in pixels
-        y += 18;
+        y += 16;
     }
 
-    x = _xsize = 1024;
+    x = _xsize = 1022;
 
     but2.size.x = 50;
     but2.size.y = 40;
-    add_text (10, y + 10, 40, 20, "Preset",   &text0);
+    add_text (10, y + 10, 42, 20, "Preset",   &text0);
     add_text (10, y + 56, 40, 20, "Bank",     &text0);
-    (_t_pres = new X_textip  (this,    0, &text0, 50, y + 10,  20, 20,  7))->x_map ();
-    (_t_bank = new X_textip  (this,    0, &text0, 50, y + 56, 20, 20,  7))->x_map ();
-    (_b_decm = new X_ibutton (this, this, &but2, 75, y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
-    (_b_incm = new X_ibutton (this, this, &but2, 126, y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
-    (_b_decb = new X_ibutton (this, this, &but2, 75, y + 46, disp ()->image1515 (X_display::IMG_LT), B_DECB))->x_map ();
-    (_b_incb = new X_ibutton (this, this, &but2, 126, y + 46, disp ()->image1515 (X_display::IMG_RT), B_INCB))->x_map ();
+    (_t_pres = new X_textip  (this,    0, &text0, 52, y + 10,  20, 20,  7))->x_map ();
+    (_t_bank = new X_textip  (this,    0, &text0, 52, y + 56, 20, 20,  7))->x_map ();
+    (_b_decm = new X_ibutton (this, this, &but2, 77, y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
+    (_b_incm = new X_ibutton (this, this, &but2, 128, y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
+    (_b_decb = new X_ibutton (this, this, &but2, 77, y + 46, disp ()->image1515 (X_display::IMG_LT), B_DECB))->x_map ();
+    (_b_incb = new X_ibutton (this, this, &but2, 128, y + 46, disp ()->image1515 (X_display::IMG_RT), B_INCB))->x_map ();
 
     but1.size.x = 80;
     but1.size.y = 40;
-    (_b_mrcl = new X_tbutton (this, this, &but1, 180, y,      "Recall", 0, B_MRCL))->x_map ();
-    (_b_prev = new X_tbutton (this, this, &but1, 264, y,      "Previous",   0, B_PREV))->x_map ();
-    (_b_next = new X_tbutton (this, this, &but1, 348, y,      "Next",   0, B_NEXT))->x_map ();
-    (_b_msto = new X_tbutton (this, this, &but1, 180, y + 46, "Store",  0, B_MSTO))->x_map ();
-    (_b_mins = new X_tbutton (this, this, &but1, 264, y + 46, "Insert", 0, B_MINS))->x_map ();
-    (_b_mdel = new X_tbutton (this, this, &but1, 348, y + 46, "Delete", 0, B_MDEL))->x_map ();
+    (_b_mrcl = new X_tbutton (this, this, &but1, 182, y,      "Recall", 0, B_MRCL))->x_map ();
+    (_b_prev = new X_tbutton (this, this, &but1, 266, y,      "Previous",   0, B_PREV))->x_map ();
+    (_b_next = new X_tbutton (this, this, &but1, 350, y,      "Next",   0, B_NEXT))->x_map ();
+    (_b_msto = new X_tbutton (this, this, &but1, 182, y + 46, "Store",  0, B_MSTO))->x_map ();
+    (_b_mins = new X_tbutton (this, this, &but1, 266, y + 46, "Insert", 0, B_MINS))->x_map ();
+    (_b_mdel = new X_tbutton (this, this, &but1, 350, y + 46, "Delete", 0, B_MDEL))->x_map ();
 
     (_b_canc = new X_tbutton (this, this, &but1, x - 348, y + 46, "Clear all", 0, B_CANC))->x_map ();
     (_b_tuti = new X_tbutton (this, this, &but1, x - 348, y,      "Tutti",    0, B_TUTI))->x_map ();
@@ -388,8 +388,8 @@ void Mainwin::setup (M_ifc_init *M)
     (_t_comm = new X_textip  (this,    0, &text0, 430, y + 56, 160, 20, 15))->x_map ();
 
     // transposition input
-    add_text (552, y + 10, 65, 20, "Transpose",   &text0);
-    (_t_tran = new X_textip  (this,    0, &text0, 617, y + 10,  25, 20,  7))->x_map ();
+    add_text (550, y + 10, 68, 20, "Transpose",   &text0);
+    (_t_tran = new X_textip  (this,    0, &text0, 619, y + 10,  25, 20,  7))->x_map ();
     _t_tran->set_text("0");
     (_b_dect = new X_ibutton (this, this, &but2, 547, y + 46,  disp ()->image1515 (X_display::IMG_LT), B_DECT))->x_map ();
     (_b_inct = new X_ibutton (this, this, &but2, 598, y + 46,  disp ()->image1515 (X_display::IMG_RT), B_INCT))->x_map ();
@@ -398,7 +398,7 @@ void Mainwin::setup (M_ifc_init *M)
     if (_ysize < Splashwin::YSIZE + 20) _ysize = Splashwin::YSIZE + 20;
 
     H.position (0, 0);
-    H.minsize (1024, 718);
+    H.minsize (1022, 697);
     H.maxsize (_xsize, _ysize);
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());
