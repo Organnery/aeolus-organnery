@@ -339,8 +339,10 @@ void Mainwin::setup (M_ifc_init *M)
 	    case 2: S = &ife2; break;
 	    case 3: S = &ife3; break;
 	    }
-            if (i == 10) { x = 35; y += S->size.y + 4; }
-            if (i == 20) { x = 65; y += S->size.y + 4; }
+            if ((_style == S_4X3)&&(i == 10)) { x = 35; y += S->size.y + 4; }
+            if ((_style == S_16X9)&&(i == 13)) { x = 35; y += S->size.y + 4; }
+            if ((_style == S_4X3)&&(i == 20)) { x = 65; y += S->size.y + 4; }
+            if ((_style == S_16X9)&&(i == 26)) { x = 65; y += S->size.y + 4; }
             G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
             set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
             G->_butt [i]->x_map ();
