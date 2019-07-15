@@ -707,7 +707,7 @@ void Editwin::init (Addsynth *sdef)
     set_note (&_edit->_h_ran, _ran_msl, _ran_fun, _ran_note);
     set_harm (&_edit->_h_ran, _ran_msl, _ran_fun, 0, _ran_harm);
 
-    sprintf (s, "Aeolus-%s    Additive synthesis editor", VERSION);
+    sprintf (s, "Additive synthesis editor");
     x_set_title (s);
     set_tab (0);
     x_mapraised ();

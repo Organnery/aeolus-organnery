@@ -136,7 +136,7 @@ void Audiowin::setup (M_ifc_init *M)
     add_text (355, 305, 80, 20, "Position", &text0);
     add_text (570, 305, 60, 20, "Volume",   &text0);
 
-    sprintf (s, "%s %s Audio settings", M->_appid, VERSION);
+    sprintf (s, "Audio settings");
     x_set_title (s);
 
     H.position (_xp, _yp);

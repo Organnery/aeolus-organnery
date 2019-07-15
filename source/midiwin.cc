@@ -115,7 +115,7 @@ void Midiwin::setup (M_ifc_init *M)
     x_apply (&H);
     x_resize (_xs, _ys);
 
-    sprintf (s, "%s %s MIDI settings", M->_appid, VERSION);
+    sprintf (s, "MIDI settings");
     x_set_title (s);
 }
 
