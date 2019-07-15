@@ -133,11 +133,11 @@ void Xiface::handle_mesg (ITC_mesg *M)
     case MT_IFC_INIT:
     {
         M_ifc_init *X = (M_ifc_init *) M;
-        _mainwin  = new Mainwin (_root, this, 100, 100, &_xresm);
-        _midiwin  = new Midiwin (_root, this, 120, 120, &_xresm);
-        _audiowin = new Audiowin (_root, this, 140, 140, &_xresm);
-        _instrwin = new Instrwin (_root, this, 160, 160, &_xresm);
-        _editwin  = new Editwin (_root, this, 180, 180, &_xresm);
+        _mainwin  = new Mainwin (_root, this, 0, 0, &_xresm);
+        _midiwin  = new Midiwin (_root, this, 60, 60, &_xresm);
+        _audiowin = new Audiowin (_root, this, 20, 20, &_xresm);
+        _instrwin = new Instrwin (_root, this, 40, 40, &_xresm);
+        _editwin  = new Editwin (_root, this, 0, 0, &_xresm);
         _mainwin->setup (X);
         _midiwin->setup (X);
         _audiowin->setup (X);
