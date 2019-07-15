@@ -35,9 +35,9 @@
 
 
 #ifdef __linux__
-static const char *options = "hxtuAJBM:N:S:I:W:d:r:p:n:s:";
+static const char *options = "hxtuAJBM:N:S:I:W:d:r:p:n:s:a:";
 #else
-static const char *options = "hxtuJBM:N:S:I:W:s:";
+static const char *options = "hxtuJBM:N:S:I:W:s:a:";
 #endif
 static char  optline [1024];
 bool 	     x_opt = false;
@@ -67,6 +67,7 @@ static void help (void)
     fprintf (stderr, "Options:\n");
     fprintf (stderr, "  -h                 Display this text\n");
     fprintf (stderr, "  -x                 Enable debug messages\n");
+    fprintf (stderr, "  -a <ratio>         Set aspect ratio of graphical interface 4:3 or 16:9\n");
     fprintf (stderr, "  -t                 Text mode user interface\n");
     fprintf (stderr, "  -u                 Use presets file in user's home dir\n");
 #ifdef __linux__
@@ -124,6 +125,7 @@ static void procoptions (int ac, char *av [], const char *where)
         case 'W' : W_val = optarg; break;
         case 'd' : d_val = optarg; break;
 	case 's' : s_val = optarg; break;
+	case 'a' : break;
         case '?':
             fprintf (stderr, "\n%s\n", where);
             if (optopt != ':' && strchr (options, optopt)) fprintf (stderr, "  Missing argument for '-%c' option.\n", optopt);

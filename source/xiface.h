@@ -39,6 +39,7 @@ public:
     virtual ~Xiface (void);
     virtual void stop (void);
 
+
 private:
 
 
@@ -55,6 +56,7 @@ private:
     void expose (XExposeEvent *);
     void add_text (X_window *win, int xp, int yp, int xs, int ys, const char *text, X_textln_style *style);
 
+    Style          _style;
     X_resman       _xresm;
     X_display     *_disp;
     X_rootwin     *_root;

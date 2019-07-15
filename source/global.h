@@ -157,5 +157,11 @@ public:
 };
 
 
+enum Style
+{
+    S_4X3, S_16X9,
+};
+
+
 #endif
 

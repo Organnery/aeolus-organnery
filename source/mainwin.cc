@@ -23,7 +23,6 @@
 #include "callbacks.h"
 #include "styles.h"
 
-
 Splashwin::Splashwin (X_window *parent, int xp, int yp) :
     X_window (parent, xp, yp, XSIZE, YSIZE, Colors.spla_bg, Colors.black, 2)
 {
@@ -354,7 +353,11 @@ void Mainwin::setup (M_ifc_init *M)
         y += 16;
     }
 
+    // check the aspect ratio argument and widen GUI if required
     x = _xsize = 1022;
+
+    if (_style == S_16X9)
+	x = _xsize = 1278;
 
     but2.size.x = 50;
     but2.size.y = 40;
@@ -551,4 +554,10 @@ void Mainwin::set_transpose (int transpose)
 void Mainwin::add_text (int xp, int yp, int xs, int ys, const char *text, X_textln_style *style)
 {
     (new X_textln (this, style, xp, yp, xs, ys, text, -1))->x_map ();
+}
+
+
+void Mainwin::set_style (Style style)
+{
+    _style = style;
 }
