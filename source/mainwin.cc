@@ -23,6 +23,7 @@
 #include "callbacks.h"
 #include "styles.h"
 
+static int a_val = 169;
 
 Splashwin::Splashwin (X_window *parent, int xp, int yp) :
     X_window (parent, xp, yp, XSIZE, YSIZE, Colors.spla_bg, Colors.black, 2)
@@ -354,7 +355,9 @@ void Mainwin::setup (M_ifc_init *M)
         y += 16;
     }
 
-    x = _xsize = 1022;
+    // check the aspect ratio argument and widen GUI if required
+    if ( a_val == 169 ) { x = _xsize = 1278; }
+    else x = _xsize = 1022;
 
     but2.size.x = 50;
     but2.size.y = 40;
