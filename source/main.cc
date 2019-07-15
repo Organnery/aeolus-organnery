@@ -67,7 +67,7 @@ static void help (void)
     fprintf (stderr, "Options:\n");
     fprintf (stderr, "  -h                 Display this text\n");
     fprintf (stderr, "  -x                 Enable debug messages\n");
-    fprintf (stderr, "  -a <ratio>         Set aspect ratio of graphical interface [4:3]\n");
+    fprintf (stderr, "  -a <ratio>         Set aspect ratio of graphical interface 4:3 or 16:9\n");
     fprintf (stderr, "  -t                 Text mode user interface\n");
     fprintf (stderr, "  -u                 Use presets file in user's home dir\n");
 #ifdef __linux__
