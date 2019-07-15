@@ -408,7 +408,7 @@ void Mainwin::setup (M_ifc_init *M)
     if (_xresm->getb (".iconic", 0)) H.state (IconicState);
     x_apply (&H);
 
-    sprintf (s, "%s %s [Input port %d:%d]", M->_appid, VERSION, M->_client, M->_ipport);
+    sprintf (s, "%s %s for organnery", M->_appid, VERSION);
     x_set_title (s);
     x_resize (_xsize, _ysize);
     _splash = new Splashwin (this, (_xsize - Splashwin::XSIZE) / 2, (_ysize - Splashwin::YSIZE) / 2);
