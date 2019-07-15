@@ -36,6 +36,8 @@ extern "C" Iface *create_iface (int ac, char *av [])
 
 Xiface::Xiface (int ac, char *av [])
 {
+    int i;
+
     _xresm.init (&ac, av, (char *)"aeolus", 0, 0);
     _disp = new X_display (_xresm.get (".display", 0));
     if (_disp->dpy () == 0)
@@ -51,6 +53,23 @@ Xiface::Xiface (int ac, char *av [])
     _aupar = 0;
     _dipar = 0;
     _editp = 0;
+
+    // loop over arguments to determine interface size
+    for (i = 0; i < ac; i++)
+    {
+	// check the parameter is -a and there is a parameter after it
+	if (strcmp(av[i], "-a") == 0 && (i < ac - 1))
+	{
+	    if (strcmp(av[i + 1], "4:3") == 0) {
+		_style = S_4X3;
+		printf("4x3!\n");
+	    }
+	    else if (strcmp(av[i + 1], "16:9") == 0) {
+		_style = S_16X9;
+		printf("16x9!\n");
+	    }
+	}
+    }
 }
 
 
@@ -138,6 +157,7 @@ void Xiface::handle_mesg (ITC_mesg *M)
         _audiowin = new Audiowin (_root, this, 20, 20, &_xresm);
         _instrwin = new Instrwin (_root, this, 40, 40, &_xresm);
         _editwin  = new Editwin (_root, this, 0, 0, &_xresm);
+	_mainwin->set_style(_style);
         _mainwin->setup (X);
         _midiwin->setup (X);
         _audiowin->setup (X);

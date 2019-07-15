@@ -72,6 +72,7 @@ public:
     void set_label (int group, int ifelm, const char *label);
     void set_tutti (bool tutti);
     void set_transpose (int transpose);
+    void set_style (Style style);
     ITC_mesg *mesg (void) const { return _mesg; }
 
 private:
@@ -93,6 +94,7 @@ private:
     void set_butt (void);
     void upd_pres (void);
 
+    Style           _style = S_4X3;
     Atom            _atom;
     X_callback     *_callb;
     X_resman       *_xresm;

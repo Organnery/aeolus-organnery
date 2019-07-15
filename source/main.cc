@@ -54,7 +54,6 @@ static const char *I_val = "Aeolus";
 static const char *W_val = "waves";
 static const char *d_val = "default";
 static const char *s_val = 0;
-static int   a_val = 169;
 static Lfq_u32  note_queue (256);
 static Lfq_u32  comm_queue (256);
 static Lfq_u8   midi_queue (1024);
@@ -126,7 +125,7 @@ static void procoptions (int ac, char *av [], const char *where)
         case 'W' : W_val = optarg; break;
         case 'd' : d_val = optarg; break;
 	case 's' : s_val = optarg; break;
-        case 'a' : a_val = atoi (optarg); break;
+	case 'a' : break;
         case '?':
             fprintf (stderr, "\n%s\n", where);
             if (optopt != ':' && strchr (options, optopt)) fprintf (stderr, "  Missing argument for '-%c' option.\n", optopt);
