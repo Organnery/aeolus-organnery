@@ -12,17 +12,17 @@ release has this structure:
  stops
      |
      |___ Aeolus
-     |        |          
+     |        |
      |        |____ definition
      |        |____ presets
      |
      |___ Aeolus1
-     |        |          
+     |        |
      |        |____ definition
      |        |____ presets
      |
      |___ Aeolus2
-     |        |          
+     |        |
      |        |____ definition
      |        |____ presets
      |

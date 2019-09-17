@@ -9,7 +9,7 @@ Aeolus takes run-time options from three sources:
 *  command line options
 
 Apart from empty lines and comments (lines starting with '#')
-either of the files should just contain the command line options  
+either of the files should just contain the command line options 
 you want to use, on a single line (examples given below).
 
 If the file in the home directory exists (even empty) then the
