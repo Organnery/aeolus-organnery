@@ -1,3 +1,9 @@
+AEOLUS 0.9.9   RELEASE NOTES   30/11/2019
+============================
+
+* Added -a command line option for windows apsect ratio 4:3 or 16:9
+* Simplyfy sub-windows titles and arrange position for small screens
+
 AEOLUS 0.9.8   RELEASE NOTES   10/07/2019
 ============================
 

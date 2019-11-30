@@ -1,3 +1,10 @@
+aeolus (1:0.9.9) UNRELEASED; urgency=medium
+
+  * Non-maintainer upload.
+  * Added -a commande line option for window aspect ratio.
+
+ -- Raphael Mouneyres <raphael@audiotronic.fr>  Sat, 30 Nov 2019 14:32:00 +0100
+
 aeolus (1:0.9.8) UNRELEASED; urgency=medium
 
   * Non-maintainer upload.
