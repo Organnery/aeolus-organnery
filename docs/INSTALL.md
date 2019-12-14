@@ -34,6 +34,14 @@ To make:
 *  make
 *  (as root) make install
 
+For development, to load the libraries from the
+working directory:
+```
+$ make clean
+$ LIBDIR=. make -j6
+$ ./aeolus
+```
+
 After a successful install you can do a 'make clean' before rebuilding.
 
 Please report any problems (and solutions) to <fons@linuxaudio.org>.
