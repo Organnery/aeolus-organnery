@@ -103,19 +103,19 @@ static void procoptions (int ac, char *av [], const char *where)
         if (optarg && (*optarg == '-'))
         {
             fprintf (stderr, "\n%s\n", where);
-	    fprintf (stderr, "  Missing argument for '-%c' option.\n", k);
+            fprintf (stderr, "  Missing argument for '-%c' option.\n", k);
             fprintf (stderr, "  Use '-h' to see all options.\n");
             exit (1);
         }
-	switch (k)
-	{
+        switch (k)
+        {
         case 'h' : help (); exit (0);
         case 'x' : x_opt = true;  break;
- 	case 't' : t_opt = true;  break;
- 	case 'u' : u_opt = true;  break;
- 	case 'A' : A_opt = true;  break;
-	case 'J' : A_opt = false; break;
-	case 'B' : B_opt = true; break;
+        case 't' : t_opt = true;  break;
+        case 'u' : u_opt = true;  break;
+        case 'A' : A_opt = true;  break;
+        case 'J' : A_opt = false; break;
+        case 'B' : B_opt = true; break;
         case 'r' : r_val = atoi (optarg); break;
         case 'p' : p_val = atoi (optarg); break;
         case 'n' : n_val = atoi (optarg); break;
@@ -124,8 +124,8 @@ static void procoptions (int ac, char *av [], const char *where)
         case 'I' : I_val = optarg; break;
         case 'W' : W_val = optarg; break;
         case 'd' : d_val = optarg; break;
-	case 's' : s_val = optarg; break;
-	case 'a' : break;
+        case 's' : s_val = optarg; break;
+        case 'a' : break;
         case '?':
             fprintf (stderr, "\n%s\n", where);
             if (optopt != ':' && strchr (options, optopt)) fprintf (stderr, "  Missing argument for '-%c' option.\n", optopt);
@@ -135,7 +135,7 @@ static void procoptions (int ac, char *av [], const char *where)
             exit (1);
         default:
             abort ();
- 	}
+        }
     }
 }
 
@@ -154,15 +154,15 @@ static int readconfig (const char *path)
     {
         while (fgets (optline, 1024, F) && (ac == 1))
         {
- 	    p = strtok (optline, " \t\n");
+            p = strtok (optline, " \t\n");
             if (*p == '#') continue;
             while (p && (ac < 30))
-	    {
-		av [ac++] = p;
+            {
+                av [ac++] = p;
                 p = strtok (0, " \t\n");
-	    }
-	}
-	fclose (F);
+            }
+        }
+        fclose (F);
         sprintf (s, "In file '%s':", path);
         procoptions (ac, av, s);
         return 0;
@@ -247,12 +247,12 @@ int main (int ac, char *av [])
     if (imidi->thr_start (SCHED_FIFO, audio->relpri () - 20, 0x00010000))
     {
         fprintf (stderr, "Warning: can't run midi thread in RT mode.\n");
-	imidi->thr_start (SCHED_OTHER, 0, 0x00010000);
+        imidi->thr_start (SCHED_OTHER, 0, 0x00010000);
     }
     if (model->thr_start (SCHED_FIFO, audio->relpri () - 30, 0x00010000))
     {
         fprintf (stderr, "Warning: can't run model thread in RT mode.\n");
-	model->thr_start (SCHED_OTHER, 0, 0x00010000);
+        model->thr_start (SCHED_OTHER, 0, 0x00010000);
     }
     slave->thr_start (SCHED_OTHER, 0, 0x00010000);
     iface->thr_start (SCHED_OTHER, 0, 0x00020000);
@@ -261,16 +261,16 @@ int main (int ac, char *av [])
     n = 4;
     while (n)
     {
-	itcc.get_event (1 << EV_EXIT);
-	{
-	    if (n-- == 4)
-	    {
+        itcc.get_event (1 << EV_EXIT);
+        {
+            if (n-- == 4)
+            {
                 imidi->terminate ();
-		model->terminate ();
-		slave->terminate ();
-		iface->terminate ();
-	    }
-	}
+                model->terminate ();
+                slave->terminate ();
+                iface->terminate ();
+            }
+        }
     }
 
     delete audio;

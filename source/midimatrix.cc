@@ -51,16 +51,16 @@ void Midimatrix::init (M_ifc_init *M)
     _ndivis = 0;
     for (i = 0; i < M->_nkeybd; i++)
     {
-	_label [i] = M->_keybdd [i]._label;
+        _label [i] = M->_keybdd [i]._label;
         _flags [i] = M->_keybdd [i]._flags;
     }
     for (i = 0; i < M->_ndivis; i++)
     {
         if (M->_divisd [i]._flags)
-	{
+        {
             _ndivis++;
             _label [_nkeybd + i] = M->_divisd [i]._label;
-	}
+        }
     }
     for (i = 0; i < 16; i++) _chconf [i] = 0;
     _xs = XL + 16 * DX + XR;
@@ -120,12 +120,12 @@ void Midimatrix::redraw (void)
     D.setcolor (Colors.midi_gr1);
     for (i = 0, x = XL + DX; i < 16; i++, x += DX)
     {
-	D.move (x, YT);
+        D.move (x, YT);
         D.draw (x, _ys - YT);
     }
     for (i = 0, y = YT; i <= _nkeybd + _ndivis + 1; i++, y += DY)
     {
-	D.move (0, y);
+        D.move (0, y);
         D.draw (_xs - XR, y);
     }
     D.setcolor (XftColors.midi_fg);
@@ -140,7 +140,7 @@ void Midimatrix::redraw (void)
     y += DY;
     for (i = 1; i <= 16; i++)
     {
-	sprintf (s, "%d", i);
+        sprintf (s, "%d", i);
         D.move (x, y + d);
         D.drawstring (s, 0);
         x += DX;
@@ -186,7 +186,7 @@ void Midimatrix::plot_allconn (void)
 
     for (i = 0; i < 16; i++)
     {
-	m = _chconf [i];
+        m = _chconf [i];
         if (m & 0x1000) plot_conn (i, m & 7);
         if (m & 0x2000) plot_conn (i, _nkeybd + ((m >> 8) & 7));
         if (m & 0x4000) plot_conn (i, _nkeybd + _ndivis);
@@ -224,10 +224,10 @@ void Midimatrix::bpress (XButtonEvent *E)
         k = (_chconf [i] & 0x1000) ? (_chconf [i] & 7) : 8;
         _chconf [i] &= 0x6700;
         if (k != j)
-	{
+        {
             _chconf [i] |= 0x1000 | j;
             if (k < 8) plot_conn (i, k);
-	}
+        }
         plot_conn (i, j);
     }
     else if ((int) j < _nkeybd + _ndivis)
@@ -236,10 +236,10 @@ void Midimatrix::bpress (XButtonEvent *E)
         k = (_chconf [i] & 0x2000) ? ((_chconf [i] >> 8) & 7) : 8;
         _chconf [i] &= 0x5007;
         if (k != j)
-	{
+        {
             _chconf [i] |= 0x2000 | (j << 8);
             if (k < 8) plot_conn (i, k + _nkeybd);
-	}
+        }
         plot_conn (i, j + _nkeybd);
     }
     else

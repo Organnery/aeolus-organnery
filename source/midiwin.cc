@@ -65,18 +65,18 @@ void Midiwin::handle_callb (int k, X_window *W, XEvent *E)
     {
     case BUTTON | X_button::PRESS:
     {
-	X_button      *B = (X_button *) W;
+        X_button      *B = (X_button *) W;
         XButtonEvent  *X = (XButtonEvent *) E;
 
         set_butt (B->cbid ());
         if (X->state & ShiftMask) _callb->handle_callb (CB_MIDI_SETCONF, this, 0);
         else                      _callb->handle_callb (CB_MIDI_GETCONF, this, 0);
-	break;
+    break;
     }
     case CB_MIDI_MODCONF:
         set_butt (-1);
         _callb->handle_callb (CB_MIDI_SETCONF, this, 0);
-	break;
+    break;
     }
 }
 
@@ -98,8 +98,8 @@ void Midiwin::setup (M_ifc_init *M)
     for (i = 0; i < 8; i++)
     {
         sprintf (s, "%d", i + 1);
-	_bpres [i] = new X_tbutton (this, this, &but1, x, y, s, 0, i);
-	_bpres [i]->x_map ();
+        _bpres [i] = new X_tbutton (this, this, &but1, x, y, s, 0, i);
+        _bpres [i]->x_map ();
         x += 54;
     }
 
@@ -127,7 +127,7 @@ void Midiwin::setconf (M_ifc_chconf *M)
     k = M->_index;
     if (k >= 0)
     {
-	if (k >= 8) k = -1;
+        if (k >= 8) k = -1;
         set_butt (k);
     }
     _matrix->set_chconf (M->_bits);

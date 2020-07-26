@@ -28,11 +28,11 @@ void Slave::thr_main (void)
 
     while (get_event () != EV_EXIT)
     {
-	M = get_message ();
+        M = get_message ();
         if (! M) continue;
 
         switch (M->type ())
-	{
+        {
             case MT_CALC_RANK:
             {
                 M_def_rank *X = (M_def_rank *) M;
@@ -41,7 +41,7 @@ void Slave::thr_main (void)
                 X->_wave->gen_waves (X->_sdef, X->_fsamp, X->_fbase, X->_scale);
                 send_event (TO_AUDIO, M);
                 break;
-	    }
+            }
 
             case MT_LOAD_RANK:
             {
@@ -51,10 +51,10 @@ void Slave::thr_main (void)
                 if (X->_wave->load (X->_path, X->_sdef, X->_fsamp, X->_fbase, X->_scale))
                 {
                     X->_wave->gen_waves (X->_sdef, X->_fsamp, X->_fbase, X->_scale);
-		}
+                }
                 send_event (TO_AUDIO, M);
                 break;
-	    }
+            }
 
             case MT_SAVE_RANK:
             {
@@ -62,15 +62,15 @@ void Slave::thr_main (void)
                 X->_wave->save (X->_path, X->_sdef, X->_fsamp, X->_fbase, X->_scale);
                 M->recover ();
                 break;
-	    }
+            }
 
-   	    case MT_AUDIO_SYNC:
-		send_event (TO_AUDIO, M);
-		break;
+            case MT_AUDIO_SYNC:
+                send_event (TO_AUDIO, M);
+                break;
 
-	    default:
-	        M->recover ();
-	}
+            default:
+                M->recover ();
+        }
     }
     send_event (EV_EXIT, 1);
 }

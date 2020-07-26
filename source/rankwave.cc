@@ -56,9 +56,9 @@ void Pipewave::play (void)
 
     if (_sdel & 1)
     {
-	if (! p)
-	{
-	    p = _p0;
+        if (! p)
+        {
+            p = _p0;
             _y_p = 0.0f;
             _z_p = 0.0f;
         }
@@ -66,20 +66,20 @@ void Pipewave::play (void)
     else
     {
         if (! r)
-	{
-  	    r = p;
+        {
+            r = p;
             p = 0;
             _g_r = 1.0f;
             _y_r = _y_p;
             _i_r = _k_r;
-	}
+        }
     }
 
     if (r)
     {
         k1 = PERIOD;
         q = _out;
-	g = _g_r;
+        g = _g_r;
         i = _i_r - 1;
         dg = g / PERIOD;
         if (i) dg *= _m_r ;
@@ -88,49 +88,49 @@ void Pipewave::play (void)
         {
             while (k1--)
             {
-	        *q++ += g * *r++;
+            *q++ += g * *r++;
                 g -= dg;
             }
         }
         else
-	{
+        {
             y = _y_r;
             dy = _d_r;
             while (k1)
-	    {
+            {
                 t = y + k1 * dy;
                 d = 0;
                 k2 = k1;
                 if (t > 1.0f)
                 {
-		    d = 1;
+                    d = 1;
                     k2 = (int)((1.0f - y) / dy);
                 }
                 else if (t < 0.0f)
-	        {
-		    d = -1;
+                {
+                    d = -1;
                     k2 = (int)(-y / dy);
-	        }
+                }
                 k1 -= k2;
                 while (k2--)
-       	        {
+                {
                     *q++ += g * (r [0] + y * (r [1] - r [0]));
                     g -= dg;
                     y += dy;
                     r += _k_s;
-	        }
+                }
                 y -= d;
                 r += d;
-	    }
+            }
             _y_r = y;
-	}
+        }
 
         if (i)
-	{
-	    _g_r = g;
+        {
+            _g_r = g;
             _i_r = i;
             if (r >= _p2) r -= _l1;
-	}
+        }
         else r = 0;
     }
 
@@ -142,42 +142,42 @@ void Pipewave::play (void)
         {
             while (k1--)
             {
-		*q++ += *p++;
-	    }
+            *q++ += *p++;
+            }
         }
         else
-	{
+        {
             y = _y_p;
             _z_p += _d_p * 0.0005f * (0.05f * _d_p * (_rgen.urandf () - 0.5f) - _z_p);
             dy = _z_p * _k_s;
             while (k1)
-	    {
+            {
                 t = y + k1 * dy;
                 d = 0;
                 k2 = k1;
                 if (t > 1.0f)
-	        {
-		    d = 1;
+                {
+                    d = 1;
                     k2 = (int)((1.0f - y) / dy);
                 }
                 else if (t < 0.0f)
-	        {
-		    d = -1;
+                {
+                    d = -1;
                     k2 = (int)(-y / dy);
-	        }
+                }
                 k1 -= k2;
                 while (k2--)
-       	        {
+                {
                     *q++ += p [0] + y * (p [1] - p [0]);
                     y += dy;
                     p += _k_s;
-	        }
+                }
                 y -= d;
                 p += d;
-	    }
+            }
             if (p >= _p2) p -= _l1;
             _y_p = y;
-	}
+        }
     }
 
     _p_p = p;
@@ -193,7 +193,7 @@ void Pipewave::genwave (Addsynth *D, int n, float fsamp, float fpipe)
     m = D->_n_att.vi (n);
     for (h = 0; h < N_HARM; h++)
     {
-	t = D->_h_att.vi (h, n);
+        t = D->_h_att.vi (h, n);
         if (t > m) m = t;
     }
     _l0 = (int)(fsamp * m + 0.5);
@@ -205,7 +205,7 @@ void Pipewave::genwave (Addsynth *D, int n, float fsamp, float fpipe)
     for (h = N_HARM - 1; h >= 0; h--)
     {
         f = (h + 1) * f1;
-	if ((f < 0.45f) && (D->_h_lev.vi (h, n) >= -40.0f)) break;
+        if ((f < 0.45f) && (D->_h_lev.vi (h, n) >= -40.0f)) break;
     }
     if      (f > 0.250f) _k_s = 3;
     else if (f > 0.125f) _k_s = 2;
@@ -237,12 +237,12 @@ void Pipewave::genwave (Addsynth *D, int n, float fsamp, float fpipe)
     for (i = 0; i <= _l0; i++)
     {
         _arg [i] = t - floorf (t + 0.5);
-	t += (i < k) ? (((k - i) * f0 + i * f1) / k) : f1;
+        t += (i < k) ? (((k - i) * f0 + i * f1) / k) : f1;
     }
 
     for (i = 1; i < _l1; i++)
     {
-	t = _arg [_l0]+ (float) i * nc / _l1;
+        t = _arg [_l0]+ (float) i * nc / _l1;
         _arg [i + _l0] = t - floorf (t + 0.5);
     }
 
@@ -259,7 +259,7 @@ void Pipewave::genwave (Addsynth *D, int n, float fsamp, float fpipe)
 
         for (i = 0; i < _l0 + _l1; i++)
         {
-	    t = _arg [i] * (h + 1);
+            t = _arg [i] * (h + 1);
             t -= floorf (t);
             m = v * sinf (2 * M_PI * t);
             if (i < k) m *= _att [i];
@@ -279,34 +279,34 @@ void Pipewave::looplen (float f, float fsamp, int lmax, int *aa, int *bb)
     g = fsamp / f;
     for (i = 0; i < 8; i++)
     {
-	a = z [i] = (int)(floor (g + 0.5));
+        a = z [i] = (int)(floor (g + 0.5));
         g -= a;
         b = 1;
         j = i;
         while (j > 0)
-	{
+        {
             t = a;
-  	    a = z [--j] * a + b;
-	    b = t;
-	}
+            a = z [--j] * a + b;
+            b = t;
+        }
         if (a < 0)
-	{
-	    a = -a;
+        {
+            a = -a;
             b = -b;
-	}
+        }
         if (a <= lmax)
-	{
-	    d = fsamp * b / a - f;
-	    if ((fabs (d) < 0.1) && (fabs (d) < 3e-4 * f)) break;
-	    g = (fabs (g) < 1e-6) ? 1e6 : 1.0 / g;
-	}
+        {
+            d = fsamp * b / a - f;
+            if ((fabs (d) < 0.1) && (fabs (d) < 3e-4 * f)) break;
+            g = (fabs (g) < 1e-6) ? 1e6 : 1.0 / g;
+        }
         else
-	{
-	    b = (int)(lmax * f / fsamp);
+        {
+            b = (int)(lmax * f / fsamp);
             a = (int)(b * fsamp / f + 0.5);
             d = fsamp * b / a - f;
             break;
-	}
+        }
     }
     *aa = a;
     *bb = b;
@@ -331,11 +331,11 @@ void Pipewave::attgain (int n, float p)
         y += w * x;
         d = w * y * p / (k - j);
         while (j < k)
-	{
+        {
             m = (double) j / n;
             _att [j++] = (1.0 - m) * z + m;
             z += d;
-	}
+        }
     }
 }
 
@@ -347,7 +347,7 @@ void Pipewave::save (FILE *F)
     {
         int16_t i16 [16];
         int32_t i32 [8];
-	float   flt [8];
+        float   flt [8];
     } d;
 
     d.i32 [0] = _l0;
@@ -372,7 +372,7 @@ void Pipewave::load (FILE *F)
     {
         int16_t i16 [16];
         int32_t i32 [8];
-	float   flt [8];
+        float   flt [8];
     } d;
 
     fread (&d, 1, 32, F);
@@ -388,7 +388,6 @@ void Pipewave::load (FILE *F)
     _p2 = _p1 + _l1;
     fread (_p0, k, sizeof (float), F);
 }
-
 
 
 
@@ -411,7 +410,7 @@ void Rankwave::gen_waves (Addsynth *D, float fsamp, float fbase, float *scale)
     fbase *=  D->_fn / (D->_fd * scale [9]);
     for (int i = _n0; i <= _n1; i++)
     {
-	_pipes [i - _n0].genwave (D, i - _n0, fsamp, ldexpf (fbase * scale [i % 12], i / 12 - 5));
+        _pipes [i - _n0].genwave (D, i - _n0, fsamp, ldexpf (fbase * scale [i % 12], i / 12 - 5));
     }
     _modif = true;
 }
@@ -440,14 +439,14 @@ void Rankwave::play (int shift)
 
     for (P = 0, Q = _list; Q; Q = Q->_link)
     {
-	Q->play ();
+    Q->play ();
         if (shift) Q->_sdel = (Q->_sdel >> 1) | Q->_sbit;
         if (Q->_sdel || Q->_p_p || Q->_p_r) P = Q;
         else
-	{
-  	    if (P) P->_link = Q->_link;
+        {
+            if (P) P->_link = Q->_link;
             else      _list = Q->_link;
-	}
+        }
     }
 }
 
@@ -468,7 +467,7 @@ int Rankwave::save (const char *path, Addsynth *D, float fsamp, float fbase, flo
     F = fopen (name, "wb");
     if (F == NULL)
     {
-	fprintf (stderr, "Can't open waveform file '%s' for writing\n", name);
+        fprintf (stderr, "Can't open waveform file '%s' for writing\n", name);
         return 1;
     }
 
@@ -518,7 +517,7 @@ int Rankwave::load (const char *path, Addsynth *D, float fsamp, float fbase, flo
     if (F == NULL)
     {
 #ifdef DEBUG
-	fprintf (stderr, "Can't open waveform file '%s' for reading\n", name);
+    fprintf (stderr, "Can't open waveform file '%s' for reading\n", name);
 #endif
         return 1;
     }
@@ -527,7 +526,7 @@ int Rankwave::load (const char *path, Addsynth *D, float fsamp, float fbase, flo
     if (strcmp (data, "ae1"))
     {
 #ifdef DEBUG
-	fprintf (stderr, "File '%s' is not an Aeolus waveform file\n", name);
+    fprintf (stderr, "File '%s' is not an Aeolus waveform file\n", name);
 #endif
         fclose (F);
         return 1;
@@ -536,7 +535,7 @@ int Rankwave::load (const char *path, Addsynth *D, float fsamp, float fbase, flo
     if (data [4] != 1)
     {
 #ifdef DEBUG
-	fprintf (stderr, "File '%s' has an incompatible version tag (%d)\n", name, data [4]);
+    fprintf (stderr, "File '%s' has an incompatible version tag (%d)\n", name, data [4]);
 #endif
         fclose (F);
         return 1;
@@ -546,7 +545,7 @@ int Rankwave::load (const char *path, Addsynth *D, float fsamp, float fbase, flo
     if (_n0 != data [4] || _n1 != data [5])
     {
 #ifdef DEBUG
-	fprintf (stderr, "File '%s' has an incompatible note range (%d %d), (%d %d)\n", name, _n0, _n1, data [4], data [5]);
+    fprintf (stderr, "File '%s' has an incompatible note range (%d %d), (%d %d)\n", name, _n0, _n1, data [4], data [5]);
 #endif
         fclose (F);
         return 1;
@@ -556,7 +555,7 @@ int Rankwave::load (const char *path, Addsynth *D, float fsamp, float fbase, flo
     if (fabsf (f - fsamp) > 0.1f)
     {
 #ifdef DEBUG
-	fprintf (stderr, "File '%s' has a different sample frequency (%3.1lf)\n", name, f);
+    fprintf (stderr, "File '%s' has a different sample frequency (%3.1lf)\n", name, f);
 #endif
         fclose (F);
         return 1;
@@ -566,7 +565,7 @@ int Rankwave::load (const char *path, Addsynth *D, float fsamp, float fbase, flo
     if (fabsf (f - fbase) > 0.1f)
     {
 #ifdef DEBUG
-	fprintf (stderr, "File '%s' has a different tuning (%3.1lf)\n", name, f);
+    fprintf (stderr, "File '%s' has a different tuning (%3.1lf)\n", name, f);
 #endif
         fclose (F);
         return 1;
@@ -578,7 +577,7 @@ int Rankwave::load (const char *path, Addsynth *D, float fsamp, float fbase, flo
         if (fabsf (f /  scale [i] - 1.0f) > 6e-5f)
         {
 #ifdef DEBUG
-	    fprintf (stderr, "File '%s' has a different temperament\n", name);
+        fprintf (stderr, "File '%s' has a different temperament\n", name);
 #endif
             fclose (F);
             return 1;

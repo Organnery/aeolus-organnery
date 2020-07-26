@@ -68,7 +68,7 @@ void Multislider::handle_event (XEvent *E)
         break;
 
     default:
-	printf ("Multilsider::event %d\n", E->type);
+    printf ("Multilsider::event %d\n", E->type);
     }
 }
 
@@ -128,7 +128,7 @@ void Multislider::set_mark (int i)
 {
     if (_im != i)
     {
-	plot_mark (0);
+        plot_mark (0);
         _im = i;
         plot_mark (1);
     }
@@ -145,7 +145,7 @@ void Multislider::plot_grid (void)
 
     for (i = 0; i <= _scale->nseg; i++)
     {
-	D.move (0, _ys - _scale->pix [i] - 1);
+        D.move (0, _ys - _scale->pix [i] - 1);
         D.rdraw (_xs, 0);
     }
     x = _x0 + _dx / 2;
@@ -193,7 +193,7 @@ void Multislider::plot_bars (void)
     for (i = 0; i < _n; i++)
     {
         D.setcolor (_st [i] ? _col2 : _col1);
-	y = _yc [i];
+        y = _yc [i];
         if (y < _yr) D.fillrect (x, y, x + _wx, _yr + 1);
         else         D.fillrect (x, _yr, x + _wx, y + 1);
         x += _dx;
@@ -255,15 +255,15 @@ void Multislider::update_bar (int i, int y)
 
     if (y > yc)
     {
-	ya0 = ya1 = y + 1;
+        ya0 = ya1 = y + 1;
         ye0 = ye1 = yc;
         if      (_yr < yc) ya0 = yc + 1;
         else if (_yr > y) ye1 = y;
         else
-	{
-	    ya0 = _yr + 1;
+        {
+            ya0 = _yr + 1;
             ye1 = _yr;
-	}
+        }
     }
     else
     {
@@ -272,10 +272,10 @@ void Multislider::update_bar (int i, int y)
         if      (_yr > yc) ya1 = yc;
         else if (_yr < y) ye0 = y + 1;
         else
-	{
-	    ya1 = _yr;
+        {
+            ya1 = _yr;
             ye0 = _yr + 1;
-	}
+        }
     }
 
     if (ya0 != ya1)
@@ -292,13 +292,13 @@ void Multislider::update_bar (int i, int y)
         D.rdraw (0, ye1 - ye0);
         D.setcolor (_grid);
         for (i = 0; i <= _scale->nseg; i++)
-	{
-	    y = _ys - _scale->pix [i] - 1;
+        {
+            y = _ys - _scale->pix [i] - 1;
             if (y >=  ye1) continue;
             if (y <   ye0) break;
             D.move (x, y);
             D.draw (x + _wx, y);
-	}
+        }
     }
 }
 
@@ -335,7 +335,7 @@ void Multislider::bpress (XButtonEvent *E)
         {
             _ind = i;
             _callb->handle_callb (CB_MS_SEL, this, 0);
-	}
+        }
     }
 }
 
@@ -354,14 +354,14 @@ void Multislider::motion (XPointerMovedEvent *E)
         if (2 * abs (x) > _wx) return;
 
         if (E->state & ControlMask)
-	{
+        {
             undefine_val (i);
-	}
+        }
         else
         {
-	    y = (E->state & ShiftMask) ? _yc [_draw] : E->y;
-	    update_val (i, y);
-	}
+            y = (E->state & ShiftMask) ? _yc [_draw] : E->y;
+            update_val (i, y);
+        }
     }
 }
 
@@ -377,7 +377,7 @@ void Multislider::set_col (int i, int c)
 {
     if (c != _st [i])
     {
-	_st [i] = c;
+        _st [i] = c;
         plot_1bar (i);
     }
 }
@@ -390,7 +390,7 @@ void Multislider::set_val (int i, int c, float v)
     if (c == _st [i]) update_bar (i, y);
     else
     {
-	update_bar (i, _yr);
+        update_bar (i, _yr);
         _st [i] = c;
         _yc [i] = y;
         plot_1bar (i);

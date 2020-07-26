@@ -78,10 +78,10 @@ private:
         _keymap_orig [n] &= ~b;
         _keymap_orig [n] |= 128;
 
-	// keys out of range should not be played
-	n += _transpose;
+        // keys out of range should not be played
+        n += _transpose;
         if (n < 0 || n > NNOTES - 1)
-	    return;
+        return;
         _keymap [n] &= ~b;
         _keymap [n] |= 128;
     }
@@ -91,59 +91,42 @@ private:
         debug("n=%d b=%d _transpose=%d", n, b, _transpose);
         _keymap_orig [n] |= b | 128;
 
-	// keys out of range should not be played
-	n += _transpose;
+        // keys out of range should not be played
+        n += _transpose;
         if (n < 0 || n > NNOTES - 1)
-	    return;
+        return;
         _keymap [n] |= b | 128;
     }
 
     void cond_key_off (int m, int b)
     {
-	int            i;
-	unsigned char  *p;
+        int            i;
+        unsigned char  *p;
 
         debug("m=%d b=%d", m, b);
-	for (i = 0, p = _keymap; i < NNOTES; i++, p++)
-	{
+        for (i = 0, p = _keymap; i < NNOTES; i++, p++)
+        {
             if (*p & m)
-	    {
+            {
                 *p &= ~b;
-		*p |= 128;
-	    }
-	}
-
-	/*for (i = 0, p = _keymap_orig; i < NNOTES; i++, p++)
-	{
-            if (*p & m)
-	    {
-                *p &= ~b;
-		*p |= 128;
-	    }
-	}*/
+                *p |= 128;
+            }
+        }
     }
 
     void cond_key_on (int m, int b)
     {
-	int            i;
-	unsigned char  *p;
+        int            i;
+        unsigned char  *p;
 
         debug("m=%d b=%d", m, b);
-	for (i = 0, p = _keymap; i < NNOTES; i++, p++)
-	{
+        for (i = 0, p = _keymap; i < NNOTES; i++, p++)
+        {
             if (*p & m)
-	    {
+            {
                 *p |= b | 128;
-	    }
-	}
-
-	/*for (i = 0, p = _keymap_orig; i < NNOTES; i++, p++)
-	{
-            if (*p & m)
-	    {
-                *p |= b | 128;
-	    }
-	}*/
+            }
+        }
     }
 
     static void jack_static_shutdown (void *);

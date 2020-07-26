@@ -53,10 +53,10 @@ void Rngen::init (uint32_t s)
 
     for (i = 0; i < 55; i++)
     {
-	G.step ();
-	j = G.stat () & 4095;
-	while (j--) G.step ();
-	_a [i] = G.stat ();
+        G.step ();
+        j = G.stat () & 4095;
+        while (j--) G.step ();
+        _a [i] = G.stat ();
     }
 
     _i = 0;
@@ -71,15 +71,15 @@ double Rngen::grand (void)
 
     if (_md)
     {
-	_md = false;
-	return _vd;
+        _md = false;
+        return _vd;
     }
 
     do
     {
-	a = irand () / _p31 - 1.0;
-	b = irand () / _p31 - 1.0;
-	r = a * a + b * b;
+        a = irand () / _p31 - 1.0;
+        b = irand () / _p31 - 1.0;
+        r = a * a + b * b;
     }
     while ((r > 1.0) || (r < 1e-20));
 
@@ -97,9 +97,9 @@ void Rngen::grand (double *x, double *y)
 
     do
     {
-	a = irand () / _p31 - 1.0;
-	b = irand () / _p31 - 1.0;
-	r = a * a + b * b;
+        a = irand () / _p31 - 1.0;
+        b = irand () / _p31 - 1.0;
+        r = a * a + b * b;
     }
     while ((r > 1.0) || (r < 1e-20));
 
@@ -115,15 +115,15 @@ float Rngen::grandf (void)
 
     if (_mf)
     {
-	_mf = false;
-	return _vf;
+        _mf = false;
+        return _vf;
     }
 
     do
     {
-	a = irand () / _p31f - 1.0f;
-	b = irand () / _p31f - 1.0f;
-	r = a * a + b * b;
+        a = irand () / _p31f - 1.0f;
+        b = irand () / _p31f - 1.0f;
+        r = a * a + b * b;
     }
     while ((r > 1.0f) || (r < 1e-20f));
 
@@ -141,9 +141,9 @@ void Rngen::grandf (float *x, float *y)
 
     do
     {
-	a = irand () / _p31f - 1.0f;
-	b = irand () / _p31f - 1.0f;
-	r = a * a + b * b;
+        a = irand () / _p31f - 1.0f;
+        b = irand () / _p31f - 1.0f;
+        r = a * a + b * b;
     }
     while ((r > 1.0f) || (r < 1e-20f));
 

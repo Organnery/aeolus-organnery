@@ -74,14 +74,14 @@ void Instrwin::handle_callb (int k, X_window *W, XEvent *E)
             _final = k == (SLIDER | X_slider::STOP);
             _callb->handle_callb (CB_DIVIS_ACT, this, E);
             break;
-	}
+        }
 
         case BUTTON | X_button::PRESS:
-	{
-	    X_button *B = (X_button *) W;
+        {
+            X_button *B = (X_button *) W;
             k = B->cbid ();
             switch (k)
-	    {
+            {
             case TEMP_DEC:
             case TEMP_INC:
                 incdec_temp (k == TEMP_DEC ? -1 : 1);
@@ -92,17 +92,17 @@ void Instrwin::handle_callb (int k, X_window *W, XEvent *E)
                 incdec_freq (k == FREQ_DEC ? -1 : 1);
                 break;
 
-	    case TUNE_EXE:
-                _callb->handle_callb (CB_RETUNE, this, E);
-		break;
+            case TUNE_EXE:
+                    _callb->handle_callb (CB_RETUNE, this, E);
+            break;
 
-	    case TUNE_CAN:
-                _freq = _freq1;
-                _temp = _temp1;
-                show_tuning (0);
-		break;
-	    }
-	}
+            case TUNE_CAN:
+                    _freq = _freq1;
+                    _temp = _temp1;
+                    show_tuning (0);
+            break;
+            }
+        }
     }
 }
 
@@ -146,24 +146,24 @@ void Instrwin::setup (M_ifc_init *M)
     {
         k = DIVIS_STEP * (i + 1);
         if (M->_divisd [i]._flags & 1)
-	{
+        {
             (D->_slid [0] = new X_hslider (this, this, &sli1, &sca_Swl, x2, y, 20, k))->x_map ();
             (new X_hscale (this, &sca_Swl, x2, y + 20, 10))->x_map ();
-	}
+        }
         else D->_slid [0] = 0;
         if (M->_divisd [i]._flags & 2)
-	{
+        {
             (D->_slid [1]  = new X_hslider (this, this, &sli1, &sca_Tfr, x1,       y, 20, k + 1))->x_map ();
             (D->_slid [2]  = new X_hslider (this, this, &sli1, &sca_Tmd, x1 + 160, y, 20, k + 2))->x_map ();
             (new X_hscale (this, &sca_Tfr, x1,       y + 20, 10))->x_map ();
             (new X_hscale (this, &sca_Tmd, x1 + 160, y + 20, 10))->x_map ();
-	}
+        }
         else D->_slid [1] = D->_slid [2] = 0;
         if (D->_slid [0] || D->_slid [1])
-	{
+        {
             add_text (x1 - 70, y, 60, 20,  M->_divisd [i]._label, &text0, 1);
             y += 40;
-	}
+        }
         D++;
     }
 
@@ -200,10 +200,10 @@ void Instrwin::set_dipar (M_ifc_dipar *M)
     if ((M->_divis >= 0) && (M->_divis < NDIVIS))
     {
         if ((M->_parid >= 0) && (M->_parid < 3))
-	{
-	    S = _divisd [M->_divis]._slid [M->_parid];
+        {
+            S = _divisd [M->_divis]._slid [M->_parid];
             if (S) S->set_val (M->_value);
-	}
+        }
     }
 }
 

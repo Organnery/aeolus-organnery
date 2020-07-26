@@ -45,7 +45,7 @@ public:
     int   st (int i) const { return (_b & (1 << i)) ? 1 : 0; }
     float vi (int n) const
     {
-	int   i = n / 6;
+        int   i = n / 6;
         int   k = n - 6 * i;
         float v = _v [i];
         if (k) v += k * (_v [i + 1] - v) / 6;

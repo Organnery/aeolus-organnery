@@ -142,7 +142,7 @@ public:
 
     Model (Lfq_u32      *qcomm,
            Lfq_u8       *qmidi,
-	   uint16_t     *midimap,
+           uint16_t     *midimap,
            const char   *appname,
            const char   *stops,
            const char   *instr,

@@ -104,18 +104,18 @@ class Prbsgen
 public:
 
     enum
-	{
-	    // Some polynomials for maximum length seqeunces.
+    {
+        // Some polynomials for maximum length seqeunces.
 
-	    G7  = 0x00000041,
-	    G8  = 0x0000008E,
-	    G15 = 0x00004001,
-	    G16 = 0x00008016,
-	    G23 = 0x00400010,
-	    G24 = 0x0080000D,
-	    G31 = 0x40000004,
-	    G32 = 0x80000057,
-	};
+        G7  = 0x00000041,
+        G8  = 0x0000008E,
+        G15 = 0x00004001,
+        G16 = 0x00008016,
+        G23 = 0x00400010,
+        G24 = 0x0080000D,
+        G31 = 0x40000004,
+        G32 = 0x80000057,
+    };
 
     Prbsgen (void);
 
@@ -167,8 +167,8 @@ inline void Prbsgen::set_poly (uint32_t poly)
 
     while (_mask < _poly)
     {
-	_mask = (_mask << 1) | 1;
-	_degr += 1;
+        _mask = (_mask << 1) | 1;
+        _degr += 1;
     }
     _stat = _mask;
     _hbit = (_mask >> 1) + 1;
@@ -205,9 +205,9 @@ inline void Prbsgen::sync_forw (uint32_t bits)
 
     for (int i = 0; i < _degr; i++)
     {
-	_stat >>= 1;
-	if (bits & 1) _stat ^= _poly;
-	bits >>= 1;
+        _stat >>= 1;
+        if (bits & 1) _stat ^= _poly;
+        bits >>= 1;
     }
 }
 
@@ -219,8 +219,8 @@ inline void Prbsgen::sync_back (uint32_t bits)
     _stat = 0;
     for (int h = _hbit; h; h >>= 1)
     {
-	if (bits & h) _stat ^= _poly;
-	_stat <<= 1;
+        if (bits & h) _stat ^= _poly;
+        _stat <<= 1;
     }
     _stat ^= bits;
     _stat &= _mask;

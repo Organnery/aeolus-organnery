@@ -92,8 +92,8 @@ Mainwin::Mainwin (X_window *parent, X_callback *callb, int xp, int yp, X_resman 
 
     for (i = 0; i < NGROUP; i++)
     {
-	_st_mod [i] = 0;
-	_st_loc [i] = 0;
+        _st_mod [i] = 0;
+        _st_loc [i] = 0;
     }
 }
 
@@ -165,139 +165,139 @@ void Mainwin::handle_callb (int k, X_window *W, XEvent *E)
 
         if (k >= CB_GLOB_SAVE) _callb->handle_callb (k, this, E);
         else if (k < GROUP_STEP)
-	{
+        {
             switch (k)
-	    {
+            {
             case B_DECB:
                 if (_local) { if (_b_loc > 0) _b_loc--; }
                 else   	    { if (_b_mod > 0) _b_mod--; }
                 upd_pres ();
-		break;
+            break;
 
             case B_INCB:
                 if (_local) { if (_b_loc < NBANK - 1) _b_loc++; }
                 else  	    { if (_b_mod < NBANK - 1) _b_mod++;	}
                 upd_pres ();
-		break;
+            break;
 
             case B_DECM:
                 if (_local) { if (_p_loc > 0) _p_loc--; }
                 else   	    { if (_p_mod > 0) _p_mod--; }
                 upd_pres ();
-		break;
+            break;
 
             case B_INCM:
                 if (_local) { if (_p_loc < NPRES - 1) _p_loc++; }
                 else  	    { if (_p_mod < NPRES - 1) _p_mod++;	}
                 upd_pres ();
-		break;
+            break;
 
             case B_DECT:
                 _mesg = new ITC_mesg (MT_IFC_TRNSPDEC);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		break;
+            break;
 
             case B_INCT:
                 _mesg = new ITC_mesg (MT_IFC_TRNSPINC);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		break;
+            break;
 
             case B_MRCL:
                 _mesg = new M_ifc_preset (MT_IFC_PRRCL, _b_mod, _p_mod, 0, 0);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		break;
+            break;
 
             case B_PREV:
                 _mesg = new ITC_mesg (MT_IFC_PRDEC);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		break;
+            break;
 
             case B_NEXT:
                 _mesg = new ITC_mesg (MT_IFC_PRINC);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		break;
+            break;
 
             case B_MSTO:
                 _mesg = new M_ifc_preset (MT_IFC_PRSTO, _b_mod, _p_mod, _ngroup, _st_mod);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
                 sprintf (s, "%d:%d Stored", _b_mod + 1, _p_mod + 1);
                 _t_comm->set_text (s);
-		break;
+            break;
 
             case B_MINS:
                 _mesg = new M_ifc_preset (MT_IFC_PRINS, _b_mod, _p_mod, _ngroup, _st_mod);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
                 sprintf (s, "%d:%d Stored", _b_mod + 1, _p_mod + 1);
                 _t_comm->set_text (s);
-		break;
+            break;
 
             case B_MDEL:
                 _mesg = new M_ifc_preset (MT_IFC_PRDEL, _b_mod, _p_mod, 0, 0);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
                 _t_comm->set_text ("");
-		break;
+            break;
 
             case B_CANC:
                 for (g = 0; g < _ngroup; g++)
-		{
+                {
                     if (_local)
-		    {
+                    {
                         clr_group (_groups + g);
                         _st_loc [g] = 0;
-		    }
+                    }
                     else
-		    {
+                    {
                         _mesg = new M_ifc_ifelm (MT_IFC_GRCLR, g, 0);
                         _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		    }
-		}
+                    }
+                }
                 _t_comm->set_text ("");
-		break;
+            break;
 
-	    case B_TUTI:
-		// enable/disable tuti mode
+            case B_TUTI:
+                // enable/disable tuti mode
                 _mesg = new M_ifc_tutti (!_tutti);
                 _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		break;
-	    }
-	}
-	else
-	{
-	    g = (k >> GROUP_BIT0) - 1;
+            break;
+            }
+        }
+        else
+        {
+            g = (k >> GROUP_BIT0) - 1;
             i = k & GROUP_MASK;
             if (_local)
-	    {
+            {
                 if (B->stat ())
-		{
-		    B->set_stat (0);
+                {
+                    B->set_stat (0);
                     _st_loc [g] &= ~(1 << i);
-		}
-		else
-		{
-		    B->set_stat (1);
+                }
+                else
+                {
+                    B->set_stat (1);
                     _st_loc [g] |= (1 << i);
-		}
-	    }
-	    else
-	    {
+                }
+            }
+            else
+            {
                 Z = (XButtonEvent *) E;
                 if (Z->state & ControlMask)
-		{
-		    _mesg = new M_ifc_edit (MT_IFC_EDIT, g, i, 0);
+                {
+                    _mesg = new M_ifc_edit (MT_IFC_EDIT, g, i, 0);
+                            _callb->handle_callb (CB_MAIN_MSG, this, 0);
+                }
+                else
+                {
+                    if (Z->button == Button3)
+                    {
+                    _mesg = new M_ifc_ifelm (MT_IFC_GRCLR, g, 0);
                     _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		}
-		else
-		{
-      	            if (Z->button == Button3)
-		    {
-			_mesg = new M_ifc_ifelm (MT_IFC_GRCLR, g, 0);
-			_callb->handle_callb (CB_MAIN_MSG, this, 0);
-		    }
+                    }
                     _mesg = new M_ifc_ifelm (MT_IFC_ELXOR, g, i);
                     _callb->handle_callb (CB_MAIN_MSG, this, 0);
-		}
-	    }
-	}
+                }
+            }
+        }
     }
 }
 
@@ -323,7 +323,7 @@ void Mainwin::setup (M_ifc_init *M)
     y = 16;
     for (g = 0; g < _ngroup; g++)
     {
-	G = _groups + g;
+        G = _groups + g;
         G->_ylabel = y + 20;
         G->_label  = M->_groupd [g]._label;
         G->_nifelm = M->_groupd [g]._nifelm;
@@ -331,14 +331,14 @@ void Mainwin::setup (M_ifc_init *M)
         x = 80;
         S = &ife0;
         for (i = 0; i < G->_nifelm; i++)
-	{
+        {
             switch (M->_groupd [g]._ifelmd [i]._type)
-	    {
-	    case 0: S = &ife0; break;
-	    case 1: S = &ife1; break;
-	    case 2: S = &ife2; break;
-	    case 3: S = &ife3; break;
-	    }
+            {
+            case 0: S = &ife0; break;
+            case 1: S = &ife1; break;
+            case 2: S = &ife2; break;
+            case 3: S = &ife3; break;
+            }
             if ((_style == S_4X3)&&(i == 10)) { x = 35; y += S->size.y + 4; }
             if ((_style == S_16X9)&&(i == 13)) { x = 35; y += S->size.y + 4; }
             if ((_style == S_4X3)&&(i == 20)) { x = 65; y += S->size.y + 4; }
@@ -347,7 +347,7 @@ void Mainwin::setup (M_ifc_init *M)
             set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
             G->_butt [i]->x_map ();
             x += S->size.x + 4;
-	}
+        }
         // vertical spacing at the bottom of a division, in pixels
         y += S->size.y + 16;
         G->_ydivid = y;
@@ -359,7 +359,7 @@ void Mainwin::setup (M_ifc_init *M)
     x = _xsize = 1022;
 
     if (_style == S_16X9)
-	x = _xsize = 1278;
+    x = _xsize = 1278;
 
     but2.size.x = 50;
     but2.size.y = 40;
@@ -434,26 +434,26 @@ void Mainwin::set_ifelm (M_ifc_ifelm *M)
         _st_mod [M->_group] = 0;
         if (! _local) clr_group (G);
         _t_comm->set_text ("");
-	break;
+    break;
 
     case MT_IFC_ELCLR:
         _st_mod [M->_group] &= ~(1 << M->_ifelm);
         if (! _local) G->_butt [M->_ifelm]->set_stat (0);
         _t_comm->set_text ("");
-	break;
+    break;
 
     case MT_IFC_ELSET:
         _st_mod [M->_group] |= (1 << M->_ifelm);
         if (! _local) G->_butt [M->_ifelm]->set_stat (1);
         _t_comm->set_text ("");
-        break;
+    break;
 
     case MT_IFC_ELATT:
         if (!_local && _flashb) _flashb->set_stat ((_st_mod [_flashg] >> _flashi) & 1);
         _flashb = G->_butt [M->_ifelm];
         _flashg = M->_group;
         _flashi = M->_ifelm;
-	break;
+    break;
     }
 }
 
@@ -506,9 +506,9 @@ void Mainwin::set_butt (void)
     for (g = 0, G = _groups; g < _ngroup; g++, G++)
     {
         for (i = 0, b = *s++; i < G->_nifelm; i++, b >>= 1)
-	{
-	    G->_butt [i]->set_stat (b & 1);
-	}
+        {
+            G->_butt [i]->set_stat (b & 1);
+        }
     }
 }
 
@@ -539,9 +539,9 @@ void Mainwin::set_tutti (bool tutti)
 {
     _tutti = tutti;
     if (tutti)
-	_b_tuti->set_stat(1);
+    _b_tuti->set_stat(1);
     else
-	_b_tuti->set_stat(0);
+    _b_tuti->set_stat(0);
 }
 
 

@@ -178,7 +178,7 @@ public:
     int                 _ntempe;
     struct
     {
-	const char     *_label;
+        const char     *_label;
         int             _flags;
     }                   _keybdd [NKEYBD];
     struct
@@ -190,13 +190,13 @@ public:
     struct
     {
         const char     *_label;
-	int             _nifelm;
-	struct
-	{
+        int             _nifelm;
+        struct
+        {
             const char *_label;
             const char *_mnemo;
             int         _type;
-	}               _ifelmd [32];
+        }               _ifelmd [32];
     }                   _groupd [8];
     struct
     {
@@ -322,7 +322,7 @@ public:
         ITC_mesg (type),
         _index (index)
     {
-	if (bits) memcpy (_bits, bits, 16 * sizeof (uint16_t));
+        if (bits) memcpy (_bits, bits, 16 * sizeof (uint16_t));
         else      memset (_bits, 0, 16 * sizeof (uint16_t));
     }
 
@@ -341,7 +341,7 @@ public:
         _pres (pres),
         _stat (stat)
     {
-	if (bits) memcpy (_bits, bits, NGROUP * sizeof (uint32_t));
+        if (bits) memcpy (_bits, bits, NGROUP * sizeof (uint32_t));
         else      memset (_bits, 0, NGROUP * sizeof (uint32_t));
     }
 

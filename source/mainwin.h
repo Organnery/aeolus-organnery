@@ -79,7 +79,7 @@ private:
 
     enum
     {
-	B_DECB, B_INCB, B_DECM, B_INCM, B_DECT, B_INCT,
+        B_DECB, B_INCB, B_DECM, B_INCM, B_DECT, B_INCT,
         B_MRCL, B_PREV, B_NEXT, B_TUTI, B_MSTO, B_MINS, B_MDEL, B_CANC,
         GROUP_BIT0 = 8, GROUP_STEP = (1 << GROUP_BIT0), GROUP_MASK = (GROUP_STEP - 1),
     };

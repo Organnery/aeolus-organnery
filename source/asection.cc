@@ -104,9 +104,9 @@ void Asection::set_size (float time)
     if (r > N - PERIOD) r = N - PERIOD;
     for (i = 0; i < 16; i++)
     {
-	d = (int)(r * _refl [i]);
+        d = (int)(r * _refl [i]);
         d = (_offs0 - d * PERIOD) & (N - 1);
-	_offs [i] = d + (i >> 2) * N;
+        _offs [i] = d + (i >> 2) * N;
     }
 }
 
@@ -134,10 +134,10 @@ void Asection::process (float vol, float *W, float *X, float *Y, float *R)
     gr = 0.5f * _apar [REVERB]._val;
     for (i = 0; i < PERIOD; i++)
     {
-	t0 = p [0 * N];
-	t1 = p [1 * N];
-	t2 = p [2 * N];
-	t3 = p [3 * N];
+        t0 = p [0 * N];
+        t1 = p [1 * N];
+        t2 = p [2 * N];
+        t3 = p [3 * N];
         p++;
         s = t0 + t1 + t2 + t3;
         R [i] += gr * s;
@@ -169,8 +169,8 @@ void Asection::process (float vol, float *W, float *X, float *Y, float *R)
     gy1 = sinf (g);
     for (i = 0; i < PERIOD; i++)
     {
-	X [i] += gx1 * x [i] + gy1 * y [i];
-	Y [i] += gx1 * y [i] - gy1 * x [i];
+        X [i] += gx1 * x [i] + gy1 * y [i];
+        Y [i] += gx1 * y [i] - gy1 * x [i];
     }
 
     _offs0 = (_offs0 + PERIOD) & (N - 1);
@@ -181,4 +181,3 @@ void Asection::process (float vol, float *W, float *X, float *Y, float *R)
     memset (p + 2 * N, 0, PERIOD * sizeof (float));
     memset (p + 3 * N, 0, PERIOD * sizeof (float));
 }
-

@@ -42,9 +42,9 @@ Xiface::Xiface (int ac, char *av [])
     _disp = new X_display (_xresm.get (".display", 0));
     if (_disp->dpy () == 0)
     {
-	fprintf (stderr, "Can't open display !\n");
+        fprintf (stderr, "Can't open display !\n");
         delete _disp;
-	exit (1);
+        exit (1);
     }
     init_styles (_disp, &_xresm);
     _root = new X_rootwin (_disp);
@@ -57,18 +57,18 @@ Xiface::Xiface (int ac, char *av [])
     // loop over arguments to determine interface size
     for (i = 0; i < ac; i++)
     {
-	// check the parameter is -a and there is a parameter after it
-	if (strcmp(av[i], "-a") == 0 && (i < ac - 1))
-	{
-	    if (strcmp(av[i + 1], "4:3") == 0) {
-		_style = S_4X3;
-		printf("4x3!\n");
-	    }
-	    else if (strcmp(av[i + 1], "16:9") == 0) {
-		_style = S_16X9;
-		printf("16x9!\n");
-	    }
-	}
+        // check the parameter is -a and there is a parameter after it
+        if (strcmp(av[i], "-a") == 0 && (i < ac - 1))
+        {
+            if (strcmp(av[i + 1], "4:3") == 0) {
+            _style = S_4X3;
+            printf("4x3!\n");
+            }
+            else if (strcmp(av[i + 1], "16:9") == 0) {
+            _style = S_16X9;
+            printf("16x9!\n");
+            }
+        }
     }
 }
 
@@ -100,26 +100,26 @@ void Xiface::thr_main (void)
     while (! _stop)
     {
         switch (get_event_timed ())
-	{
+        {
         case EV_TIME:
-	    handle_time ();
+        handle_time ();
             XFlush (_disp->dpy ());
             inc_time (125000);
- 	    break;
+        break;
 
         case FM_MODEL:
             handle_mesg (get_message ());
             XFlush (_disp->dpy ());
-	    break;
+        break;
 
         case EV_XWIN:
-      	    _root->handle_event ();
-	    _xhan->next_event ();
+            _root->handle_event ();
+        _xhan->next_event ();
             break;
 
         case EV_EXIT:
             return;
-	}
+        }
     }
     send_event (EV_EXIT, 1);
 }
@@ -157,7 +157,7 @@ void Xiface::handle_mesg (ITC_mesg *M)
         _audiowin = new Audiowin (_root, this, 20, 20, &_xresm);
         _instrwin = new Instrwin (_root, this, 40, 40, &_xresm);
         _editwin  = new Editwin (_root, this, 0, 0, &_xresm);
-	_mainwin->set_style(_style);
+        _mainwin->set_style(_style);
         _mainwin->setup (X);
         _midiwin->setup (X);
         _audiowin->setup (X);
@@ -170,46 +170,46 @@ void Xiface::handle_mesg (ITC_mesg *M)
     case MT_IFC_READY:
         _mainwin->set_ready ();
         _editwin->lock (0);
-	break;
+        break;
 
     case MT_IFC_ELSET:
     case MT_IFC_ELCLR:
     case MT_IFC_ELATT:
     case MT_IFC_GRCLR:
     {
-	M_ifc_ifelm *X = (M_ifc_ifelm *) M;
+    M_ifc_ifelm *X = (M_ifc_ifelm *) M;
         _mainwin->set_ifelm (X);
-	break;
+        break;
     }
     case MT_IFC_TUTI:
     {
-	M_ifc_tutti *X = (M_ifc_tutti *) M;
-	_mainwin->set_tutti(X->_state);
-	break;
+        M_ifc_tutti *X = (M_ifc_tutti *) M;
+        _mainwin->set_tutti(X->_state);
+        break;
     }
     case MT_IFC_TRNSP:
     {
-	M_ifc_transpose *X = (M_ifc_transpose *) M;
-	_mainwin->set_transpose(X->_transpose);
-	break;
+        M_ifc_transpose *X = (M_ifc_transpose *) M;
+        _mainwin->set_transpose(X->_transpose);
+        break;
     }
     case MT_IFC_PRRCL:
     {
-	M_ifc_preset *X = (M_ifc_preset *) M;
+        M_ifc_preset *X = (M_ifc_preset *) M;
         _mainwin->set_state (X);
-	break;
+        break;
     }
     case MT_IFC_AUPAR:
     {
-	M_ifc_aupar *X = (M_ifc_aupar *) M;
+        M_ifc_aupar *X = (M_ifc_aupar *) M;
         if (X->_srcid != SRC_GUI_DRAG) _audiowin->set_aupar (X);
-	break;
+        break;
     }
     case MT_IFC_DIPAR:
     {
-	M_ifc_dipar *X = (M_ifc_dipar *) M;
+        M_ifc_dipar *X = (M_ifc_dipar *) M;
         if (X->_srcid != SRC_GUI_DRAG) _instrwin->set_dipar (X);
-	break;
+        break;
     }
     case MT_IFC_RETUNE:
         _instrwin->set_tuning ((M_ifc_retune *) M);
@@ -217,12 +217,12 @@ void Xiface::handle_mesg (ITC_mesg *M)
 
     case MT_IFC_EDIT:
         if (! _editp)
-	{
-	    _editp = (M_ifc_edit *) M;
+        {
+            _editp = (M_ifc_edit *) M;
             _editwin->init (_editp->_synth);
             _editwin->x_mapraised ();
             M = 0;
-	}
+        }
         break;
 
     case MT_IFC_MCSET:
@@ -230,7 +230,7 @@ void Xiface::handle_mesg (ITC_mesg *M)
         break;
 
     default:
-	;
+    ;
     }
     if (M) M->recover ();
 }
@@ -241,24 +241,24 @@ void Xiface::handle_callb (int k, X_window *W, XEvent *E)
     switch (k)
     {
     case CB_SHOW_AUDW:
-	_audiowin->x_mapraised ();
-	break;
+        _audiowin->x_mapraised ();
+        break;
 
     case CB_SHOW_MIDW:
-	_midiwin->x_mapraised ();
-	break;
+        _midiwin->x_mapraised ();
+        break;
 
     case CB_SHOW_INSW:
-	_instrwin->x_mapraised ();
-	break;
+        _instrwin->x_mapraised ();
+        break;
 
     case CB_GLOB_SAVE:
         send_event (TO_MODEL, new ITC_mesg (MT_IFC_SAVE));
-	break;
+        break;
 
     case CB_GLOB_MOFF:
         send_event (TO_MODEL, new M_ifc_anoff (127));
-	break;
+        break;
 
     case CB_MAIN_MSG:
         send_event (TO_MODEL, _mainwin->mesg ());
@@ -266,41 +266,38 @@ void Xiface::handle_callb (int k, X_window *W, XEvent *E)
 
     case CB_MAIN_END:
         stop ();
-	break;
+        break;
 
     case CB_AUDIO_ACT:
-	if (_aupar) _aupar->_value = _audiowin->value ();
-	else _aupar = new M_ifc_aupar (SRC_GUI_DRAG, _audiowin->asect (), _audiowin->parid (), _audiowin->value ());
-        //if (_audiowin->final ())
-	//{
-	    _aupar->_srcid = SRC_GUI_DONE;
-            send_event (TO_MODEL, _aupar);
-            _aupar = 0;
-	//}
+        if (_aupar) _aupar->_value = _audiowin->value ();
+        else _aupar = new M_ifc_aupar (SRC_GUI_DRAG, _audiowin->asect (), _audiowin->parid (), _audiowin->value ());
+        _aupar->_srcid = SRC_GUI_DONE;
+        send_event (TO_MODEL, _aupar);
+        _aupar = 0;
         break;
 
     case CB_DIVIS_ACT:
-	if (_dipar) _dipar->_value = _instrwin->value ();
-	else _dipar = new M_ifc_dipar (SRC_GUI_DRAG, _instrwin->divis (), _instrwin->parid (), _instrwin->value ());
+        if (_dipar) _dipar->_value = _instrwin->value ();
+        else _dipar = new M_ifc_dipar (SRC_GUI_DRAG, _instrwin->divis (), _instrwin->parid (), _instrwin->value ());
         if (_instrwin->final ())
-	{
-	    _dipar->_srcid = SRC_GUI_DONE;
+        {
+            _dipar->_srcid = SRC_GUI_DONE;
             send_event (TO_MODEL, _dipar);
             _dipar = 0;
-	}
+        }
         break;
 
     case CB_RETUNE:
         send_event (TO_MODEL, new M_ifc_retune (_instrwin->freq (), _instrwin->temp ()));
-	break;
+        break;
 
     case CB_MIDI_SETCONF:
         send_event (TO_MODEL, new M_ifc_chconf (MT_IFC_MCSET, _midiwin->preset (), _midiwin->chconf ()));
-	break;
+        break;
 
     case CB_MIDI_GETCONF:
         send_event (TO_MODEL, new M_ifc_chconf (MT_IFC_MCGET, _midiwin->preset (), 0));
-	break;
+        break;
 
     case CB_EDIT_APP:
         send_event (TO_MODEL, new M_ifc_edit (MT_IFC_APPLY, _editp->_group, _editp->_ifelm, 0));
@@ -312,7 +309,7 @@ void Xiface::handle_callb (int k, X_window *W, XEvent *E)
         _editwin->x_unmap ();
         _editp->recover ();
         _editp = 0;
-	break;
+        break;
     }
 }
 

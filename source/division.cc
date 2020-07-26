@@ -57,17 +57,17 @@ void Division::process (void)
     g = _swel;
     if (_trem)
     {
-	_s += _w * _c;
-	_c -= _w * _s;
+        _s += _w * _c;
+        _c -= _w * _s;
         t = sqrtf (_c * _c + _s * _s);
         _c /= t;
         _s /= t;
         if ((_trem == 2) && (fabsf (_s) < 0.05f))
         {
-	    _trem = 0;
+            _trem = 0;
             _c = 1;
             _s = 0;
-	}
+        }
         g *= 1.0f + _m * _s;
     }
 
@@ -118,12 +118,12 @@ void Division::update (int note, int mask)
 
     for (r = 0; r < _nrank; r++)
     {
-	W = _ranks [r];
+        W = _ranks [r];
         if (W->_cmask & 127)
-	{
-	    if (mask & W->_cmask) W->note_on (note + 36);
-	    else                  W->note_off (note + 36);
-	}
+        {
+            if (mask & W->_cmask) W->note_on (note + 36);
+            else                  W->note_off (note + 36);
+        }
     }
 }
 
@@ -136,25 +136,25 @@ void Division::update (unsigned char *keys)
 
     for (r = 0; r < _nrank; r++)
     {
-	W = _ranks [r];
+        W = _ranks [r];
         if ((W->_cmask ^ W->_nmask) & 127)
-	{
+        {
             m = W->_nmask & 127;
             if (m)
-	    {
-		n0 = W->n0 ();
-		n1 = W->n1 ();
+            {
+                n0 = W->n0 ();
+                n1 = W->n1 ();
                 k = keys;
                 d = n0 - 36;
                 if (d > 0) k += d;
                 for (n = n0; n <= n1; n++)
-	        {
+                {
                     if (*k++ & m) W->note_on (n);
-		    else          W->note_off (n);
-		}
-	    }
+                    else          W->note_off (n);
+                }
+            }
             else W->all_off ();
-	}
+        }
         W->_cmask = W->_nmask;
     }
 }
@@ -169,7 +169,7 @@ void Division::set_div_mask (int bits)
     _dmask |= bits;
     for (r = 0; r < _nrank; r++)
     {
-	W = _ranks [r];
+        W = _ranks [r];
         if (W->_nmask & 128) W->_nmask |= bits;
     }
 }
@@ -184,7 +184,7 @@ void Division::clr_div_mask (int bits)
     _dmask &= ~bits;
     for (r = 0; r < _nrank; r++)
     {
-	W = _ranks [r];
+        W = _ranks [r];
         if (W->_nmask & 128) W->_nmask &= ~bits;
     }
 }
