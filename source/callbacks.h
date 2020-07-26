@@ -52,7 +52,8 @@ enum
     CB_FW_SEL,
     CB_FW_UPD,
     CB_FW_DEF,
-    CB_FW_UND
+    CB_FW_UND,
+    CB_SC_HARM,
 };
 
 
