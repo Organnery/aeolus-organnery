@@ -319,7 +319,17 @@ void Multislider::bpress (XButtonEvent *E)
     }
     else if (2 * abs (x) <= _wx)
     {
-        if (E->state & ControlMask) undefine_val (i);
+        if (E->button == Button4)
+        {
+            //mouse wheel up event
+            update_val (_move = i, _yc [i] - 1);
+        }
+        else if (E->button == Button5)
+        {
+            //mouse wheel down event
+            update_val (_move = i, _yc [i] + 1);
+        }
+        else if (E->state & ControlMask) undefine_val (i);
         else                        update_val (_move = i, E->y);
         if (_callb)
         {
