@@ -24,7 +24,6 @@
 #include "styles.h"
 #include "callbacks.h"
 
-
 #define FW_X0 16
 #define FW_DX 32
 
@@ -52,6 +51,7 @@ void H_scale::handle_event (XEvent *E)
         break;
 
     case ButtonPress:
+        fprintf(stderr, "editwin.cc : button press event %u!!\n", E->xbutton.button);
         B = (XButtonEvent *) E;
         x = B->x - 5;
         _i = x / 12;
