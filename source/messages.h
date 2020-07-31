@@ -61,31 +61,31 @@ enum
 
     MT_IFC_INIT,
     MT_IFC_READY,
-    MT_IFC_ELCLR, // must be in this order
-    MT_IFC_ELSET, //
-    MT_IFC_ELXOR, //
-    MT_IFC_ELATT,
-    MT_IFC_GRCLR,
-    MT_IFC_TUTI,
-    MT_IFC_TRNSP,
-    MT_IFC_AUPAR,
-    MT_IFC_DIPAR,
-    MT_IFC_RETUNE,
-    MT_IFC_ANOFF,
-    MT_IFC_MCSET,
-    MT_IFC_MCGET,
-    MT_IFC_PRRCL,
-    MT_IFC_PRDEC,
-    MT_IFC_PRINC,
-    MT_IFC_PRSTO,
-    MT_IFC_PRINS,
-    MT_IFC_PRDEL,
-    MT_IFC_PRGET,
-    MT_IFC_TRNSPDEC,
-    MT_IFC_TRNSPINC,
-    MT_IFC_EDIT,
+    MT_IFC_ELCLR,   // must be in this order : disable a stop
+    MT_IFC_ELSET,   // enable a stop 
+    MT_IFC_ELXOR,   // toggle a stop (if we send 1) ?? TBC
+    MT_IFC_ELATT,   //
+    MT_IFC_GRCLR,   // disable all stop of a specific group
+    MT_IFC_TUTI,    // enable all stops
+    MT_IFC_TRNSP,   // refresh GUI transpose value
+    MT_IFC_AUPAR,   // change an audio element value
+    MT_IFC_DIPAR,   // ?? instrument parameters
+    MT_IFC_RETUNE,  // retune organ
+    MT_IFC_ANOFF,   // all notes off
+    MT_IFC_MCSET,   // set midi configuration
+    MT_IFC_MCGET,   // get midi configuration
+    MT_IFC_PRRCL,   // recall a preset
+    MT_IFC_PRDEC,   // decrement preset
+    MT_IFC_PRINC,   // increment preset
+    MT_IFC_PRSTO,   // store preset
+    MT_IFC_PRINS,   // insert preset
+    MT_IFC_PRDEL,   // delete preset
+    MT_IFC_PRGET,   // get a preset state ?? TBC
+    MT_IFC_TRNSPDEC,// increment transpose
+    MT_IFC_TRNSPINC,// decrement transpose
+    MT_IFC_EDIT,    // open pipe editor
     MT_IFC_APPLY,
-    MT_IFC_SAVE,
+    MT_IFC_SAVE,    // save current settings to file
     MT_IFC_TXTIP
 };
 
