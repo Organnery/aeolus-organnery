@@ -1,3 +1,8 @@
+AEOLUS 0.9.10  RELEASE NOTES
+============================
+* Added V argument to -a command line option for vertical GUI mode
+* Use mousewheel for fine move on harmonic scales editor
+
 AEOLUS 0.9.9   RELEASE NOTES   30/11/2019
 ============================
 
