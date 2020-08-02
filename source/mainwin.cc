@@ -130,16 +130,32 @@ void Mainwin::expose (XExposeEvent *E)
     D.setfunc (GXcopy);
     for (g = 0; g < _ngroup; g++)
     {
-        G = _groups + g;
-        D.move (10, G->_ylabel );
-        D.setcolor (XftColors.main_fg);
-        D.drawstring (G->_label, -1);
-        D.setcolor (Colors.main_ls);
-        D.move (15, G->_ydivid);
-        D.rdraw (_xsize - 30, 0);
-        D.setcolor (Colors.main_ds);
-        D.rmove (0, -1);
-        D.rdraw (30 - _xsize, 0);
+        if (_style == S_V)
+        {   //vertical layout
+            G = _groups + g;
+            D.move (G->_xlabel, 20 );
+            D.setcolor (XftColors.main_fg);
+            D.drawstring (G->_label, -1);
+            D.setcolor (Colors.main_ls);
+            // D.move (G->_xdivid, 15);
+            // D.rdraw (0, _ysize - 50);
+            // D.setcolor (Colors.main_ds);
+            // D.rmove (0, -1);
+            // D.rdraw (30 - _xsize, 0);
+        }
+        else
+        {   //default orizontal layout
+            G = _groups + g;
+            D.move (10, G->_ylabel );
+            D.setcolor (XftColors.main_fg);
+            D.drawstring (G->_label, -1);
+            D.setcolor (Colors.main_ls);
+            D.move (15, G->_ydivid);
+            D.rdraw (_xsize - 30, 0);
+            D.setcolor (Colors.main_ds);
+            D.rmove (0, -1);
+            D.rdraw (30 - _xsize, 0);
+        }
     }
 }
 
@@ -312,55 +328,96 @@ void Mainwin::handle_time (void)
 
 void Mainwin::setup (M_ifc_init *M)
 {
-    int             g, i, x, y;
+    int             g, i, x, y, maxy;
     Group           *G;
     X_button_style  *S;
     X_hints         H;
     char            s [256];
 
     _ngroup = M->_ngroup;
-    // vertical spacing between divisions, in pixels
-    y = 16;
-    for (g = 0; g < _ngroup; g++)
-    {
-        G = _groups + g;
-        G->_ylabel = y + 20;
-        G->_label  = M->_groupd [g]._label;
-        G->_nifelm = M->_groupd [g]._nifelm;
-        // horizontal offset of the first stop in each division, in pixels
-        x = 80;
-        S = &ife0;
-        for (i = 0; i < G->_nifelm; i++)
+    if (_style == S_V)
+    {   // vertical layout
+        x = 10;
+        for (g = 0; g < _ngroup; g++)
         {
-            switch (M->_groupd [g]._ifelmd [i]._type)
+            G = _groups + g;
+            G->_ylabel = 20;
+            G->_xlabel = x + 20;
+            G->_label  = M->_groupd [g]._label;
+            G->_nifelm = M->_groupd [g]._nifelm;
+            y = 30;
+            S = &ife0;
+            for (i = 0; i < G->_nifelm; i++)
             {
-            case 0: S = &ife0; break;
-            case 1: S = &ife1; break;
-            case 2: S = &ife2; break;
-            case 3: S = &ife3; break;
+                switch (M->_groupd [g]._ifelmd [i]._type)
+                {
+                case 0: S = &ife0; break;
+                case 1: S = &ife1; break;
+                case 2: S = &ife2; break;
+                case 3: S = &ife3; break;
+                }
+                if (i == 8) { y = 30; x += S->size.x + 4; }
+                if (i == 16) { y = 30; x += S->size.x + 4; }
+                G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
+                set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
+                G->_butt [i]->x_map ();
+                y += S->size.y + 4;
             }
-            if ((_style == S_4X3)&&(i == 10)) { x = 35; y += S->size.y + 4; }
-            if ((_style == S_16X9)&&(i == 13)) { x = 35; y += S->size.y + 4; }
-            if ((_style == S_4X3)&&(i == 20)) { x = 65; y += S->size.y + 4; }
-            if ((_style == S_16X9)&&(i == 26)) { x = 65; y += S->size.y + 4; }
-            G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
-            set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
-            G->_butt [i]->x_map ();
-            x += S->size.x + 4;
+            // horizontal spacing at the right of a division, in pixels
+            x += S->size.x + 16;
+            G->_xdivid = x;
+            // horizontal spacing at the right of a division, in pixels
+            x += 16;
+            if (y > maxy) { maxy = y; }
         }
-        // vertical spacing at the bottom of a division, in pixels
-        y += S->size.y + 16;
-        G->_ydivid = y;
-        // vertical spacing at the top of a division, in pixels
-        y += 16;
+        y = maxy + S->size.y + 20;
+    }
+    else
+    {   // default horizontal layout
+        // vertical spacing between divisions, in pixels
+        y = 16;
+        for (g = 0; g < _ngroup; g++)
+        {
+            G = _groups + g;
+            G->_ylabel = y + 20;
+            G->_label  = M->_groupd [g]._label;
+            G->_nifelm = M->_groupd [g]._nifelm;
+            // horizontal offset of the first stop in each division, in pixels
+            x = 80;
+            S = &ife0;
+            for (i = 0; i < G->_nifelm; i++)
+            {
+                switch (M->_groupd [g]._ifelmd [i]._type)
+                {
+                case 0: S = &ife0; break;
+                case 1: S = &ife1; break;
+                case 2: S = &ife2; break;
+                case 3: S = &ife3; break;
+                }
+                if ((_style == S_4X3)&&(i == 10)) { x = 35; y += S->size.y + 4; }
+                if ((_style == S_16X9)&&(i == 13)) { x = 35; y += S->size.y + 4; }
+                if ((_style == S_4X3)&&(i == 20)) { x = 65; y += S->size.y + 4; }
+                if ((_style == S_16X9)&&(i == 26)) { x = 65; y += S->size.y + 4; }
+                G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
+                set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
+                G->_butt [i]->x_map ();
+                x += S->size.x + 4;
+            }
+            // vertical spacing at the bottom of a division, in pixels
+            y += S->size.y + 16;
+            G->_ydivid = y;
+            // vertical spacing at the top of a division, in pixels
+            y += 16;
+        }
     }
 
     // check the aspect ratio argument and widen GUI if required
     x = _xsize = 1022;
 
-    if (_style == S_16X9)
-    x = _xsize = 1278;
+    if (_style == S_16X9) x = _xsize = 1278;
+    else if (_style == S_V) _xsize = x + 20;
 
+    // bottom bar
     but2.size.x = 50;
     but2.size.y = 40;
     add_text (10, y + 10, 42, 20, "Preset",   &text0);

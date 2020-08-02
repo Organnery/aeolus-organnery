@@ -62,11 +62,15 @@ Xiface::Xiface (int ac, char *av [])
         {
             if (strcmp(av[i + 1], "4:3") == 0) {
             _style = S_4X3;
-            printf("4x3!\n");
+            fprintf(stderr, "default 4x3 horizontal layout\n");
             }
             else if (strcmp(av[i + 1], "16:9") == 0) {
             _style = S_16X9;
-            printf("16x9!\n");
+            fprintf(stderr, "16x9 horizontal layout!\n");
+            }
+            else if (strcmp(av[i + 1], "V") == 0) {
+            _style = S_V;
+            fprintf(stderr, "Vertical layout!\n");
             }
         }
     }

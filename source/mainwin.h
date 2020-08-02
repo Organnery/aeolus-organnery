@@ -34,7 +34,9 @@ public:
     int           _nifelm;
     X_tbutton    *_butt [32];
     int           _ylabel;
+    int           _xlabel;
     int           _ydivid;
+    int           _xdivid;
 };
 
 
