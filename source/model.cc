@@ -161,7 +161,7 @@ void Model::init (void)
 
 void Model::fini (void)
 {
-    write_presets ();
+    // write_presets (); // disable save on exit
 }
 
 
@@ -305,6 +305,7 @@ void Model::proc_mesg (ITC_mesg *M)
         uint32_t       d [NGROUP];
         get_state (d);
         set_preset (X->_bank, X->_pres, d);
+        write_presets ();
         break;
     }
     case MT_IFC_PRINS:
@@ -314,6 +315,7 @@ void Model::proc_mesg (ITC_mesg *M)
         uint32_t     d [NGROUP];
         get_state (d);
         ins_preset (X->_bank, X->_pres, d);
+        write_presets ();
         break;
     }
     case MT_IFC_PRDEL:
@@ -321,6 +323,7 @@ void Model::proc_mesg (ITC_mesg *M)
         // Delete a preset.
         M_ifc_preset *X = (M_ifc_preset *) M;
         del_preset (X->_bank, X->_pres);
+        write_presets ();
         break;
     }
     case MT_IFC_PRGET:
@@ -527,6 +530,7 @@ void Model::proc_qmidi (void)
             uint32_t d [NGROUP];
             get_state (d);
             set_preset (_bank, _pres, d);
+            write_presets ();
             break;
 
             case MIDICTL_CANCL:
