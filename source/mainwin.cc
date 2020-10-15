@@ -442,11 +442,11 @@ void Mainwin::setup (M_ifc_init *M)
     (_b_tuti = new X_tbutton (this, this, &but1, x - 348, y,      "Tutti",    0, B_TUTI))->x_map ();
 
     add_text (x - 251, y + 10, 70, 20, "Settings",   &text0);
-    (_b_save = new X_tbutton (this, this, &but1, x - 180, y,      "Save",     0, CB_GLOB_SAVE))->x_map ();
-    (_b_moff = new X_tbutton (this, this, &but1, x -  96, y,      "MIDI off", 0, CB_GLOB_MOFF))->x_map ();
-    (_b_insw = new X_tbutton (this, this, &but1, x - 264, y + 46, "Instrument",  0, CB_SHOW_INSW))->x_map ();
-    (_b_audw = new X_tbutton (this, this, &but1, x - 180, y + 46, "Audio",    0, CB_SHOW_AUDW))->x_map ();
-    (_b_midw = new X_tbutton (this, this, &but1, x -  96, y + 46, "MIDI",     0, CB_SHOW_MIDW))->x_map ();
+    (_b_save = new X_tbutton (this, this, &but1, x - 264, y + 46,  "Save", 0, CB_GLOB_SAVE))->x_map ();
+    (_b_moff = new X_tbutton (this, this, &but1, x -  96, y,   "MIDI off", 0, CB_GLOB_MOFF))->x_map ();
+    (_b_insw = new X_tbutton (this, this, &but1, x - 180, y, "Instrument", 0, CB_SHOW_INSW))->x_map ();
+    (_b_audw = new X_tbutton (this, this, &but1, x - 180, y + 46, "Audio", 0, CB_SHOW_AUDW))->x_map ();
+    (_b_midw = new X_tbutton (this, this, &but1, x -  96, y + 46,  "MIDI", 0, CB_SHOW_MIDW))->x_map ();
     (_t_comm = new X_textip  (this,    0, &text0, 430, y + 56, 160, 20, 15))->x_map ();
 
     // transposition input
