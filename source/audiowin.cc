@@ -25,7 +25,7 @@
 
 
 Audiowin::Audiowin (X_window *parent, X_callback *callb, int xp, int yp, X_resman *xresm) :
-    X_window (parent, xp, yp, 200, 100, Colors.main_bg),
+    X_window (parent, xp, yp, AUscale(200), AUscale(100), Colors.main_bg),
     _callb (callb),
     _xresm (xresm),
     _xp (xp),
