@@ -63,8 +63,8 @@ void Midimatrix::init (M_ifc_init *M)
         }
     }
     for (i = 0; i < 16; i++) _chconf [i] = 0;
-    _xs = XL + 16 * DX + XR;
-    _ys = YT + (_nkeybd + _ndivis + 1) * DY + YB;
+    _xs = mmatrix.XL + 16 * mmatrix.DX + mmatrix.XR;
+    _ys = mmatrix.YT + (_nkeybd + _ndivis + 1) * mmatrix.DY + mmatrix.YB;
     x_resize (_xs, _ys);
     x_map ();
 }
@@ -118,60 +118,60 @@ void Midimatrix::redraw (void)
     D.clearwin ();
     D.setfunc (GXcopy);
     D.setcolor (Colors.midi_gr1);
-    for (i = 0, x = XL + DX; i < 16; i++, x += DX)
+    for (i = 0, x = mmatrix.XL + mmatrix.DX; i < 16; i++, x += mmatrix.DX)
     {
-        D.move (x, YT);
-        D.draw (x, _ys - YT);
+        D.move (x, mmatrix.YT);
+        D.draw (x, _ys - mmatrix.YT);
     }
-    for (i = 0, y = YT; i <= _nkeybd + _ndivis + 1; i++, y += DY)
+    for (i = 0, y = mmatrix.YT; i <= _nkeybd + _ndivis + 1; i++, y += mmatrix.DY)
     {
         D.move (0, y);
-        D.draw (_xs - XR, y);
+        D.draw (_xs - mmatrix.XR, y);
     }
     D.setcolor (XftColors.midi_fg);
     D.setfont (XftFonts.midimt);
-    d = (DY + D.textascent () - D.textdescent ()) / 2;
-    for (i = 0, y = YT; i < _nkeybd + _ndivis; i++, y += DY)
+    d = (mmatrix.DY + D.textascent () - D.textdescent ()) / 2;
+    for (i = 0, y = mmatrix.YT; i < _nkeybd + _ndivis; i++, y += mmatrix.DY)
     {
-        D.move (XL - 40, y + d);
+        D.move (mmatrix.XL - 40, y + d);
         D.drawstring (_label [i], 0);
     }
-    x = XL + DX / 2;
-    y += DY;
+    x = mmatrix.XL + mmatrix.DX / 2;
+    y += mmatrix.DY;
     for (i = 1; i <= 16; i++)
     {
         sprintf (s, "%d", i);
         D.move (x, y + d);
         D.drawstring (s, 0);
-        x += DX;
+        x += mmatrix.DX;
     }
     D.setcolor (Colors.midi_gr2);
-    D.move (XL, YT);
-    D.rdraw (0, _ys - 2 * YT);
-    y = YT;
-    D.move (XR, y);
-    D.rdraw (_xs - 2 * XR, 0);
+    D.move (mmatrix.XL, mmatrix.YT);
+    D.rdraw (0, _ys - 2 * mmatrix.YT);
+    y = mmatrix.YT;
+    D.move (mmatrix.XR, y);
+    D.rdraw (_xs - 2 * mmatrix.XR, 0);
     D.setcolor (XftColors.midi_fg);
     D.move (10, y + d);
     D.drawstring ("Keyboards", -1);
-    y += _nkeybd * DY;
+    y += _nkeybd * mmatrix.DY;
     D.setcolor (Colors.midi_gr2);
-    D.move (XR, y);
-    D.rdraw (_xs - 2 * XR, 0);
+    D.move (mmatrix.XR, y);
+    D.rdraw (_xs - 2 * mmatrix.XR, 0);
     D.setcolor (XftColors.midi_fg);
     D.move (10, y + d);
     D.drawstring ("Division controls", -1);
-    y += _ndivis * DY;
+    y += _ndivis * mmatrix.DY;
     D.setcolor (Colors.midi_gr2);
-    D.move (XR, y);
-    D.rdraw (_xs - 2 * XR, 0);
+    D.move (mmatrix.XR, y);
+    D.rdraw (_xs - 2 * mmatrix.XR, 0);
     D.setcolor (XftColors.midi_fg);
     D.move (10, y + d);
     D.drawstring ("Global controls", -1);
-    y += DY;
+    y += mmatrix.DY;
     D.setcolor (Colors.midi_gr2);
-    D.move (XR, y);
-    D.rdraw (_xs - 2 * XR, 0);
+    D.move (mmatrix.XR, y);
+    D.rdraw (_xs - 2 * mmatrix.XR, 0);
     D.setcolor (Colors.midi_gr2);
     D.move (_xs - 1, 0);
     D.rdraw (0, _ys - 1);
@@ -202,9 +202,9 @@ void Midimatrix::plot_conn (int x, int y)
     else if (y < _nkeybd + _ndivis)  D.setcolor (Colors.midi_bg ^ Colors.midi_co2);
     else                             D.setcolor (Colors.midi_bg ^ Colors.midi_co3);
     D.setfunc (GXxor);
-    x = XL + x * DX + 5;
-    y = YT + y * DY + 5;
-    D.fillrect (x, y, x + DX - 9, y + DY - 9);
+    x = mmatrix.XL + x * mmatrix.DX + 5;
+    y = mmatrix.YT + y * mmatrix.DY + 5;
+    D.fillrect (x, y, x + mmatrix.DX - 9, y + mmatrix.DY - 9);
 }
 
 
@@ -212,11 +212,11 @@ void Midimatrix::bpress (XButtonEvent *E)
 {
     unsigned int i, j, k, x, y;
 
-    i = (E->x - XL) / DX;
-    j = (E->y - YT) / DY;
-    x = E->x - XL - 4 - i * DX;
-    y = E->y - YT - 4 - j * DY;
-    if ((i > 15) || ((int) j > _nkeybd + _ndivis) || (x > DX - 2) || (y > DY - 2)) return;
+    i = (E->x - mmatrix.XL) / mmatrix.DX;
+    j = (E->y - mmatrix.YT) / mmatrix.DY;
+    x = E->x - mmatrix.XL - 4 - i * mmatrix.DX;
+    y = E->y - mmatrix.YT - 4 - j * mmatrix.DY;
+    if ((i > 15) || ((int) j > _nkeybd + _ndivis) || (x > mmatrix.DX - 2) || (y > mmatrix.DY - 2)) return;
     _chan = i;
 
     if ((int) j < _nkeybd)

@@ -21,6 +21,7 @@
 #include "mainwin.h"
 #include "messages.h"
 #include "callbacks.h"
+#include "guiscale.h"
 #include "styles.h"
 
 Splashwin::Splashwin (X_window *parent, int xp, int yp) :
@@ -328,139 +329,99 @@ void Mainwin::handle_time (void)
 
 void Mainwin::setup (M_ifc_init *M)
 {
-    int             g, i, x, y, maxy;
+    int             g, i, x, y;
     Group           *G;
     X_button_style  *S;
     X_hints         H;
     char            s [256];
 
     _ngroup = M->_ngroup;
-    if (_style == S_V)
-    {   // vertical layout
-        x = 10;
-        for (g = 0; g < _ngroup; g++)
-        {
-            G = _groups + g;
-            G->_ylabel = 20;
-            G->_xlabel = x + 20;
-            G->_label  = M->_groupd [g]._label;
-            G->_nifelm = M->_groupd [g]._nifelm;
-            y = 30;
-            S = &ife0;
-            for (i = 0; i < G->_nifelm; i++)
-            {
-                switch (M->_groupd [g]._ifelmd [i]._type)
-                {
-                case 0: S = &ife0; break;
-                case 1: S = &ife1; break;
-                case 2: S = &ife2; break;
-                case 3: S = &ife3; break;
-                }
-                if (i == 8) { y = 30; x += S->size.x + 4; }
-                if (i == 16) { y = 30; x += S->size.x + 4; }
-                G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
-                set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
-                G->_butt [i]->x_map ();
-                y += S->size.y + 4;
-            }
-            // horizontal spacing at the right of a division, in pixels
-            x += S->size.x + 16;
-            G->_xdivid = x;
-            // horizontal spacing at the right of a division, in pixels
-            x += 16;
-            if (y > maxy) { maxy = y; }
-        }
-        y = maxy + S->size.y + 20;
-    }
-    else
-    {   // default horizontal layout
-        // vertical spacing between divisions, in pixels
-        y = 16;
-        for (g = 0; g < _ngroup; g++)
-        {
-            G = _groups + g;
-            G->_ylabel = y + 20;
-            G->_label  = M->_groupd [g]._label;
-            G->_nifelm = M->_groupd [g]._nifelm;
-            // horizontal offset of the first stop in each division, in pixels
-            x = 80;
-            S = &ife0;
-            for (i = 0; i < G->_nifelm; i++)
-            {
-                switch (M->_groupd [g]._ifelmd [i]._type)
-                {
-                case 0: S = &ife0; break;
-                case 1: S = &ife1; break;
-                case 2: S = &ife2; break;
-                case 3: S = &ife3; break;
-                }
-                if ((_style == S_4X3)&&(i == 10)) { x = 35; y += S->size.y + 4; }
-                if ((_style == S_16X9)&&(i == 13)) { x = 35; y += S->size.y + 4; }
-                if ((_style == S_4X3)&&(i == 20)) { x = 65; y += S->size.y + 4; }
-                if ((_style == S_16X9)&&(i == 26)) { x = 65; y += S->size.y + 4; }
-                G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
-                set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
-                G->_butt [i]->x_map ();
-                x += S->size.x + 4;
-            }
-            // vertical spacing at the bottom of a division, in pixels
-            y += S->size.y + 16;
-            G->_ydivid = y;
-            // vertical spacing at the top of a division, in pixels
-            y += 16;
-        }
+    // vertical spacing between divisions, in pixels
+    y = MAscale(16);
+    for (g = 0; g < _ngroup; g++)
+    {
+	G = _groups + g;
+        G->_ylabel = y + MAscale(20);
+        G->_label  = M->_groupd [g]._label;
+        G->_nifelm = M->_groupd [g]._nifelm;
+        // horizontal offset of the first stop in each division, in pixels
+        x = MAscale(80);
+        S = &ife0;
+        for (i = 0; i < G->_nifelm; i++)
+		{
+	        switch (M->_groupd [g]._ifelmd [i]._type)
+				{
+				case 0: S = &ife0; break;
+				case 1: S = &ife1; break;
+				case 2: S = &ife2; break;
+				case 3: S = &ife3; break;
+				}
+		    if ((_style == S_4X3)&&(i == 10))  { x = MAscale(35); y += MAscale(S->size.y + 4); }
+		    if ((_style == S_16X9)&&(i == 13)) { x = MAscale(35); y += MAscale(S->size.y + 4); }
+		    if ((_style == S_4X3)&&(i == 20))  { x = MAscale(65); y += MAscale(S->size.y + 4); }
+		    if ((_style == S_16X9)&&(i == 26)) { x = MAscale(65); y += MAscale(S->size.y + 4); }
+		    G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
+		    set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
+		    G->_butt [i]->x_map ();
+		    x += S->size.x + MAscale(4);
+		}
+        // vertical spacing at the bottom of a division, in pixels
+        y += S->size.y + MAscale(16);
+        G->_ydivid = y;
+        // vertical spacing at the top of a division, in pixels
+        y += MAscale(16);
     }
 
     // check the aspect ratio argument and widen GUI if required
-    x = _xsize = 1022;
+    x = _xsize = MAscale(1022);
 
-    if (_style == S_16X9) x = _xsize = 1278;
-    else if (_style == S_V) _xsize = x + 20;
+    if (_style == S_16X9)
+	x = _xsize = MAscale(1278);
 
-    // bottom bar
-    but2.size.x = 50;
-    but2.size.y = 40;
-    add_text (10, y + 10, 42, 20, "Preset",   &text0);
-    add_text (10, y + 56, 40, 20, "Bank",     &text0);
-    (_t_pres = new X_textip  (this,    0, &text0, 52, y + 10,  20, 20,  7))->x_map ();
-    (_t_bank = new X_textip  (this,    0, &text0, 52, y + 56, 20, 20,  7))->x_map ();
-    (_b_decm = new X_ibutton (this, this, &but2, 77, y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
-    (_b_incm = new X_ibutton (this, this, &but2, 128, y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
-    (_b_decb = new X_ibutton (this, this, &but2, 77, y + 46, disp ()->image1515 (X_display::IMG_LT), B_DECB))->x_map ();
-    (_b_incb = new X_ibutton (this, this, &but2, 128, y + 46, disp ()->image1515 (X_display::IMG_RT), B_INCB))->x_map ();
+    but2.size.x = MAscale(50);
+    but2.size.y = MAscale(40);
+    add_text (MAscale(10), y + MAscale(10), MAscale(42), MAscale(20), "Preset",   &text0);
+    add_text (MAscale(10), y + MAscale(56), MAscale(40), MAscale(20), "Bank",     &text0);
+    (_t_pres = new X_textip  (this,    0, &text0, MAscale(52),  y + MAscale(10), MAscale(20), MAscale(20), MAscale(7)))->x_map ();
+    (_t_bank = new X_textip  (this,    0, &text0, MAscale(52),  y + MAscale(56), MAscale(20), MAscale(20), MAscale(7)))->x_map ();
+    (_b_decm = new X_ibutton (this, this, &but2,  MAscale(77),  y,  disp ()->image1515 (X_display::IMG_LT), B_DECM))->x_map ();
+    (_b_incm = new X_ibutton (this, this, &but2,  MAscale(128), y,  disp ()->image1515 (X_display::IMG_RT), B_INCM))->x_map ();
+    (_b_decb = new X_ibutton (this, this, &but2,  MAscale(77),  y + MAscale(46), disp ()->image1515 (X_display::IMG_LT), B_DECB))->x_map ();
+    (_b_incb = new X_ibutton (this, this, &but2,  MAscale(128), y + MAscale(46), disp ()->image1515 (X_display::IMG_RT), B_INCB))->x_map ();
 
-    but1.size.x = 80;
-    but1.size.y = 40;
-    (_b_mrcl = new X_tbutton (this, this, &but1, 182, y,      "Recall", 0, B_MRCL))->x_map ();
-    (_b_prev = new X_tbutton (this, this, &but1, 266, y,      "Previous",   0, B_PREV))->x_map ();
-    (_b_next = new X_tbutton (this, this, &but1, 350, y,      "Next",   0, B_NEXT))->x_map ();
-    (_b_msto = new X_tbutton (this, this, &but1, 182, y + 46, "Store",  0, B_MSTO))->x_map ();
-    (_b_mins = new X_tbutton (this, this, &but1, 266, y + 46, "Insert", 0, B_MINS))->x_map ();
-    (_b_mdel = new X_tbutton (this, this, &but1, 350, y + 46, "Delete", 0, B_MDEL))->x_map ();
+    but1.size.x = MAscale(80);
+    but1.size.y = MAscale(40);
+    (_b_mrcl = new X_tbutton (this, this, &but1, MAscale(182), y, "Recall",   0, B_MRCL))->x_map ();
+    (_b_prev = new X_tbutton (this, this, &but1, MAscale(266), y, "Previous", 0, B_PREV))->x_map ();
+    (_b_next = new X_tbutton (this, this, &but1, MAscale(350), y, "Next",     0, B_NEXT))->x_map ();
+    (_b_msto = new X_tbutton (this, this, &but1, MAscale(182), y + MAscale(46), "Store",  0, B_MSTO))->x_map ();
+    (_b_mins = new X_tbutton (this, this, &but1, MAscale(266), y + MAscale(46), "Insert", 0, B_MINS))->x_map ();
+    (_b_mdel = new X_tbutton (this, this, &but1, MAscale(350), y + MAscale(46), "Delete", 0, B_MDEL))->x_map ();
+    (_t_comm = new X_textip  (this,    0, &text0, MAscale(430), y + MAscale(56), MAscale(160), MAscale(20), MAscale(15)))->x_map ();
 
-    (_b_canc = new X_tbutton (this, this, &but1, x - 348, y + 46, "Clear all", 0, B_CANC))->x_map ();
-    (_b_tuti = new X_tbutton (this, this, &but1, x - 348, y,      "Tutti",    0, B_TUTI))->x_map ();
+    (_b_canc = new X_tbutton (this, this, &but1, x - MAscale(348), y + MAscale(46), "Clear all", 0, B_CANC))->x_map ();
+    (_b_tuti = new X_tbutton (this, this, &but1, x - MAscale(348), y,      "Tutti",    0, B_TUTI))->x_map ();
 
-    add_text (x - 251, y + 10, 70, 20, "Settings",   &text0);
-    (_b_save = new X_tbutton (this, this, &but1, x - 264, y + 46,  "Save", 0, CB_GLOB_SAVE))->x_map ();
-    (_b_moff = new X_tbutton (this, this, &but1, x -  96, y,   "MIDI off", 0, CB_GLOB_MOFF))->x_map ();
-    (_b_insw = new X_tbutton (this, this, &but1, x - 180, y, "Instrument", 0, CB_SHOW_INSW))->x_map ();
-    (_b_audw = new X_tbutton (this, this, &but1, x - 180, y + 46, "Audio", 0, CB_SHOW_AUDW))->x_map ();
-    (_b_midw = new X_tbutton (this, this, &but1, x -  96, y + 46,  "MIDI", 0, CB_SHOW_MIDW))->x_map ();
-    (_t_comm = new X_textip  (this,    0, &text0, 430, y + 56, 160, 20, 15))->x_map ();
+    add_text ( x - MAscale(251), y + MAscale(10), x - MAscale(70),  MAscale(20), "Settings",   &text0);
+    (_b_save = new X_tbutton (this, this, &but1, x - MAscale(180), y,      "Save",     0, CB_GLOB_SAVE))->x_map ();
+    (_b_moff = new X_tbutton (this, this, &but1, x - MAscale(96),  y,      "MIDI off", 0, CB_GLOB_MOFF))->x_map ();
+    (_b_insw = new X_tbutton (this, this, &but1, x - MAscale(264), y + MAscale(46), "Instrument",  0, CB_SHOW_INSW))->x_map ();
+    (_b_audw = new X_tbutton (this, this, &but1, x - MAscale(180), y + MAscale(46), "Audio",    0, CB_SHOW_AUDW))->x_map ();
+    (_b_midw = new X_tbutton (this, this, &but1, x - MAscale(96),  y + MAscale(46), "MIDI",     0, CB_SHOW_MIDW))->x_map ();
 
     // transposition input
-    add_text (550, y + 10, 68, 20, "Transpose",   &text0);
-    (_t_tran = new X_textip  (this,    0, &text0, 619, y + 10,  25, 20,  7))->x_map ();
+    add_text (MAscale(550), y + MAscale(10), MAscale(68), MAscale(20), "Transpose",   &text0);
+    (_t_tran = new X_textip  (this,    0, &text0, MAscale(619), y + MAscale(10),  MAscale(25), MAscale(20),  MAscale(7)))->x_map ();
     _t_tran->set_text("0");
-    (_b_dect = new X_ibutton (this, this, &but2, 547, y + 46,  disp ()->image1515 (X_display::IMG_LT), B_DECT))->x_map ();
-    (_b_inct = new X_ibutton (this, this, &but2, 598, y + 46,  disp ()->image1515 (X_display::IMG_RT), B_INCT))->x_map ();
+    (_b_dect = new X_ibutton (this, this, &but2, MAscale(547), y + MAscale(46),  disp ()->image1515 (X_display::IMG_LT), B_DECT))->x_map ();
+    (_b_inct = new X_ibutton (this, this, &but2, MAscale(598), y + MAscale(46),  disp ()->image1515 (X_display::IMG_RT), B_INCT))->x_map ();
 
    _ysize = y + 55;
     if (_ysize < Splashwin::YSIZE + 20) _ysize = Splashwin::YSIZE + 20;
 
     H.position (0, 0);
-    H.minsize (1022, 697);
+	if (_style == S_4X3)  { H.minsize (MAscale(1022), MAscale(697)); }
+    if (_style == S_16X9) { H.minsize (MAscale(1278), MAscale(697)); }
     H.maxsize (_xsize, _ysize);
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());

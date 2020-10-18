@@ -43,7 +43,7 @@ $(AEOLUS_O):
 -include $(AEOLUS_O:%.o=%.d)
 
 
-XIFACE_O =	styles.o mainwin.o midiwin.o audiowin.o instrwin.o editwin.o \
+XIFACE_O =	guiscale.o styles.o mainwin.o midiwin.o audiowin.o instrwin.o editwin.o \
 	midimatrix.o multislider.o functionwin.o xiface.o addsynth.o
 aeolus_x11.so:	CPPFLAGS += -D_REENTRANT
 aeolus_x11.so:	CPPFLAGS += $(shell pkgconf --cflags freetype2)

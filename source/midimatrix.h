@@ -23,6 +23,7 @@
 
 
 #include <clxclient.h>
+#include "guiscale.h"
 #include "messages.h"
 
 
@@ -43,7 +44,13 @@ public:
 
 private:
 
-    enum { XL = 180, XR = 5, YT = 5, YB = 22, DX = 22, DY = 22 };
+    struct { unsigned int XL = MIscale(180);
+             unsigned int XR = MIscale(5);
+             unsigned int YT = MIscale(5);
+             unsigned int YB = MIscale(22);
+             unsigned int DX = MIscale(22);
+             unsigned int DY = MIscale(22);
+           } mmatrix;
 
     void expose (XExposeEvent *E);
     void redraw (void);

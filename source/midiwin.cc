@@ -92,21 +92,21 @@ void Midiwin::setup (M_ifc_init *M)
 
     x = 10;
     y = _matrix->ysize () + 15;
-    but1.size.x = 50;
-    but1.size.y = 40;
+    but1.size.x = MIscale(50);
+    but1.size.y = MIscale(40);
 
     for (i = 0; i < 8; i++)
     {
         sprintf (s, "%d", i + 1);
-        _bpres [i] = new X_tbutton (this, this, &but1, x, y, s, 0, i);
-        _bpres [i]->x_map ();
-        x += 54;
+	_bpres [i] = new X_tbutton (this, this, &but1, x, y, s, 0, i);
+	_bpres [i]->x_map ();
+        x += MIscale(54);
     }
 
-    x += 10;
-    add_text (x, y + 10, 80, 20, "Presets", &text0, -1);
-    _xs = _matrix->xsize () + 20;
-    _ys = _matrix->ysize () + 60;
+    x += MIscale(10);
+    add_text (x, y + MIscale(10), MIscale(80), MIscale(20), "Presets", &text0, -1);
+    _xs = _matrix->xsize () + MIscale(20);
+    _ys = _matrix->ysize () + MIscale(60);
     H.position (_xp, _yp);
     H.minsize (_xs, _ys);
     H.maxsize (_xs, _ys);
