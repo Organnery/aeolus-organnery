@@ -18,6 +18,7 @@
 // ----------------------------------------------------------------------------
 
 #include <math.h>
+#include "guiscale.h"
 #include "audiowin.h"
 #include "callbacks.h"
 #include "styles.h"
@@ -87,55 +88,74 @@ void Audiowin::setup (M_ifc_init *M)
     Asect    *S;
     X_hints  H;
 
+    //enum { XOFFS = AUscale(90), XSTEP = AUscale(215), YSIZE = AUscale(330) };
+	int XOFFS =  AUscale(90);
+	int XSTEP = AUscale(215);
+	int YSIZE = AUscale(330);
+
     but1.size.x = 20;
     but1.size.y = 20;
     _nasect = M->_nasect;
     for (i = 0; i < _nasect; i++)
     {
-        S = _asectd + i;
+    	// draw sliders for each division
+		S = _asectd + i;
         x = XOFFS + XSTEP * i;
         k = ASECT_STEP * (i + 1);
 
-        (S->_slid [0] = new  X_hslider (this, this, &sli1, &sca_azim, x,  40, 20, k + 0))->x_map ();
-        (S->_slid [1] = new  X_hslider (this, this, &sli1, &sca_difg, x,  75, 20, k + 1))->x_map ();
-        (S->_slid [2] = new  X_hslider (this, this, &sli1, &sca_dBsh, x, 110, 20, k + 2))->x_map ();
-        (S->_slid [3] = new  X_hslider (this, this, &sli1, &sca_dBsh, x, 145, 20, k + 3))->x_map ();
-        (S->_slid [4] = new  X_hslider (this, this, &sli1, &sca_dBsh, x, 180, 20, k + 4))->x_map ();
-        (new X_hscale (this, &sca_azim, x,  30, 10))->x_map ();
-        (new X_hscale (this, &sca_difg, x,  65, 10))->x_map ();
-        (new X_hscale (this, &sca_dBsh, x, 133, 10))->x_map ();
-        (new X_hscale (this, &sca_dBsh, x, 168, 10))->x_map ();
+        // define and draw horizontal fader
+        (S->_slid [0] = new  X_hslider (this, this, &sli1, &sca_azim, x,  AUscale(40), AUscale(20), k + 0))->x_map ();
+        (S->_slid [1] = new  X_hslider (this, this, &sli1, &sca_difg, x,  AUscale(75), AUscale(20), k + 1))->x_map ();
+        (S->_slid [2] = new  X_hslider (this, this, &sli1, &sca_dBsh, x, AUscale(110), AUscale(20), k + 2))->x_map ();
+        (S->_slid [3] = new  X_hslider (this, this, &sli1, &sca_dBsh, x, AUscale(145), AUscale(20), k + 3))->x_map ();
+        (S->_slid [4] = new  X_hslider (this, this, &sli1, &sca_dBsh, x, AUscale(180), AUscale(20), k + 4))->x_map ();
+
+        // draw horizontal scale
+        (new X_hscale (this, &sca_azim, x,  AUscale(30), AUscale(10)))->x_map ();
+        (new X_hscale (this, &sca_difg, x,  AUscale(65), AUscale(10)))->x_map ();
+        (new X_hscale (this, &sca_dBsh, x, AUscale(133), AUscale(10)))->x_map ();
+        (new X_hscale (this, &sca_dBsh, x, AUscale(168), AUscale(10)))->x_map ();
+
+        // add division name on top of faders
         S->_label [0] = 0;
         for (j = 0; j <  M->_ndivis; j++)
-        {
-            if (M->_divisd [j]._asect == i)
-            {
-                if (S->_label [0]) strcat (S->_label, " + ");
-                strcat (S->_label, M->_divisd [j]._label);
-                add_text (x, 5, 200, 20, S->_label, &text0);
-            }
-        }
+		{
+		    if (M->_divisd [j]._asect == i)
+		    {
+			if (S->_label [0]) strcat (S->_label, " + ");
+	                strcat (S->_label, M->_divisd [j]._label);
+	                add_text (x, AUscale(5), AUscale(200), AUscale(20), S->_label, &text0);
+		    }
+		}
     }
-    add_text ( 10,  40, 60, 20, "Azimuth", &text0);
-    add_text ( 10,  75, 60, 20, "Width",   &text0);
-    add_text ( 10, 110, 60, 20, "Direct ", &text0);
-    add_text ( 10, 145, 60, 20, "Reflect", &text0);
-    add_text ( 10, 180, 60, 20, "Reverb",  &text0);
 
-    (_slid [0] = new  X_hslider (this, this, &sli1, &sca_dBsh, 520, 275, 20, 0))->x_map ();
-    (_slid [1] = new  X_hslider (this, this, &sli1, &sca_size,  70, 240, 20, 1))->x_map ();
-    (_slid [2] = new  X_hslider (this, this, &sli1, &sca_trev,  70, 275, 20, 2))->x_map ();
-    (_slid [3] = new  X_hslider (this, this, &sli1, &sca_spos, 305, 275, 20, 3))->x_map ();
-    (new X_hscale (this, &sca_size,  70, 230, 10))->x_map ();
-    (new X_hscale (this, &sca_trev,  70, 265, 10))->x_map ();
-    (new X_hscale (this, &sca_spos, 305, 265, 10))->x_map ();
-    (new X_hscale (this, &sca_dBsh, 520, 265, 10))->x_map ();
-    add_text ( 10, 240, 50, 20, "Delay",    &text0);
-    add_text ( 10, 275, 50, 20, "Time",     &text0);
-    add_text (135, 305, 60, 20, "Reverb",   &text0);
-    add_text (355, 305, 80, 20, "Position", &text0);
-    add_text (570, 305, 60, 20, "Volume",   &text0);
+    // add fader labels on the left
+    add_text ( AUscale(10),  AUscale(40), AUscale(60), AUscale(20), "Azimuth", &text0);
+    add_text ( AUscale(10),  AUscale(75), AUscale(60), AUscale(20), "Width",   &text0);
+    add_text ( AUscale(10), AUscale(110), AUscale(60), AUscale(20), "Direct ", &text0);
+    add_text ( AUscale(10), AUscale(145), AUscale(60), AUscale(20), "Reflect", &text0);
+    add_text ( AUscale(10), AUscale(180), AUscale(60), AUscale(20), "Reverb",  &text0);
 
+    // define and draw Common reverb and volume faders
+    (_slid [0] = new  X_hslider (this, this, &sli1, &sca_dBsh, AUscale(520), AUscale(275), AUscale(20), 0))->x_map ();
+    (_slid [1] = new  X_hslider (this, this, &sli1, &sca_size,  AUscale(70), AUscale(240), AUscale(20), 1))->x_map ();
+    (_slid [2] = new  X_hslider (this, this, &sli1, &sca_trev,  AUscale(70), AUscale(275), AUscale(20), 2))->x_map ();
+    (_slid [3] = new  X_hslider (this, this, &sli1, &sca_spos, AUscale(305), AUscale(275), AUscale(20), 3))->x_map ();
+
+    // draw horizontal scale
+    (new X_hscale (this, &sca_size,  AUscale(70), AUscale(230), AUscale(10)))->x_map ();
+    (new X_hscale (this, &sca_trev,  AUscale(70), AUscale(265), AUscale(10)))->x_map ();
+    (new X_hscale (this, &sca_spos, AUscale(305), AUscale(265), AUscale(10)))->x_map ();
+    (new X_hscale (this, &sca_dBsh, AUscale(520), AUscale(265), AUscale(10)))->x_map ();
+
+    // add fader labels
+    add_text ( AUscale(10), AUscale(240), AUscale(50), AUscale(20), "Delay",    &text0);
+    add_text ( AUscale(10), AUscale(275), AUscale(50), AUscale(20), "Time",     &text0);
+    add_text (AUscale(135), AUscale(305), AUscale(60), AUscale(20), "Reverb",   &text0);
+    add_text (AUscale(355), AUscale(305), AUscale(80), AUscale(20), "Position", &text0);
+    add_text (AUscale(570), AUscale(305), AUscale(60), AUscale(20), "Volume",   &text0);
+
+    // define windows title
     sprintf (s, "Audio settings");
     x_set_title (s);
 
