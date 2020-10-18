@@ -212,13 +212,13 @@ void init_styles (X_display *disp, X_resman *xrm)
     sca_dBlg.nseg = 9;
     sca_dBlg.set_tick ( 0,  10, -100, 0);
     sca_dBlg.set_tick ( 1,  15, -80, "-80");
-    sca_dBlg.set_tick ( 2,  50, -70, "-70");
-    sca_dBlg.set_tick ( 3,  85, -60, "-60");
-    sca_dBlg.set_tick ( 4, 120, -50, "-50");
-    sca_dBlg.set_tick ( 5, 155, -40, "-40");
-    sca_dBlg.set_tick ( 6, 190, -30, "-30");
-    sca_dBlg.set_tick ( 7, 225, -20, "-20");
-    sca_dBlg.set_tick ( 8, 260, -10, "-10");
+    sca_dBlg.set_tick ( 2,  25, -70, "-70");
+    sca_dBlg.set_tick ( 3,  45, -60, "-60");
+    sca_dBlg.set_tick ( 4,  70, -50, "-50");
+    sca_dBlg.set_tick ( 5, 100, -40, "-40");
+    sca_dBlg.set_tick ( 6, 135, -30, "-30");
+    sca_dBlg.set_tick ( 7, 177, -20, "-20");
+    sca_dBlg.set_tick ( 8, 227, -10, "-10");
     sca_dBlg.set_tick ( 9, 295,   0, "0");
 
     sca_dBsm.bg = Colors.main_bg;
