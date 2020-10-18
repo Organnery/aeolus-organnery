@@ -19,7 +19,7 @@
 
 
 #include "styles.h"
-
+#include "guiscale.h"
 
 struct colors     Colors;
 struct fonts      Fonts;
@@ -90,7 +90,20 @@ void init_styles (X_display *disp, X_resman *xrm)
     XftFonts.spla2  = disp->alloc_xftfont (xrm->get (".font.spla2",  "serif:bold:pixelsize=12"));
     XftFonts.main   = disp->alloc_xftfont (xrm->get (".font.main",   "luxi:pixelsize=12"));
     XftFonts.large  = disp->alloc_xftfont (xrm->get (".font.large",  "serif:bold:pixelsize=16"));
-    XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=13"));
+	if (AEOLUS_MAIN_WINDOW_SCALING == 1)
+		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=12"));
+	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.1)
+		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=13"));
+	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.2)
+		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=14"));
+	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.3)
+		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=15"));
+	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.4)
+		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=16"));
+	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.5)
+		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=17"));
+	else
+		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=18"));
     XftFonts.button = disp->alloc_xftfont (xrm->get (".font.button", "luxi:pixelsize=12"));
     XftFonts.scales = disp->alloc_xftfont (xrm->get (".font.scales", "luxi:pixelsize=9"));
     XftFonts.midimt = disp->alloc_xftfont (xrm->get (".font.midimt", "luxi:bold:pixelsize=9"));
@@ -136,8 +149,8 @@ void init_styles (X_display *disp, X_resman *xrm)
     ife0.color.shadow.lite = Colors.main_ls;
     ife0.color.shadow.dark = Colors.main_ds;
     // size of stops, in pixels
-    ife0.size.x = 88;
-    ife0.size.y = 54;
+    ife0.size.x = MAscale(88);
+    ife0.size.y = MAscale(54);
 
     // second division
     ife1.type = X_button_style::RAISED;
@@ -150,8 +163,8 @@ void init_styles (X_display *disp, X_resman *xrm)
     ife1.color.shadow.lite = Colors.main_ls;
     ife1.color.shadow.dark = Colors.main_ds;
     // size of stops, in pixels
-    ife1.size.x = 88;
-    ife1.size.y = 54;
+    ife1.size.x = MAscale(88);
+    ife1.size.y = MAscale(54);
 
     // third division
     ife2.type = X_button_style::RAISED;
@@ -164,8 +177,8 @@ void init_styles (X_display *disp, X_resman *xrm)
     ife2.color.shadow.lite = Colors.main_ls;
     ife2.color.shadow.dark = Colors.main_ds;
     // size of stops, in pixels
-    ife2.size.x = 88;
-    ife2.size.y = 54;
+    ife2.size.x = MAscale(88);
+    ife2.size.y = MAscale(54);
 
     // fourth division
     ife3.type = X_button_style::RAISED;
@@ -178,8 +191,8 @@ void init_styles (X_display *disp, X_resman *xrm)
     ife3.color.shadow.lite = Colors.main_ls;
     ife3.color.shadow.dark = Colors.main_ds;
     // size of stops, in pixels
-    ife3.size.x = 88;
-    ife3.size.y = 54;
+    ife3.size.x = MAscale(88);
+    ife3.size.y = MAscale(54);
 
     but1.type = X_button_style::RAISED;
     but1.font = XftFonts.button;
@@ -190,8 +203,8 @@ void init_styles (X_display *disp, X_resman *xrm)
     but1.color.shadow.bgnd = Colors.main_bg;
     but1.color.shadow.lite = Colors.main_ls;
     but1.color.shadow.dark = Colors.main_ds;
-    but1.size.x = 18;
-    but1.size.y = 18;
+    but1.size.x = MAscale(18);
+    but1.size.y = MAscale(18);
 
     but2.type = X_button_style::RAISED;
     but2.font = XftFonts.button;
@@ -202,8 +215,8 @@ void init_styles (X_display *disp, X_resman *xrm)
     but2.color.shadow.bgnd = Colors.main_bg;
     but2.color.shadow.lite = Colors.main_ls;
     but2.color.shadow.dark = Colors.main_ds;
-    but2.size.x = 18;
-    but2.size.y = 18;
+    but2.size.x = MAscale(18);
+    but2.size.y = MAscale(18);
 
     sca_dBlg.bg = Colors.main_bg;
     sca_dBlg.fg = XftColors.main_fg;
@@ -239,69 +252,69 @@ void init_styles (X_display *disp, X_resman *xrm)
     sca_size.marg = 0;
     sca_size.font = XftFonts.scales;
     sca_size.nseg = 5;
-    sca_size.set_tick ( 0,  10, 0.025, 0    );
-    sca_size.set_tick ( 1,  46, 0.050, "50" );
-    sca_size.set_tick ( 2,  82, 0.075, 0    );
-    sca_size.set_tick ( 3, 118, 0.100, "100");
-    sca_size.set_tick ( 4, 154, 0.125, 0    );
-    sca_size.set_tick ( 5, 190, 0.150, "150");
+    sca_size.set_tick ( 0,  AUscale(10), 0.025, 0    );
+    sca_size.set_tick ( 1,  AUscale(46), 0.050, "50" );
+    sca_size.set_tick ( 2,  AUscale(82), 0.075, 0    );
+    sca_size.set_tick ( 3, AUscale(118), 0.100, "100");
+    sca_size.set_tick ( 4, AUscale(154), 0.125, 0    );
+    sca_size.set_tick ( 5, AUscale(190), 0.150, "150");
 
     sca_trev.bg = Colors.main_bg;
     sca_trev.fg = XftColors.main_fg;
     sca_trev.marg = 0;
     sca_trev.font = XftFonts.scales;
     sca_trev.nseg = 5;
-    sca_trev.set_tick ( 0,  10, 2, "2");
-    sca_trev.set_tick ( 1,  46, 3, "3");
-    sca_trev.set_tick ( 2,  82, 4, "4");
-    sca_trev.set_tick ( 3, 118, 5, "5");
-    sca_trev.set_tick ( 4, 154, 6, "6");
-    sca_trev.set_tick ( 5, 190, 7, "7");
+    sca_trev.set_tick ( 0,  AUscale(10), 2, "2");
+    sca_trev.set_tick ( 1,  AUscale(46), 3, "3");
+    sca_trev.set_tick ( 2,  AUscale(82), 4, "4");
+    sca_trev.set_tick ( 3, AUscale(118), 5, "5");
+    sca_trev.set_tick ( 4, AUscale(154), 6, "6");
+    sca_trev.set_tick ( 5, AUscale(190), 7, "7");
 
     sca_dBsh.bg = Colors.main_bg;
     sca_dBsh.fg = XftColors.main_fg;
     sca_dBsh.marg = 0;
     sca_dBsh.font = XftFonts.scales;
     sca_dBsh.nseg = 5;
-    sca_dBsh.set_tick ( 0,  10,  0.000, 0    );
-    sca_dBsh.set_tick ( 1,  18,  0.100, "-20");
-    sca_dBsh.set_tick ( 2,  56,  0.178, 0    );
-    sca_dBsh.set_tick ( 3,  94,  0.316, "-10");
-    sca_dBsh.set_tick ( 4, 132,  0.562, 0    );
-    sca_dBsh.set_tick ( 5, 170,  1.000, "0"  );
+    sca_dBsh.set_tick ( 0,  AUscale(10),  0.000, 0    );
+    sca_dBsh.set_tick ( 1,  AUscale(18),  0.100, "-20");
+    sca_dBsh.set_tick ( 2,  AUscale(56),  0.178, 0    );
+    sca_dBsh.set_tick ( 3,  AUscale(94),  0.316, "-10");
+    sca_dBsh.set_tick ( 4, AUscale(132),  0.562, 0    );
+    sca_dBsh.set_tick ( 5, AUscale(170),  1.000, "0"  );
 
     sca_spos.bg = Colors.main_bg;
     sca_spos.fg = XftColors.main_fg;
     sca_spos.marg = 0;
     sca_spos.font = XftFonts.scales;
     sca_spos.nseg = 4;
-    sca_spos.set_tick ( 0,  10, -1.0, "B");
-    sca_spos.set_tick ( 1,  50, -0.5, 0);
-    sca_spos.set_tick ( 2,  90,  0.0, "C");
-    sca_spos.set_tick ( 3, 130,  0.5, 0);
-    sca_spos.set_tick ( 4, 170,  1.0, "F");
+    sca_spos.set_tick ( 0,  AUscale(10), -1.0, "B");
+    sca_spos.set_tick ( 1,  AUscale(50), -0.5, 0);
+    sca_spos.set_tick ( 2,  AUscale(90),  0.0, "C");
+    sca_spos.set_tick ( 3, AUscale(130),  0.5, 0);
+    sca_spos.set_tick ( 4, AUscale(170),  1.0, "F");
 
     sca_azim.bg = Colors.main_bg;
     sca_azim.fg = XftColors.main_fg;
     sca_azim.marg = 0;
     sca_azim.font = XftFonts.scales;
     sca_azim.nseg = 4;
-    sca_azim.set_tick ( 0,  10, -0.50, "B");
-    sca_azim.set_tick ( 1,  50, -0.25, "L");
-    sca_azim.set_tick ( 2,  90,  0.00, "F");
-    sca_azim.set_tick ( 3, 130,  0.25, "R");
-    sca_azim.set_tick ( 4, 170,  0.50, "B");
+    sca_azim.set_tick ( 0,  AUscale(10), -0.50, "B");
+    sca_azim.set_tick ( 1,  AUscale(50), -0.25, "L");
+    sca_azim.set_tick ( 2,  AUscale(90),  0.00, "F");
+    sca_azim.set_tick ( 3, AUscale(130),  0.25, "R");
+    sca_azim.set_tick ( 4, AUscale(170),  0.50, "B");
 
     sca_difg.bg = Colors.main_bg;
     sca_difg.fg = XftColors.main_fg;
     sca_difg.marg = 0;
     sca_difg.font = XftFonts.scales;
     sca_difg.nseg = 4;
-    sca_difg.set_tick ( 0,  10,  0.00, "0");
-    sca_difg.set_tick ( 1,  50,  0.25, 0);
-    sca_difg.set_tick ( 2,  90,  0.50, "0.5");
-    sca_difg.set_tick ( 3, 130,  0.75, 0);
-    sca_difg.set_tick ( 4, 170,  1.00, "1");
+    sca_difg.set_tick ( 0,  AUscale(10),  0.00, "0");
+    sca_difg.set_tick ( 1,  AUscale(50),  0.25, 0);
+    sca_difg.set_tick ( 2,  AUscale(90),  0.50, "0.5");
+    sca_difg.set_tick ( 3, AUscale(130),  0.75, 0);
+    sca_difg.set_tick ( 4, AUscale(170),  1.00, "1");
 
     sca_Tatt.bg = Colors.main_bg;
     sca_Tatt.fg = XftColors.func_d1;
@@ -398,43 +411,43 @@ void init_styles (X_display *disp, X_resman *xrm)
     sca_Tfr.marg = 0;
     sca_Tfr.font = XftFonts.scales;
     sca_Tfr.nseg = 6;
-    sca_Tfr.set_tick ( 0,  10,  2.0, "2");
-    sca_Tfr.set_tick ( 1,  30,  3.0, "3");
-    sca_Tfr.set_tick ( 2,  50,  4.0, "4");
-    sca_Tfr.set_tick ( 3,  70,  5.0, "5");
-    sca_Tfr.set_tick ( 4,  90,  6.0, "6");
-    sca_Tfr.set_tick ( 5, 110,  7.0, "7");
-    sca_Tfr.set_tick ( 6, 130,  8.0, "8");
+    sca_Tfr.set_tick ( 0,  INscale(10),  2.0, "2");
+    sca_Tfr.set_tick ( 1,  INscale(30),  3.0, "3");
+    sca_Tfr.set_tick ( 2,  INscale(50),  4.0, "4");
+    sca_Tfr.set_tick ( 3,  INscale(70),  5.0, "5");
+    sca_Tfr.set_tick ( 4,  INscale(90),  6.0, "6");
+    sca_Tfr.set_tick ( 5, INscale(110),  7.0, "7");
+    sca_Tfr.set_tick ( 6, INscale(130),  8.0, "8");
 
     sca_Tmd.bg = Colors.main_bg;
     sca_Tmd.fg = XftColors.main_fg;
     sca_Tmd.marg = 0;
     sca_Tmd.font = XftFonts.scales;
     sca_Tmd.nseg = 6;
-    sca_Tmd.set_tick ( 0,  10,  0.0, "0ff");
-    sca_Tmd.set_tick ( 1,  30,  0.1,     0);
-    sca_Tmd.set_tick ( 2,  50,  0.2, "0.2");
-    sca_Tmd.set_tick ( 3,  70,  0.3,     0);
-    sca_Tmd.set_tick ( 4,  90,  0.4, "0.4");
-    sca_Tmd.set_tick ( 5, 110,  0.5,     0);
-    sca_Tmd.set_tick ( 6, 130,  0.6, "0.6");
+    sca_Tmd.set_tick ( 0,  INscale(10),  0.0, "0ff");
+    sca_Tmd.set_tick ( 1,  INscale(30),  0.1,     0);
+    sca_Tmd.set_tick ( 2,  INscale(50),  0.2, "0.2");
+    sca_Tmd.set_tick ( 3,  INscale(70),  0.3,     0);
+    sca_Tmd.set_tick ( 4,  INscale(90),  0.4, "0.4");
+    sca_Tmd.set_tick ( 5, INscale(110),  0.5,     0);
+    sca_Tmd.set_tick ( 6, INscale(130),  0.6, "0.6");
 
     sca_Swl.bg = Colors.main_bg;
     sca_Swl.fg = XftColors.main_fg;
     sca_Swl.marg = 0;
     sca_Swl.font = XftFonts.scales;
     sca_Swl.nseg = 4;
-    sca_Swl.set_tick ( 0,  10,  0.00, "C");
-    sca_Swl.set_tick ( 1,  40,  0.25,   0);
-    sca_Swl.set_tick ( 2,  70,  0.50, "H");
-    sca_Swl.set_tick ( 3, 100,  0.75,   0);
-    sca_Swl.set_tick ( 4, 130,  1.00, "O");
+    sca_Swl.set_tick ( 0,  INscale(10),  0.00, "C");
+    sca_Swl.set_tick ( 1,  INscale(40),  0.25,   0);
+    sca_Swl.set_tick ( 2,  INscale(70),  0.50, "H");
+    sca_Swl.set_tick ( 3, INscale(100),  0.75,   0);
+    sca_Swl.set_tick ( 4, INscale(130),  1.00, "O");
 
     sli1.bg   = Colors.main_bg;
     sli1.lite = Colors.main_ls;
     sli1.dark = Colors.main_ds;
     sli1.knob = Colors.slid_kn;
     sli1.mark = Colors.slid_mk;
-    sli1.h = 19;
-    sli1.w = 10;
+    sli1.h = AUscale(19);
+    sli1.w = AUscale(10);
 }
