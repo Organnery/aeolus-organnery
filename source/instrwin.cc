@@ -19,6 +19,7 @@
 
 
 #include "instrwin.h"
+#include "guiscale.h"
 #include "callbacks.h"
 #include "styles.h"
 
@@ -115,66 +116,66 @@ void Instrwin::setup (M_ifc_init *M)
     X_hints  H;
 
 
-    add_text (85, 5, 60, 20, "Tuning", &text0, -1);
-    but2.size.x = 50;
-    but2.size.y = 40;
-    _temp_txt = new X_textip  (this, 0,   &text0,  0, 51, 150, 20, 31);
+    add_text (INscale(85), INscale(5), INscale(60), INscale(20), "Tuning", &text0, -1);
+    but2.size.x = INscale(50);
+    but2.size.y = INscale(40);
+    _temp_txt = new X_textip  (this, 0,   &text0,  0, INscale(51), INscale(150), INscale(20), INscale(31));
     _temp_txt->set_align (1);
     _temp_txt->x_map ();
-    _freq_txt = new X_textip  (this, 0,   &text0, 90, 97,  60, 20, 7);
+    _freq_txt = new X_textip  (this, 0,   &text0, INscale(90), INscale(97), INscale(60), INscale(20), INscale(7));
     _freq_txt->set_align (1);
     _freq_txt->x_map ();
-    (_dec_temp = new X_ibutton (this, this, &but2, 155, 41, disp ()->image1515 (X_display::IMG_LT), TEMP_DEC))->x_map ();
-    (_inc_temp = new X_ibutton (this, this, &but2, 206, 41, disp ()->image1515 (X_display::IMG_RT), TEMP_INC))->x_map ();
-    (_dec_freq = new X_ibutton (this, this, &but2, 155, 87, disp ()->image1515 (X_display::IMG_LT), FREQ_DEC))->x_map ();
-    (_inc_freq = new X_ibutton (this, this, &but2, 206, 87, disp ()->image1515 (X_display::IMG_RT), FREQ_INC))->x_map ();
-    but1.size.x = 80;
-    but1.size.y = 40;
-    (_tune_exe = new X_tbutton (this, this, &but1,  30, 140, "Retune", 0, TUNE_EXE))->x_map ();
-    (_tune_can = new X_tbutton (this, this, &but1, 115, 140, "Reset", 0, TUNE_CAN))->x_map ();
+    (_dec_temp = new X_ibutton (this, this, &but2, INscale(155), INscale(41), disp ()->image1515 (X_display::IMG_LT), TEMP_DEC))->x_map ();
+    (_inc_temp = new X_ibutton (this, this, &but2, INscale(206), INscale(41), disp ()->image1515 (X_display::IMG_RT), TEMP_INC))->x_map ();
+    (_dec_freq = new X_ibutton (this, this, &but2, INscale(155), INscale(87), disp ()->image1515 (X_display::IMG_LT), FREQ_DEC))->x_map ();
+    (_inc_freq = new X_ibutton (this, this, &but2, INscale(206), INscale(87), disp ()->image1515 (X_display::IMG_RT), FREQ_INC))->x_map ();
+    but1.size.x = INscale(80);
+    but1.size.y = INscale(40);
+    (_tune_exe = new X_tbutton (this, this, &but1,  INscale(30), INscale(140), "Retune", 0, TUNE_EXE))->x_map ();
+    (_tune_can = new X_tbutton (this, this, &but1, INscale(115), INscale(140), "Reset", 0, TUNE_CAN))->x_map ();
 
     for (i = n1 = n2 = 0; i < M->_ndivis; i++)
     {
         if (M->_divisd [i]._flags & 1) n1++;
         if (M->_divisd [i]._flags & 2) n2++;
     }
-    x1 = 330;
-    x2 = n1 ? 640 : x1;
-    y = 40;
+    x1 = INscale(330);
+    x2 = n1 ? INscale(640) : x1;
+    y = INscale(40);
     D = _divisd;
     for (i = 0; i < M->_ndivis; i++)
     {
         k = DIVIS_STEP * (i + 1);
         if (M->_divisd [i]._flags & 1)
-        {
-            (D->_slid [0] = new X_hslider (this, this, &sli1, &sca_Swl, x2, y, 20, k))->x_map ();
-            (new X_hscale (this, &sca_Swl, x2, y + 20, 10))->x_map ();
-        }
+	{
+            (D->_slid [0] = new X_hslider (this, this, &sli1, &sca_Swl, x2, y, INscale(20), k))->x_map ();
+            (new X_hscale (this, &sca_Swl, x2, y + INscale(20), INscale(10)))->x_map ();
+	}
         else D->_slid [0] = 0;
         if (M->_divisd [i]._flags & 2)
-        {
-            (D->_slid [1]  = new X_hslider (this, this, &sli1, &sca_Tfr, x1,       y, 20, k + 1))->x_map ();
-            (D->_slid [2]  = new X_hslider (this, this, &sli1, &sca_Tmd, x1 + 160, y, 20, k + 2))->x_map ();
-            (new X_hscale (this, &sca_Tfr, x1,       y + 20, 10))->x_map ();
-            (new X_hscale (this, &sca_Tmd, x1 + 160, y + 20, 10))->x_map ();
-        }
+	{
+            (D->_slid [1]  = new X_hslider (this, this, &sli1, &sca_Tfr, x1,                y, INscale(20), k + 1))->x_map ();
+            (D->_slid [2]  = new X_hslider (this, this, &sli1, &sca_Tmd, x1 + INscale(160), y, INscale(20), k + 2))->x_map ();
+            (new X_hscale (this, &sca_Tfr, x1,                y + INscale(20), INscale(10)))->x_map ();
+            (new X_hscale (this, &sca_Tmd, x1 + INscale(160), y + INscale(20), INscale(10)))->x_map ();
+	}
         else D->_slid [1] = D->_slid [2] = 0;
         if (D->_slid [0] || D->_slid [1])
-        {
-            add_text (x1 - 70, y, 60, 20,  M->_divisd [i]._label, &text0, 1);
-            y += 40;
-        }
+	{
+            add_text (x1 - INscale(70), y, INscale(60), INscale(20),  M->_divisd [i]._label, &text0, 1);
+            y += INscale(40);
+	}
         D++;
     }
 
     if (n1)
     {
-        add_text (x1 + 5,   5, 140, 20, "Tremulant frequency", &text0, -1);
-        add_text (x1 + 165, 5, 140, 20, "Tremulant amplitude", &text0, -1);
+        add_text (x1 + INscale(5),   INscale(5), INscale(140), INscale(20), "Tremulant frequency", &text0, -1);
+        add_text (x1 + INscale(165), INscale(5), INscale(140), INscale(20), "Tremulant amplitude", &text0, -1);
     }
-    if (n2) add_text (x2 +50, 5, 80, 20, "Swell", &text0, -1);
+    if (n2) add_text (x2 + INscale(50), INscale(5), INscale(80), INscale(20), "Swell", &text0, -1);
 
-    y += 5;
+    y += INscale(5);
     if (y < YSIZE) y = YSIZE;
     sprintf (s, "Instrument settings");
     x_set_title (s);
@@ -184,7 +185,7 @@ void Instrwin::setup (M_ifc_init *M)
     for (i = 0; i < _ntempe; i++) _temped [i] = M->_temped [i]._label;
 
     H.position (_xp, _yp);
-    H.minsize (840, 190);
+    H.minsize (INscale(840), INscale(190));
     H.maxsize (XSIZE, y);
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());
