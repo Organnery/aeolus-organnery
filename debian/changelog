@@ -1,7 +1,16 @@
-aeolus (1:0.9.9) UNRELEASED; urgency=medium
+aeolus (1:0.9.10) UNRELEASED; urgency=medium
 
   * Non-maintainer upload.
   * Added -a commande line option for window aspect ratio.
+  * "zoom factor" to scale the various aeolus windows
+  * Added a vertical layout option for stops
+  * Adjust sub-window positions to suit smaller screens
+  * Enlarge buttons for touchscreen use
+  * exchange save and instrument buttons placement for consistency
+  * Don't auto-save presets on aeolus window close
+  * Save and restore audio window and instrument windows parameters
+  * use mousewheel for fine move on harmonic scales in editor
+  * change to log scale display on harmonics level in editor
 
  -- Raphael Mouneyres <raphael@audiotronic.fr>  Sat, 30 Nov 2019 14:32:00 +0100
 
