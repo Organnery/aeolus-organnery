@@ -90,20 +90,20 @@ void init_styles (X_display *disp, X_resman *xrm)
     XftFonts.spla2  = disp->alloc_xftfont (xrm->get (".font.spla2",  "serif:bold:pixelsize=12"));
     XftFonts.main   = disp->alloc_xftfont (xrm->get (".font.main",   "luxi:pixelsize=12"));
     XftFonts.large  = disp->alloc_xftfont (xrm->get (".font.large",  "serif:bold:pixelsize=16"));
-	if (AEOLUS_MAIN_WINDOW_SCALING == 1)
-		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=12"));
-	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.1)
-		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=13"));
-	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.2)
-		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=14"));
-	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.3)
-		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=15"));
-	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.4)
-		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=16"));
-	else if (AEOLUS_MAIN_WINDOW_SCALING < 1.5)
-		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=17"));
-	else
-		XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=18"));
+    if (AEOLUS_MAIN_WINDOW_SCALING == 1)
+        XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=12"));
+    else if (AEOLUS_MAIN_WINDOW_SCALING < 1.1)
+        XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=13"));
+    else if (AEOLUS_MAIN_WINDOW_SCALING < 1.2)
+        XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=14"));
+    else if (AEOLUS_MAIN_WINDOW_SCALING < 1.3)
+        XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=15"));
+    else if (AEOLUS_MAIN_WINDOW_SCALING < 1.4)
+        XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=16"));
+    else if (AEOLUS_MAIN_WINDOW_SCALING < 1.5)
+        XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=17"));
+    else
+        XftFonts.stops  = disp->alloc_xftfont (xrm->get (".font.stops",  "serif:bold:pixelsize=18"));
     XftFonts.button = disp->alloc_xftfont (xrm->get (".font.button", "luxi:pixelsize=12"));
     XftFonts.scales = disp->alloc_xftfont (xrm->get (".font.scales", "luxi:pixelsize=9"));
     XftFonts.midimt = disp->alloc_xftfont (xrm->get (".font.midimt", "luxi:bold:pixelsize=9"));

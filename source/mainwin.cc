@@ -21,7 +21,6 @@
 #include "mainwin.h"
 #include "messages.h"
 #include "callbacks.h"
-#include "guiscale.h"
 #include "styles.h"
 
 Splashwin::Splashwin (X_window *parent, int xp, int yp) :
@@ -329,55 +328,98 @@ void Mainwin::handle_time (void)
 
 void Mainwin::setup (M_ifc_init *M)
 {
-    int             g, i, x, y;
+    int             g, i, x, y, maxy;
     Group           *G;
     X_button_style  *S;
     X_hints         H;
     char            s [256];
 
     _ngroup = M->_ngroup;
-    // vertical spacing between divisions, in pixels
-    y = MAscale(16);
-    for (g = 0; g < _ngroup; g++)
-    {
-	G = _groups + g;
-        G->_ylabel = y + MAscale(20);
-        G->_label  = M->_groupd [g]._label;
-        G->_nifelm = M->_groupd [g]._nifelm;
-        // horizontal offset of the first stop in each division, in pixels
-        x = MAscale(80);
-        S = &ife0;
-        for (i = 0; i < G->_nifelm; i++)
-		{
-	        switch (M->_groupd [g]._ifelmd [i]._type)
-				{
-				case 0: S = &ife0; break;
-				case 1: S = &ife1; break;
-				case 2: S = &ife2; break;
-				case 3: S = &ife3; break;
-				}
-		    if ((_style == S_4X3)&&(i == 10))  { x = MAscale(35); y += MAscale(S->size.y + 4); }
-		    if ((_style == S_16X9)&&(i == 13)) { x = MAscale(35); y += MAscale(S->size.y + 4); }
-		    if ((_style == S_4X3)&&(i == 20))  { x = MAscale(65); y += MAscale(S->size.y + 4); }
-		    if ((_style == S_16X9)&&(i == 26)) { x = MAscale(65); y += MAscale(S->size.y + 4); }
-		    G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
-		    set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
-		    G->_butt [i]->x_map ();
-		    x += S->size.x + MAscale(4);
-		}
-        // vertical spacing at the bottom of a division, in pixels
-        y += S->size.y + MAscale(16);
-        G->_ydivid = y;
-        // vertical spacing at the top of a division, in pixels
-        y += MAscale(16);
+    if (_style == S_V)
+    {   // vertical layout
+        x = 10;
+        for (g = 0; g < _ngroup; g++)
+        {
+            G = _groups + g;
+            G->_ylabel = 20;
+            G->_xlabel = x + 20;
+            G->_label  = M->_groupd [g]._label;
+            G->_nifelm = M->_groupd [g]._nifelm;
+            y = 30;
+            S = &ife0;
+            for (i = 0; i < G->_nifelm; i++)
+            {
+                switch (M->_groupd [g]._ifelmd [i]._type)
+                {
+                    case 0: S = &ife0; break;
+                    case 1: S = &ife1; break;
+                    case 2: S = &ife2; break;
+                    case 3: S = &ife3; break;
+                }
+                if ((i == 8) or (i == 16)) { 
+                    y = 30; 
+                    x += S->size.x + 4;
+                }
+                G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
+                set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
+                G->_butt [i]->x_map ();
+                y += S->size.y + 4;
+            }
+            // horizontal spacing at the right of a division, in pixels
+            x += S->size.x + 16;
+            G->_xdivid = x;
+            // horizontal spacing at the right of a division, in pixels
+            x += 16;
+            if (y > maxy) { maxy = y; }
+        }
+        y = maxy + S->size.y + 20;
+    }
+    else
+    {   // default horizontal layout
+        // vertical spacing between divisions, in pixels
+        y = 16;
+        for (g = 0; g < _ngroup; g++)
+        {
+            G = _groups + g;
+            G->_ylabel = y + MAscale(20);
+            G->_label  = M->_groupd [g]._label;
+            G->_nifelm = M->_groupd [g]._nifelm;
+            // horizontal offset of the first stop in each division, in pixels
+            x = MAscale(80);
+            S = &ife0;
+            for (i = 0; i < G->_nifelm; i++)
+            {
+                switch (M->_groupd [g]._ifelmd [i]._type)
+                {
+                case 0: S = &ife0; break;
+                case 1: S = &ife1; break;
+                case 2: S = &ife2; break;
+                case 3: S = &ife3; break;
+                }
+                if ((_style == S_4X3)&&(i == 10))  { x = MAscale(35); y += MAscale(S->size.y + 4); }
+                if ((_style == S_16X9)&&(i == 13)) { x = MAscale(35); y += MAscale(S->size.y + 4); }
+                if ((_style == S_4X3)&&(i == 20))  { x = MAscale(65); y += MAscale(S->size.y + 4); }
+                if ((_style == S_16X9)&&(i == 26)) { x = MAscale(65); y += MAscale(S->size.y + 4); }
+                G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
+                set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
+                G->_butt [i]->x_map ();
+                x += S->size.x + MAscale(4);
+            }
+            // vertical spacing at the bottom of a division, in pixels
+            y += S->size.y + MAscale(16);
+            G->_ydivid = y;
+            // vertical spacing at the top of a division, in pixels
+            y += MAscale(16);
+        }
     }
 
     // check the aspect ratio argument and widen GUI if required
     x = _xsize = MAscale(1022);
 
-    if (_style == S_16X9)
-	x = _xsize = MAscale(1278);
+    if (_style == S_16X9) x = _xsize = MAscale(1278);
+    else if (_style == S_V) _xsize = x + MAscale(20);
 
+    // bottom bar
     but2.size.x = MAscale(50);
     but2.size.y = MAscale(40);
     add_text (MAscale(10), y + MAscale(10), MAscale(42), MAscale(20), "Preset",   &text0);
@@ -416,18 +458,18 @@ void Mainwin::setup (M_ifc_init *M)
     (_b_dect = new X_ibutton (this, this, &but2, MAscale(547), y + MAscale(46),  disp ()->image1515 (X_display::IMG_LT), B_DECT))->x_map ();
     (_b_inct = new X_ibutton (this, this, &but2, MAscale(598), y + MAscale(46),  disp ()->image1515 (X_display::IMG_RT), B_INCT))->x_map ();
 
-   _ysize = y + 55;
-    if (_ysize < Splashwin::YSIZE + 20) _ysize = Splashwin::YSIZE + 20;
+   _ysize = y + MAscale(55);
+    if (_ysize < Splashwin::YSIZE + MAscale(20)) _ysize = Splashwin::YSIZE + MAscale(20);
 
     H.position (0, 0);
-	if (_style == S_4X3)  { H.minsize (MAscale(1022), MAscale(697)); }
-    if (_style == S_16X9) { H.minsize (MAscale(1278), MAscale(697)); }
+    H.minsize (1022, _ysize+45);
     H.maxsize (_xsize, _ysize);
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());
     if (_xresm->getb (".iconic", 0)) H.state (IconicState);
     x_apply (&H);
 
+    // set window title
     sprintf (s, "%s %s for organnery", M->_appid, VERSION);
     x_set_title (s);
     x_resize (_xsize, _ysize);
