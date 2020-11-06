@@ -21,6 +21,7 @@
 #include "mainwin.h"
 #include "messages.h"
 #include "callbacks.h"
+#include "guiscale.h"
 #include "styles.h"
 
 Splashwin::Splashwin (X_window *parent, int xp, int yp) :
@@ -328,7 +329,7 @@ void Mainwin::handle_time (void)
 
 void Mainwin::setup (M_ifc_init *M)
 {
-    int             g, i, x, y, maxy;
+    int             g, i, x, y, maxy=0;
     Group           *G;
     X_button_style  *S;
     X_hints         H;
@@ -341,11 +342,11 @@ void Mainwin::setup (M_ifc_init *M)
         for (g = 0; g < _ngroup; g++)
         {
             G = _groups + g;
-            G->_ylabel = 20;
-            G->_xlabel = x + 20;
+            G->_ylabel = MAscale(20);
+            G->_xlabel = x + MAscale(20);
             G->_label  = M->_groupd [g]._label;
             G->_nifelm = M->_groupd [g]._nifelm;
-            y = 30;
+            y = MAscale(30);
             S = &ife0;
             for (i = 0; i < G->_nifelm; i++)
             {
@@ -356,23 +357,24 @@ void Mainwin::setup (M_ifc_init *M)
                     case 2: S = &ife2; break;
                     case 3: S = &ife3; break;
                 }
-                if ((i == 8) or (i == 16)) { 
-                    y = 30; 
-                    x += S->size.x + 4;
+                if ((i == 8) or (i == 16)) {
+                    if (y > maxy) { maxy = y; }
+                    y = MAscale(30);
+                    x += S->size.x + MAscale(4);
                 }
                 G->_butt [i] = new X_tbutton (this, this, S, x, y, 0, 0, (g + 1) * GROUP_STEP + i);
                 set_label (g, i, M->_groupd [g]._ifelmd [i]._label);
                 G->_butt [i]->x_map ();
-                y += S->size.y + 4;
+                y += S->size.y + MAscale(4);
             }
             // horizontal spacing at the right of a division, in pixels
-            x += S->size.x + 16;
+            x += S->size.x + MAscale(16);
             G->_xdivid = x;
             // horizontal spacing at the right of a division, in pixels
-            x += 16;
+            x += MAscale(16);
             if (y > maxy) { maxy = y; }
         }
-        y = maxy + S->size.y + 20;
+        y = maxy + MAscale(20);
     }
     else
     {   // default horizontal layout
@@ -414,10 +416,9 @@ void Mainwin::setup (M_ifc_init *M)
     }
 
     // check the aspect ratio argument and widen GUI if required
-    x = _xsize = MAscale(1022);
-
-    if (_style == S_16X9) x = _xsize = MAscale(1278);
-    else if (_style == S_V) _xsize = x + MAscale(20);
+    if      (_style == S_4X3)  x = _xsize = MAscale(1022);
+    else if (_style == S_16X9) x = _xsize = MAscale(1278);
+    else if (_style == S_V)    x = _xsize = MAscale(1022);
 
     // bottom bar
     but2.size.x = MAscale(50);
@@ -458,11 +459,11 @@ void Mainwin::setup (M_ifc_init *M)
     (_b_dect = new X_ibutton (this, this, &but2, MAscale(547), y + MAscale(46),  disp ()->image1515 (X_display::IMG_LT), B_DECT))->x_map ();
     (_b_inct = new X_ibutton (this, this, &but2, MAscale(598), y + MAscale(46),  disp ()->image1515 (X_display::IMG_RT), B_INCT))->x_map ();
 
-   _ysize = y + MAscale(55);
+    _ysize = y + MAscale(45);
     if (_ysize < Splashwin::YSIZE + MAscale(20)) _ysize = Splashwin::YSIZE + MAscale(20);
 
     H.position (0, 0);
-    H.minsize (1022, _ysize+45);
+    H.minsize (1022, _ysize + 45);
     H.maxsize (_xsize, _ysize);
     H.rname (_xresm->rname ());
     H.rclas (_xresm->rclas ());
