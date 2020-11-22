@@ -26,5 +26,3 @@ Homepage: http://kokkinizita.linuxaudio.org/linuxaudio/aeolus/
 [Aeolus MIDI controls](docs/MIDI_CONTROLS.md)
 
 [Aeolus development](docs/INTERNALS.md)
-
-[Packaging Aeolus for Debian](docs/DEBIAN.md)
