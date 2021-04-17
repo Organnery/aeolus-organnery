@@ -1,6 +1,5 @@
-# Aeolus instrument definition file explanation
+# Aeolus instrument definition file explanation (up to version 0.9.10)
 
-```
 # always start with this line to open creation of a new instrument
 /instr/new
 
@@ -10,9 +9,10 @@
 
 # Keyboards
 # create the number of keyboards you need
-# maximum is defined by NKEYBD in global.h
+# maximum is defined by NKEYBD in global.h, default is 6
+# keyboard order will define the layout for the gui from top to bottom in default horinzontal mode, or left to right in vertical mode
 
-# The string at the end of the line is used as a reference in this file for the divisions, it must be unique
+# The string at end of line is used as a reference in this file for the divisions, it must be unique
 # this will be the keyboard 0
 /manual/new   II
 # this will be the keyboard 1
@@ -22,17 +22,16 @@
 
 # Divisions
 # create the number of divisions you need 
-# not necessarily equal to the number of keyboards
+# not necessarly equal to number of keyboards
 
-# first string is the division label
-# second number is the keyboard number, starting at 0 (?)
-# third number is the audio section number, starting at 1 (?)
+#              v- division label for the GUI
+#              v       v-- keyboard number, starting at 0 (?)
+#              v       v  v-- audio section number, starting at 1 (?)
 /divis/new    II       1  1
 
-# first letter is the pan for the audio engine (A->_pan)
-# it can be L=left, C=center, R=right, W=wide
-# second number is delay in milliseconds (A->_del)
-# third string is the wavetable filename to be used for this rank (and its corresponding stop)
+#             v- pan for the audio engine (A->_pan), can be L=left, C=center, R=right, W=wide
+#             v   v- delay (A->_del)
+#             v   v  v-- wavetable filename to be used for this rank
 /rank         C  10  I_principal_16.ae0
 
 # add as many ranks as you need, maximum is 32 per division
@@ -51,14 +50,14 @@
 /swell
 
 # add /tremul if you want a tremulant for this division
-# first number is the default frequency (betweem 2 and 8)
-# second number is the  default amplitude (between 0 and 0.6)
+#             v-- default frequency (between 2 and 8)
+#             v    v-- default amplitude (between 0 and 0.6)
 /tremul       5.0  0.3
 
 # close the division definition
 /divis/end
 
-# create another keyboard division
+#create more divisions
 /divis/new    I        2  2
 /rank         C  20  bourdon16.ae0
 /rank         C  20  bourdon16.ae0
@@ -69,7 +68,6 @@
 /swell
 /divis/end
 
-# create the pedal division
 /divis/new    P        3  3
 /rank         C  20  bourdon16.ae0
 /rank         L  10  P_octave_2.ae0
@@ -77,19 +75,21 @@
 /divis/end
 
 # Interface groups
-# maximum number of groups is defined in global.h (8)
-# groups allow you to:
-# - group a keyboard with a number of stops
-# - create groups of stops which can control various ranks, even from different divisions
+# maximum number of groups is defined in global.h (default 8)
+# groups allows you to :
+# - assign a keyboard to play a set of stops
+# - create groups of stops which can control various ranks, even from various divisions
 # this will set the layout of buttons for the GUI
 
 # /group first string is the label displayed on the GUI on the left of each group
 /group/new    ManII
 
-# /stop first number is the keyboard number as defined on top of this file, default is 0
-#  button color: 0=dark_blue (keyboard rank?) 1,2,3=dark_green (division rank?)
-# /stop second number is the division number where this group is attached, starting at 1
-# /stop third number is the rank number for this division, sequential number starting at 1
+# add stops to be part of this group
+#             v-- keyboard number as defined on top of this file, default is 0
+#             v      0  means stop is a division rank, button color will be dark blue
+#             v      >0 means stop is a keyboard rank, button color will be dark green
+#             v   v-- division number where this group is attached, starting at 1
+#             v   v   v-- sequential number starting at 1
 /stop         0   1   1
 /stop         0   1   2
 /stop         0   1   3
@@ -103,17 +103,17 @@
 /stop         0   1  11
 
 # if a tremulant is defined in the division you will create the stop here
-# /tremul first number is the division number where this tremulant is active, starting at 1
-# /tremul button color is light_green by default
-# second string is the mnemonic
-# third string is the label for GUI
+# tremulant button color is light_green by default
+#             v-- division number where this tremulant is active, starting at 1
+#             v       v-- mnemonic (8 characters max)
+#             v       v        v-- label for gui (32 characters max)
 /tremul       2       TR       Tremulant
 
 # end group definition
 /group/end
 
-# create another group
-/group/new    ManI
+# add more groups
+/group/new    ManI      
 /stop         0   2   1
 /stop         0   2   2
 /stop         0   2   3
@@ -122,15 +122,14 @@
 /stop         0   2   6
 
 # /coupler add a keyboard coupler
-#  firt number is the manual number to be coupled
-#  second number is the manual number to be master
-#  third string is the mnemonic
-#  fourth string is the label for the GUI button
+#             v-- keyboard number to be coupled (slave)
+#             v   v-- keyboard number to be played (master)
+#             v   v   v-- mnemonic (8 characters max)
+#             v   v   v       v-- label for the GUI button (32 characters max)
 /coupler      2   1   C1+2     I+II
 /group/end
 
-# create another group for pedal
-/group/new    Pedal
+/group/new    Pedal      
 /stop         0   3   1
 /stop         0   3   2
 /stop         0   3   3
@@ -140,4 +139,3 @@
 
 # end instrument definition
 /instr/end
-```
