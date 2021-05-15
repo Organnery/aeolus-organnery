@@ -11,6 +11,7 @@ aeolus (1:0.9.10) UNRELEASED; urgency=medium
   * Save and restore audio window and instrument windows parameters
   * use mousewheel for fine move on harmonic scales in editor
   * change to log scale display on harmonics level in editor
+  * can control stops with NOTE messages
 
  -- Raphael Mouneyres <raphael@audiotronic.fr>  Sat, 30 Nov 2019 14:32:00 +0100
 
