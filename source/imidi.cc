@@ -115,7 +115,7 @@ void Imidi::close_midi (void)
 void Imidi::proc_midi (void)
 {
     snd_seq_event_t  *E;
-    int              c, f, m, n, p, t, v;
+    int              c, f, m, n, p, t, v, g;
 
     // Read and process MIDI commands from the ALSA port.
     // Events related to keyboard state are sent to the
@@ -137,11 +137,49 @@ void Imidi::proc_midi (void)
             case SND_SEQ_EVENT_NOTEOFF:
                 n = E->data.note.note;
                 v = E->data.note.velocity;
+                // get interface group attached to midi channel
+                g = 0;
+                switch (m & 0x0F) {
+                    case 0x01:
+                        g = 0;
+                    break;
+                    case 0x02:
+                        g = 1;
+                    break;
+                    case 0x04:
+                        g = 2;
+                    break;
+                    case 0x08:
+                        g = 3;
+                    break;
+                    case 0x0F:
+                        g = 4;
+                    break;
+                }
                 if ((t == SND_SEQ_EVENT_NOTEON) && v)
                 {
                     // Note on.
                     if (n < 36)
                     {
+                        if ((f & 4) && (n >= 0) && (n < 24))
+                        {
+                            // Stop enable, sent to model thread
+                            if (_qmidi->write_avail () >= 3)
+                            {
+                            // send group and set on
+                            _qmidi->write (0, 0xB0 | c);
+                            _qmidi->write (1, MIDICTL_IFELM);
+                            _qmidi->write (2, 0x60 | g);
+                            _qmidi->write_commit (3);
+                            // send stop number
+                            _qmidi->write (0, 0xB0 | c);
+                            _qmidi->write (1, MIDICTL_IFELM);
+                            _qmidi->write (2, n); // stop number based on note
+                            _qmidi->write_commit (3);
+
+                            }
+                        }
+
                         if ((f & 4) && (n >= 24) && (n < 34))
                         {
                             // Preset selection, sent to model thread
@@ -169,9 +207,26 @@ void Imidi::proc_midi (void)
                 }
                 else
                 {
-                        // Note off.
+                    // Note off.
                     if (n < 36)
                     {
+                        if ((f & 4) && (n >= 0) && (n < 24))
+                        {
+                            // Stop disable, sent to model thread
+                            if (_qmidi->write_avail () >= 3)
+                            {
+                            // send group and set off
+                            _qmidi->write (0, 0xB0 | c);
+                            _qmidi->write (1, MIDICTL_IFELM);
+                            _qmidi->write (2, 0x50 | g);
+                            _qmidi->write_commit (3);
+                            // send stop number
+                            _qmidi->write (0, 0xB0 | c);
+                            _qmidi->write (1, MIDICTL_IFELM);
+                            _qmidi->write (2, n);
+                            _qmidi->write_commit (3);
+                            }
+                        }
                     }
                     else if (n <= 96)
                     {
