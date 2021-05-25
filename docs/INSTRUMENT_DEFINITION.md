@@ -13,11 +13,11 @@
 # keyboard order will define the layout for the gui from top to bottom in default horinzontal mode, or left to right in vertical mode
 
 # The string at end of line is used as a reference in this file for the divisions, it must be unique
-# this will be the keyboard 0
-/manual/new   II
 # this will be the keyboard 1
+/manual/new   II
+# this will be the keyboard 2
 /manual/new   I
-# there can be only one pedal
+# there can be only one pedal, here will be keyboard 3
 /pedal/new    P
 
 # Divisions
@@ -25,7 +25,7 @@
 # not necessarly equal to number of keyboards
 
 #              v- division label for the GUI
-#              v       v-- keyboard number, starting at 0 (?)
+#              v       v-- keyboard number (0 means no keyboard attached)
 #              v       v  v-- audio section number, starting at 1 (?)
 /divis/new    II       1  1
 
@@ -85,9 +85,10 @@
 /group/new    ManII
 
 # add stops to be part of this group
-#             v-- keyboard number as defined on top of this file, default is 0
-#             v      0  means stop is a division rank, button color will be dark blue
-#             v      >0 means stop is a keyboard rank, button color will be dark green
+#             v-- rank type grouping, default to 0
+#             v      0  = division rank, button color is dark blue, played when coupled
+#             v      >0 = keyboard rank, button color is dark green, not played when coupled
+#             v            warning : keyboard rank numbers must be different for each group
 #             v   v-- division number where this group is attached, starting at 1
 #             v   v   v-- sequential number starting at 1
 /stop         0   1   1
